@@ -1,0 +1,1046 @@
+﻿@model Data_Layer.CustomModels.ProviderDashboardcm;
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
+
+
+<div class="tab-content container-fluid" id="myTabContent1">
+
+
+    <div class="d-flex justify-content-between align-items-center">
+        @if (Model.RequestStatus == 1)
+        {
+            <h5>Patient<span style="color:rgba(2, 2, 146);font-size:14px;padding-left:5px">(New)</span></h5>
+        }
+        
+         @if (Model.RequestStatus == 2)
+        {
+            <h5>Patient<span style="color:rgb(41, 179, 197);font-size:14px;padding-left:5px">(Pending)</span></h5>
+        }
+        
+         @if (Model.RequestStatus == 4 || Model.RequestStatus==5)
+        {
+            <h5>Patient<span style="color:rgb(36 159 91);font-size:14px;padding-left:5px">(Active)</span></h5>
+        }
+        
+         @if (Model.RequestStatus == 6)
+        {
+            <h5>Patient<span style="color:rgb(173 34 167);font-size:14px;padding-left:5px">(Conclude)</span></h5>
+        }
+        
+
+
+        <div class="d-flex">
+            <button onclick="sendLinkModal()" type="button" class="btn btn-info d-flex ms-1 ms-sm-2 p-sm-2 p-1 align-items-center text-light">
+                <i class="fa-regular fa-paper-plane"></i>
+                <span class="d-md-block d-none px-2 ">
+                    Send
+                    Link
+                </span>
+            </button>
+
+            <button onclick="createRequest()" type="button" class="btn btn-info d-flex ms-1 ms-sm-2 p-1 p-sm-2 align-items-center text-light">
+                <i class="fa-regular fa-pen-to-square"></i><span class="d-md-block d-none px-2 ">
+                    Create
+                    Request
+                </span>
+            </button>
+
+
+
+        </div>
+    </div>
+
+
+    <div class="d-md-flex justify-content-between align-items-center gap-2">
+
+        <div class="d-md-flex gap-1">
+            <form role="search" class="mb-2 d-none d-sm-block">
+                <!-- <i class="bi bi-search"></i> -->
+                <input class="form-control" id="my-search-input" type="search" placeholder="Search" aria-label="Search">
+            </form>
+            <!-- Example split danger button -->
+
+        </div>
+
+        <div class="d-flex gap-2 align-items-center mb-2">
+            <button class="btn btn-outline-secondary d-none d-md-block" onclick="forAll(0,@Model.RequestStatus)">All</button>
+            <div class="d-md-flex gap-1 mx-auto text-center align-items-center" onclick="patient(1,@Model.RequestStatus)">
+                <i class="fa-solid fa-circle" style="color:rgb(93 187 93);cursor:pointer"></i>
+                <div style="cursor:pointer">Patient</div>
+            </div>
+            <div class="d-md-flex gap-1 mx-auto text-center align-items-center" onclick="friend(2,@Model.RequestStatus)">
+                <i class="fa-solid fa-circle" style="color:rgb(255 143 33);cursor:pointer"></i>
+                <div style="cursor:pointer">Family/Friend</div>
+            </div>
+            <div class="d-md-flex gap-1 mx-auto text-center align-items-center" onclick="business(4,@Model.RequestStatus)">
+                <i class="fa-solid fa-circle" style="color:rgb(233 166 204);cursor:pointer"></i>
+                <div style="cursor:pointer">Business</div>
+            </div>
+            <div class="d-md-flex gap-1 mx-auto text-center align-items-center" onclick="concierge(3,@Model.RequestStatus)">
+                <i class="fa-solid fa-circle" style="color:rgb(31 161 211);cursor:pointer"></i>
+                <div style="cursor:pointer">Concierge</div>
+            </div>
+            <div class="d-md-flex gap-1 mx-auto text-center align-items-center">
+                <i class="fa-solid fa-circle" style="color:purple;cursor:pointer" onclick="vip()"></i>
+                <div style="cursor:pointer">VIP</div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="tab-pane fade show active" id="new-tab-pane" role="tabpanel" aria-labelledby="new-tab"
+         tabindex="0">
+        <div class="table-responsive container-fluid d-none d-sm-block">
+            <table class="table providerTableData" >
+                <thead>
+                    <tr>
+                       
+                        <th scope="col">Name</th>              
+                        <th scope="col">Phone</th>
+                        <th scope="col">Address</th>   
+                        @if(Model.RequestStatus==4 || Model.RequestStatus == 5)
+                        {
+                            <th scope="col">Status</th>
+                        }
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="table">
+                    
+
+                    @foreach(var item in Model.patientDatas)
+                    {
+
+
+                        var bgColor = "abc";
+                        var type = "";
+
+                        if (item.Requesttypeid == 1)
+                        {
+                            bgColor = "rgb(93 187 93)";
+                            type = "Patient";
+                        }
+                        else if (item.Requesttypeid == 2)
+                        {
+                            bgColor = "rgb(255 143 33)";
+                            type = "Family";
+                        }
+                        else if (item.Requesttypeid == 3)
+                        {
+                            bgColor = "rgb(31 161 211)";
+                            type = "Concierge";
+                        }
+                        else if (item.Requesttypeid == 4)
+                        {
+                            bgColor = "rgb(233 166 204)";
+                            type = "Business";
+                        }
+
+
+
+                        <tr style="background-color:@bgColor" class="@type">
+
+                                <td>@item.Firstname, @item.Lastname</td>
+                                
+                                <td>
+                                    <button class="btn btn-outline-light d-flex  align-items-center" style="background-color:transparent;color:white"><i class="fa-solid fa-phone pe-2"></i>@item.Phonenumber</button>
+                                    <span style="background-color:transparent;color:white">(Patient)</span>
+                                    
+                                </td>
+                                <td>
+                                  @item.Address
+                                </td>
+
+                          
+
+                            @if (@Model.RequestStatus == 4 )
+                            {
+                                @if (item.Calltype == 1)
+                                {
+                                    <td>
+                                        <button class="btn btn-info text-light" style="background-color:#05c8ff;border:none" type="button" onclick="Housecall(@item.Requestid)">House Call</button>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+
+                            }
+                                
+                                <td>
+
+
+                                    <div class="dropdown" style="background:transparent">
+                                        <button class="btn text-white border border-white py-1 "
+                                                id="chat_with_dropdown2" type="button" data-bs-toggle="dropdown"
+                                                aria-expanded="false">
+                                            <span>
+                                                Actions
+                                            </span>
+                                        </button>
+                                        <ul class="dropdown-menu table_dropdowns">
+
+                                        @if (Model.RequestStatus == 1)
+                                        {
+                                            <li>
+                                                <button onclick="AcceptRequest(@item.Requestid)" class="dropdown-item hover">
+                                                    <i class="fa-solid fa-file-lines pe-2"></i>
+                                                    Accept
+                                                </button>
+                                            </li>
+                                        }
+
+
+                                        @if (Model.RequestStatus == 2)
+                                        {
+                                            <li>
+                                                <button onclick="SendAgreement(@item.Requestid)" class="dropdown-item hover">
+                                                    <i class="fa-regular fa-file-lines pe-2"></i>
+                                                    Send Agreement
+                                                </button>
+                                            </li>
+                                        }
+                                        @if (Model.RequestStatus == 6)
+                                        {
+                                            <li>
+                                                <button onclick="concludeCare(@item.Requestid)" class="dropdown-item hover">
+                                                    <i class="fa-solid fa-heart-pulse pe-2"></i>
+                                                    Conclude Care
+                                                </button>
+                                            </li>
+                                        }
+
+                                         
+
+                                        @if (Model.RequestStatus == 1 || Model.RequestStatus==2 ||Model.RequestStatus==4 || Model.RequestStatus==5 || Model.RequestStatus==6)
+                                      
+                                        {
+
+
+                                            <li>
+                                                <button onclick="viewCase(@item.Requestid)" class="dropdown-item hover">
+
+                                                    <i class="fa-solid fa-magnifying-glass pe-2"></i>
+                                                    View Case
+                                                </button>
+                                            </li>
+
+                                        }
+
+                                        @if ( Model.RequestStatus == 2 || Model.RequestStatus == 4 || Model.RequestStatus == 5 || Model.RequestStatus == 6)
+
+                                        {
+                                            <li>
+                                                <button onclick="viewUploads(@item.Requestid)" class="dropdown-item hover">
+
+                                                    <i class="fa-solid fa-upload pe-2"></i>
+                                                    View Uploads
+                                                </button>
+                                            </li>
+                                        }
+
+
+                                        @if (Model.RequestStatus == 1 || Model.RequestStatus == 2 || Model.RequestStatus == 4 || Model.RequestStatus == 5 || Model.RequestStatus == 6)
+
+                                        {
+
+                                            <li>
+                                                <button onclick="viewNotes(@item.Requestid)" class="dropdown-item hover ">
+                                                    <i class="fa-regular fa-note-sticky pe-2"></i>
+                                                    View Notes
+                                                </button>
+                                            </li>
+
+                                        }
+
+                                        @if (Model.RequestStatus == 4 || Model.RequestStatus==5)
+                                        {
+                                            <li>
+                                                <button onclick="orders(@item.Requestid)" class="dropdown-item hover">
+                                                    <i class="fa-solid fa-file-circle-check pe-2"></i>
+                                                    Orders
+                                                </button>
+                                            </li>
+                                        }
+
+                                        @if (Model.RequestStatus == 4 )
+                                        {
+                                           
+                                            if (item.IsFinalized != null && item.IsFinalized[0])
+                                            {
+                                                <li>
+                                                    <button onclick="Finalize(@item.Requestid)" class="dropdown-item hover">
+                                                        <i class="fa-regular fa-file-lines pe-2"></i>
+                                                      Finalize Encounter
+                                                    </button>
+                                                </li>
+                                            }
+                                            else{
+                                                if (item.Calltype == 1)
+                                                {
+                                                    <li>
+                                                        <button onclick="Encounter(@item.Requestid,2)" class="dropdown-item hover">
+                                                            <i class="fa-regular fa-file-lines pe-2"></i>
+                                                            Encounter
+                                                        </button>
+                                                    </li>
+                                                }
+                                                else
+                                                {
+                                                    <li>
+                                                        <button onclick="EncounterCare(@item.Requestid)" class="dropdown-item hover">
+                                                            <i class="fa-regular fa-file-lines pe-2"></i>
+                                                            Encounter
+                                                        </button>
+                                                    </li>
+                                                }
+                                            }
+
+                                        }
+
+                                        @if (Model.RequestStatus == 6)
+                                        {
+                                            if (item.IsFinalized != null && item.IsFinalized[0])
+                                            {                                            
+                                                <li>
+                                                    <button onclick="Finalize(@item.Requestid)" class="dropdown-item hover">
+                                                        <i class="fa-regular fa-file-lines pe-2"></i>
+                                                      Finalize Encounter
+                                                    </button>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <button onclick="Encounter(@item.Requestid,2)" class="dropdown-item hover">
+                                                        <i class="fa-regular fa-file-lines pe-2"></i>
+                                                        Encounter
+                                                    </button>
+                                                </li>
+                                            }
+                                        }
+
+                                        @if (Model.RequestStatus == 2)
+                                        {
+                                            <li>
+                                                <button type="button" class="dropdown-item hover" onclick="ProviderTransferRequest(@item.Requestid)">
+                                                    <i class="fa-solid fa-money-bill-transfer pe-2"></i>
+                                                    Transfer
+                                                </button>
+                                            </li>
+                                        }
+
+                                        </ul>
+                                    </div>
+
+
+                                </td>
+                            </tr>
+                            }
+                       
+                </tbody>
+            </table>
+        @*     <div>
+                <div class="footer">
+                    <p class="para">Terms of Conditions &nbsp; | &nbsp; Privacy Policy</p>
+                </div>
+            </div> *@
+        </div>
+
+
+        <div class=" d-block d-sm-none">
+           
+                <div class="accordion container-fluid-block d-lg-none p-0" id="accordionPanelsStayOpenExample">
+                <table class="w-100 providerTableData" id="">
+                        <thead>
+                            <tr>
+                                <th class="d-none"></th>
+                                <th class="d-none"></th>
+                            </tr>
+                        </thead>
+
+                        @{
+                            var counter = 1;
+                        }
+
+                        <tbody>
+
+                            @foreach (var obj in Model.patientDatas)
+                            {
+
+
+                            var bgColor = "abc";
+                            var type = "";
+
+                            if (obj.Requesttypeid == 1)
+                            {
+                                bgColor = "rgb(93 187 93)";
+                                type = "Patient";
+                            }
+                            else if (obj.Requesttypeid == 2)
+                            {
+                                bgColor = "rgb(255 143 33)";
+                                type = "Family";
+                            }
+                            else if (obj.Requesttypeid == 3)
+                            {
+                                bgColor = "rgb(31 161 211)";
+                                type = "Concierge";
+                            }
+                            else if (obj.Requesttypeid == 4)
+                            {
+                                bgColor = "rgb(233 166 204)";
+                                type = "Business";
+                            }
+
+
+                                <tr class="d-flex flex-column">
+                                    <td>
+                                        <h2 class="accordion-header" id="flush-heading@(counter)"></h2>
+                                        <div class="accordion-button collapsed d-flex flex-column" data-bs-toggle="collapse"
+                                             data-bs-target="#flush-collapse@(counter)" aria-expanded="true"
+                                             aria-controls="flush-collapse@(counter)">
+
+                                            <div class="w-100 d-flex justify-content-between m-1">
+                                                <div class="">
+                                                    <b>@obj.Name</b>
+                                                </div>
+                                                <div class="d-flex">
+                                                <small>@type  <i class="fa-solid fa-circle" style="color:@bgColor"></i></small>
+                                                </div>
+                                            </div>
+                                            <div class="w-100 d-flex justify-content-between m-1 align-items-center">
+                                                <div class="text-wrap col">
+                                                    <small class="">@obj.Address</small>
+
+                                                </div>
+                                                <div class="col d-flex justify-content-end">
+                                                    <a class="btn rounded-pill btn-outline-info" type="button" href="https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString(@obj.Address).ToString()}" ;" target="_blank" style="height: 10%">
+                                                        <small class="mobile-font Address">Map Location</small>
+                                                        <i class="bi bi-geo-alt-fill text-info location-btn"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <hr class="m-0 p-0 text-muted" />
+                                    </td>
+
+                                    <td>
+                                        <div id="flush-collapse@(counter)" class="accordion-collapse collapse"
+                                             aria-labelledby="flush-heading@(counter)" data-bs-parent="#accordionFlushExample@(counter)">
+                                            <div class="d-flex justify-content-end" style="margin-top: -20px;">
+                                            <button class="btn rounded-pill border-primary text-primary z-2 mx-3" style="background-color:rgba(255, 255, 255, 0.719);" type="button" onclick="viewCase(@obj.Requestid)">View Case</button>
+                                            </div>
+                                            <div class="accordion-body main-flex">
+
+                                                <div class="inner-flex">
+                                                    <i class="bi bi-envelope text-info fs-6 me-2"></i>
+                                                    <span class="accordion-heading-inner">
+                                                        <b>Email:</b>
+                                                        <span class="accordion-value-inner mobile-font">
+                                                            @obj.Email
+                                                        </span>
+                                                    </span>
+                                                </div>
+
+                                                <div class="inner-flex">
+                                                    <i class="bi bi-telephone text-info fs-6 me-2"></i>
+                                                    <span class="accordion-heading-inner">
+                                                        <b>Patient:</b>
+                                                        <span class="accordion-value-inner">
+                                                            @obj.Phonenumber
+                                                        </span>
+                                                    </span>
+                                                </div>
+
+
+
+                                                <div class="row gap-3 mt-4 d-flex flex-wrap justify-content-around">
+
+                                                    @if (@Model.RequestStatus == 1)
+                                                    {
+                                                    <button onclick="viewNotes(@obj.Requestid)" class="col-5 btn rounded-pill btn-success mobile-font" type="button">View Notes</button>
+                                                    <button onclick="AcceptRequest(@obj.Requestid)" class="col-5 btn rounded-pill btn-info mobile-font" type="button">Accept</button>
+                                                    }
+                                                    else
+                                                    {
+                                                    <button onclick="viewUploads(@obj.Requestid)" class="col-5 btn rounded-pill btn-success mobile-font" type="button">View Uploads</button>
+                                                    <button onclick="viewNotes(@obj.Requestid)" class="col-5 btn rounded-pill btn-success mobile-font" type="button">View Notes</button>
+                                                    }
+
+                                                    @if (@Model.RequestStatus == 2)
+                                                    {
+                                                    <button onclick="ProviderTransferRequest(@obj.Requestid)" class="col-5 btn rounded-pill btn-info mobile-font" type="button">Transfer</button>
+                                                    <button onclick="SendAgreement(@obj.Requestid)" class="col-5 btn rounded-pill btn-warning mobile-font" type="button">Send Agreement</button>
+                                                    } 
+
+                                                    @if (@Model.RequestStatus == 4)
+                                                    {
+                                                    <button onclick="orders(@obj.Requestid)" class="col-5 btn rounded-pill btn-warning mobile-font" type="button">Orders</button>
+                                                    if (obj.IsFinalized == null)
+                                                    {
+                                                        if (obj.Calltype == 1)
+                                                        {
+                                                            <button onclick="Encounter(@obj.Requestid,2)" class="col-5 btn rounded-pill btn-info mobile-font" type="button">Encounter</button>
+                                                        }
+                                                        else{
+                                                            <button onclick="EncounterCare(@obj.Requestid)" class="col-5 btn rounded-pill btn-success mobile-font" type="button">Encounter</button>
+                                                        }
+                                                    }
+
+                                                    if (obj.IsFinalized != null)
+                                                        {
+                                                        <button onclick="Finalize(@obj.Requestid)" class="col-5 btn rounded-pill btn-success mobile-font" type="button">Finalize Encounter</button>
+                                                        }
+
+                                                    }
+
+                                                    @if (@Model.RequestStatus == 6)
+                                                {
+
+                                                    <button onclick="concludeCare(@obj.Requestid)" class="col-5 btn rounded-pill btn-warning mobile-font" type="button">Conclude Care</button>
+                                                    if (obj.IsFinalized == null)
+                                                    {
+                                                        <button onclick="Encounter(@obj.Requestid,2)" class="col-5 btn rounded-pill btn-success mobile-font" type="button">Encounter</button>
+                                                    }
+                                                    if (obj.IsFinalized != null)
+                                                    {
+                                                        <button onclick="Finalize(@obj.Requestid)" class="col-5 btn rounded-pill btn-success mobile-font" type="button">Finalize Encounter</button>
+                                                        
+                                                    }
+                                                
+                                                }
+
+                                                @if (@Model.RequestStatus == 4)
+                                                {
+                                                    @if (obj.Calltype == 1)
+                                                    {
+
+                                                        <button class="col-5 btn rounded-pill btn-info mobile-font" type="button" onclick="Housecall(@obj.Requestid)">House Call</button>
+                                         
+                                                    }                                                  
+
+                                                }
+
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                counter++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            
+          
+      
+
+
+            @* <div>
+                <div class="footer">
+                    <p class="para">Terms of Conditions &nbsp; | &nbsp; Privacy Policy</p>
+                </div>
+            </div> *@
+
+
+        </div>
+    
+
+</div>
+</div>
+
+
+
+
+@* <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js" defer></script>
+ *@
+
+
+
+<script>
+
+
+    
+   
+
+
+    function patient(id, status) {
+        $.ajax({
+            url: "/Provider/ProviderTable",
+            type: "GET",
+            data: { status:status, reqTypeId: id },
+            success: function (data) {
+                $('#tableContentt').html(data);
+
+            }
+        })
+    }
+
+    function friend(id, status) {
+        $.ajax({
+            url: "/Provider/ProviderTable",
+            type: "GET",
+            data: { status: status, reqTypeId: id },
+            success: function (data) {
+                $('#tableContentt').html(data);
+
+            }
+        })
+    }
+
+    function business(id, status) {
+        $.ajax({
+            url: "/Provider/ProviderTable",
+            type: "GET",
+            data: { status: status, reqTypeId: id },
+            success: function (data) {
+                $('#tableContentt').html(data);
+
+            }
+        })
+    }
+
+    function concierge(id, status) {
+        $.ajax({
+            url: "/Provider/ProviderTable",
+            type: "GET",
+            data: { status: status, reqTypeId: id },
+            success: function (data) {
+                $('#tableContentt').html(data);
+
+            }
+        })
+    }
+    function forAll(id,status) {
+        $.ajax({
+            url: "/Provider/ProviderTable",
+            type: "GET",
+            data: { status: status, reqTypeId: id },
+            success: function (data) {
+                $('#tableContentt').html(data);
+
+            }
+        })
+    }
+
+
+
+
+
+
+
+    // Search
+
+    $(document).ready(function () {
+
+        $('.providerTableData').DataTable({
+            "initComplete": function (settings, json) {
+
+                $('#my-search-input').val(settings.oPreviousSearch.sSearch);
+
+                $('#my-search-input').on('keyup', function () {
+                    var searchValue = $(this).val();
+                    settings.oPreviousSearch.sSearch = searchValue;
+                    settings.oApi._fnReDraw(settings);
+                });
+            },
+            "lengthMenu": [[5, 10, -1], [5, 10, "All"]],
+            "pageLength": 5,
+          
+            language: {
+                oPaginate: {
+                    sNext: '<i class="fa-solid fa-forward text-info"></i>',
+                    sPrevious: '<i class="fa-solid fa-backward text-info"></i>'
+
+                }
+            }
+        });
+        // $('.dataTables_length').hide();
+        $('.dataTables_filter').hide();
+    });
+
+    document.getElementById('my-search-input').addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            this.blur();
+        }
+    });
+
+
+
+
+    function ProviderTransferRequest(reqId) {
+        $.ajax({
+            method: "Get",
+            url: "/Provider/TransferRequest",
+            traditional: true,
+            contentType: "application/json",
+            data: { requestId: reqId },
+            success: function (result) {
+                $('#offCanvass').html(result);
+                $('#TranferModal').modal('show');
+            },
+            error: function () {
+                alert("error");
+            },
+        });
+    }
+
+
+
+    function transferReqPost() {
+        event.preventDefault();
+        if ($('#TranferRequestForm').valid()) {
+            $.ajax({
+                method: "POST",
+                url: "/Provider/TransferReqPost",
+                data: $('#TranferRequestForm').serialize(),
+                success: function () {
+
+                    $('#TranferModal').modal('hide');
+                    toastr.success("Request Transferred Successfully");
+                    getContent();
+                },
+                error: function () {
+                    toastr.error("Something Went Wrong");
+                }
+            });
+        }
+    }
+
+
+    function createRequest(){
+        $.ajax({
+            method: "Get",
+            url: "/Provider/createRequest",
+            traditional: true,
+            contentType: "application/json",
+            data: { flag: 2 },
+            success: function (result) {
+                $('#tabContents').html(result);
+               
+            },
+            error: function () {
+                alert("error");
+            },
+        });
+    }
+
+
+
+
+    function sendLinkModal() {
+        $.ajax({
+            method: "Get",
+            url: "/Provider/SendLink",
+            traditional: true,
+            contentType: "application/json",          
+            success: function (result) {
+                $('#offCanvass').html(result);
+                $('#sendLinkModal').modal('show');
+            },
+            error: function () {
+                alert("error");
+            },
+        });
+    }
+
+
+
+
+    function sendLinkPost() {
+        event.preventDefault();
+        if ($('#sendLinkForm').valid()) {
+            $.ajax({
+                method: "POST",
+                url: "/Provider/sendLinkPost",
+                data: $('#sendLinkForm').serialize(),
+                success: function () {
+
+                    $('#sendLinkModal').modal('hide');
+                    toastr.success("Link Send Successfully");
+
+                },
+                error: function () {
+                    toastr.error("Something Went Wrong");
+                }
+            });
+        }
+    }
+
+
+
+    function viewCase(reqId) {
+        $.ajax({
+            method: "Get",
+            url: "/Provider/ViewCase",
+            traditional: true,
+            contentType: "application/json",
+            data: { id: reqId },
+            success: function (result) {
+                $('#tabContents').html(result);
+
+            },
+            error: function () {
+                alert("error");
+            },
+        });
+    }
+
+
+    function viewNotes(reqId) {
+        $.ajax({
+            method: "Get",
+            url: "/Provider/ViewNotes",
+            traditional: true,
+            contentType: "application/json",
+            data: { id: reqId },
+            success: function (result) {
+                $('#tabContents').html(result);
+
+            },
+            error: function () {
+                alert("error");
+            },
+        });
+    }
+
+
+
+    function AcceptRequest(reqId) {
+        $.ajax({
+            method: "Get",
+            url: "/Provider/Accept",
+            traditional: true,
+            contentType: "application/json",          
+            success: function (result) {
+                $('#offCanvass').html(result);
+                $('#AcceptProvider').modal('show');
+                $('#AcceptProviderForm').val(reqId);
+            },
+            error: function () {
+                alert("error");
+            },
+        });
+    }
+
+
+    function AcceptRequestPost(Requestid) {
+        event.preventDefault();
+        $.ajax({
+            method: "POST",
+            url: "/Provider/AcceptRequest",
+            data: { Requestid: Requestid },
+            success: function (result) {
+                if (result.code == 401) {
+                    setTimeout(function () { location.reload(); }, 2000);
+                    toastr.error("Something Went Wrong");
+                }
+                else {
+                    $('#AcceptProvider').modal('hide');                  
+                    toastr.success("Request Accepted");
+                    getContent();
+                }
+            },
+            error: function () {
+                toastr.error("Something Went Wrong");
+            }
+        });
+    }
+
+
+
+    function SendAgreement(reqId) {
+        $.ajax({
+            method: "Get",
+            url: "/Provider/sendAgreement",
+            traditional: true,
+            contentType: "application/json",
+            data: { Requestid: reqId },
+            success: function (result) {
+                $('#offCanvass').html(result);
+                $('#SendAgreementModal').modal('show');
+               
+            },
+            error: function () {
+                alert("error");
+            },
+        });
+    }
+
+
+    function sendAgreementPost() {
+        event.preventDefault();
+        if ($('#sendAgreementForm').valid()) {
+            $.ajax({
+                method: "POST",
+                url: "/Provider/SendAgreementPost",
+                data: $('#sendAgreementForm').serialize(),
+                success: function () {
+
+                    $('#SendAgreementModal').modal('hide');
+                    toastr.success("Agreement Sent Successfully");
+                    getContent();
+                },
+                error: function () {
+                    toastr.error("Something Went Wrong");
+                }
+            });
+        }
+    }
+
+
+    function viewUploads(reqId) {
+        $.ajax({
+            method: "Get",
+            url: "/Provider/viewUploads",
+            traditional: true,
+            contentType: "application/json",
+            data: { reqId: reqId },
+            success: function (result) {
+                $('#tabContents').html(result);
+
+            },
+            error: function () {
+                alert("error");
+            },
+        });
+    }
+
+
+    function orders(reqId) {
+        $.ajax({
+            method: "Get",
+            url: "/Provider/orders",
+            traditional: true,
+            contentType: "application/json",
+            data: { reqId: reqId },
+            success: function (result) {
+                $('#tabContents').html(result);
+
+            },
+            error: function () {
+                alert("error");
+            },
+        });
+    }
+    
+
+
+  
+
+
+
+    function Housecall(requestid) {
+        event.preventDefault();
+        $.ajax({
+            method: "GET",
+            url: "/Provider/Housecall",
+            data: { requestid: requestid },
+            success: function (result) {
+                if (result.code == 401) {
+                    setTimeout(function () { location.reload(); }, 2000);
+                    toastr.error("Something Went Wrong");
+                } else {
+                    $('#offCanvass').html(result);
+                    $('#HousecallModal').modal('show');
+                    $('#HousecallModalForm').val(requestid);
+
+                }
+            },
+            error: function () {
+                toastr.error("Something Went Wrong");
+            }
+        });
+    }
+
+
+    function EncounterCare(requestid) {
+        event.preventDefault();
+        $.ajax({
+            method: "GET",
+            url: "/Provider/EncounterCare",
+            data: { requestid: requestid },
+            success: function (result) {
+                if (result.code == 401) {
+                    setTimeout(function () { location.reload(); }, 2000);
+                    toastr.error("Something Went Wrong");
+                } else {
+                    $('#offCanvass').html(result);
+                    $('#EncounterModalBox').modal('show');
+
+                }
+            },
+            error: function () {
+                toastr.error("Something Went Wrong");
+            }
+        });
+    }
+
+
+    function Encounter(reqId, callId) {
+            $.ajax({
+                method: "Get",
+                url: "/Provider/encounter",
+                traditional: true,
+                contentType: "application/json",
+                data: { reqId: reqId },
+                success: function (result) {
+                $('#tabContents').html(result);
+               
+               },
+                error: function () {
+                alert("error");
+               },
+            });
+        }
+
+   
+ 
+
+    function Finalize(requestid) {
+            $.ajax({
+                method: "Get",
+                url: "/Provider/FinalizeEncounter",
+                traditional: true,
+                contentType: "application/json",
+                 
+                success: function (result) {
+                $('#offCanvass').html(result);
+                $('#encounterFormModal').modal('show');
+                $("#GeneratePDFId").val(requestid);
+               },
+                error: function () {
+                alert("error");
+               },
+            });
+        }
+
+
+    function concludeCare(reqId) {
+        $.ajax({
+            method: "Get",
+            url: "/Provider/concludecCare",
+            traditional: true,
+            contentType: "application/json",
+            data: { reqId: reqId },
+            success: function (result) {
+                $('#tabContents').html(result);
+
+            },
+            error: function () {
+                alert("error");
+            },
+        });
+    }
+
+
+</script>
+                                             

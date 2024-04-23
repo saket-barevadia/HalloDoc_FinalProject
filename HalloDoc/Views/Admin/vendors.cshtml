@@ -1,0 +1,100 @@
+﻿@model Data_Layer.CustomModels.ProviderMenucm.Vendor;
+
+<div class="container-fluid mt-4">
+    <h4 class="mb-4">Vendor(s)</h4>
+
+    <div class="border rounded shadow p-3 mb-3">
+        <div class="d-md-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex">
+            <div class="mb-2" style="width:200px">
+
+        @*             <div class="form-group">       
+                        <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Search Vendors">
+                    </div> *@
+
+                    <form method="post" id="searchVendorForm" class="mb-2">
+                        <input asp-for="Vendorname" class="form-control" id="" type="text" placeholder="Search Vendors" aria-label="Search" oninput="sortByBusiness()">
+                    </form>
+
+            </div>
+            <div class="mb-2 ms-3" style="width:200px">
+
+                <select class="form-select cancel-options" id="region"
+                        aria-label="Floating label select example" onchange="sordByProfession(this.value)">
+
+                    <option selected value="0">All Professions</option>
+                    @foreach (var item in Model.healthprofessionaltypes)
+                    {
+                        <option value="@item.Healthprofessionalid">@item.Professionname</option>
+                    }
+                </select>
+            </div>
+            </div>
+            <div class="d-flex justify-content-center  mb-3">
+               
+                <button onclick="location.href='@Url.Action("addBusiness","Admin")'" type="button" class="btn btn-outline-info "><span> <i class="fa-solid fa-plus me-2"></i></span>Add Business</button>
+            </div>
+        </div>
+
+
+        <div id="vendor">
+            <partial name="vendorShared" />
+        </div>
+
+
+
+    </div>
+</div>
+
+
+<script>
+    function sordByProfession(professionId) {
+        $.ajax({
+            url: "/Admin/vendorShared",
+            type: "GET",
+            data: { professionId: professionId },
+            success: function (result) {
+                $('#vendor').html(result);
+            },
+            error: function () {
+                alert('error loading partial view');
+            }
+
+        });
+    }
+
+    function sortByBusiness(){
+        $.ajax({
+            url: "/Admin/vendorShared",
+            type: "GET",
+            data: $("#searchVendorForm").serialize(),
+            success: function (result) {
+                $('#vendor').html(result);
+            },
+            error: function () {
+                alert('error loading partial view');
+            }
+
+        });
+    }
+
+
+    var dash = document.getElementById("home-tab");
+    var providerLoc = document.getElementById("ProviderLocation-tab");
+    var profile = document.getElementById("Myprofile-tab");
+    var provider = document.getElementById("Providers-tab");
+    var partner = document.getElementById("Partners-tab");
+    var access = document.getElementById("Access-tab");
+    var records = document.getElementById("Records-tab");
+
+    dash.classList.remove("active");
+    providerLoc.classList.remove("active");
+    profile.classList.remove("active");
+    provider.classList.remove("active");
+    partner.classList.add("active");
+    access.classList.remove("active");
+    records.classList.remove("active");
+
+
+
+</script>

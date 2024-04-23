@@ -1,0 +1,376 @@
+﻿@inject IHttpContextAccessor Accessor;
+@using Microsoft.AspNetCore.Http;
+
+@model IEnumerable<Data_Layer.CustomModels.patientDashboard>;
+
+@{
+    ViewData["Title"] = "Patient Dashboard";
+}
+
+@* <script src="~/js/dashboard.js" defer></script> *@
+<script src="~/js/darkmode.js" defer></script>
+<link rel="stylesheet" href="~/css/patientDashboard.css">
+
+<partial name="notification" />
+
+
+<div class="modal fade " id="newRequestModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#0dcaf0">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Create New Request</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body ">
+                Here , i want to Create new Request for..
+                <div class="mt-3">
+                    <a asp-action="submitInfoMe" asp-controller="Home"><button type="button" class="btn btn-light" style="border:1px solid">me</button></a>
+                    <a asp-action="submitReqSomeElse" asp-controller="Home">
+                        <button type="button" class="btn btn-light" style="border:1px solid">
+                            Some one
+                            else
+                        </button>
+                    </a>
+                </div>
+            </div>
+            <div class="modal-footer">
+                @*  <button type="button" class="btn btn-primary">Continue</button> *@
+                <button type="button" class="btn btn-outline-info"
+                        data-bs-dismiss="modal">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@* <div class="header">
+ *@
+@*     <div class="upper" id="head">
+    <div class="d-flex align-items-center">
+
+
+
+            <button id="sidebarr" class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarLight" aria-controls="offcanvasNavbarLight" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"> <i class="fa-solid fa-bars sidebar-btn" ></i></span>
+            </button>
+
+            <div class="offcanvas offcanvas-end left" tabindex="-1" id="offcanvasNavbarLight" aria-labelledby="offcanvasNavbarLightLabel">
+
+                    <button type="button" class="btn-close btnn" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                        <h4 class="me-3 mt-5" style="font-weight:400">Welcome @Accessor.HttpContext.Session.GetString("fname")<span style="font-weight:bold"></span></h4>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link active text-secondary TabItem" id="nav-tab1-tab" data-bs-toggle="tab" data-bs-target="#nav-tab1" type="button" role="tab" aria-controls="nav-tab1" aria-selected="true">Dashboard</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link TabItem text-secondary" id="nav-tab2-tab" data-bs-toggle="tab" data-bs-target="#nav-tab2" type="button" role="tab" aria-controls="nav-tab2" aria-selected="false">Profile</button>
+                        </li>
+
+                    </ul>
+
+                </div>
+            </div>
+
+
+
+
+
+
+
+    <img src="/images/logo.png" alt="" class="img">
+        </div>
+
+    <div class="d-flex align-items-center">
+            <h4 class="me-3 heading" style="font-weight:400">Welcome <span style="font-weight:bold">@Accessor.HttpContext.Session.GetString("fname")</span></h4>
+    <a asp-action="logout" asp-controller="Home"><button class="btn2 me-3">
+                    <span class="dis"><i class="fa-solid fa-right-from-bracket"></i></span>
+                    <span class="display">Logout</span>
+                </button>
+            </a>
+    <button class="btn1" id="dark">
+                <i class="fas fa-light fa-moon" id="black" style="color: #43bcf9;"></i>
+                <i class="fa-regular fa-sun inactive" id="bright" style="color: white"></i>
+            </button>
+    </div>
+
+
+
+
+
+    </div>
+
+            <div class="nav nav-tabs heading" id="nav-tab" role="tablist" style="margin-left:0;width:100%;margin-top:15px">
+        <button class="nav-link active text-secondary TabItem" id="nav-tab1-tab" data-bs-toggle="tab" data-bs-target="#nav-tab1" type="button" role="tab" aria-controls="nav-tab1" aria-selected="true">Dashboard</button>
+
+
+
+        <a asp-action="patientProfile" asp-controller="Home" style="text-decoration:none">  <button class="nav-link TabItem text-secondary" id="nav-tab2-tab" data-bs-toggle="tab" data-bs-target="#nav-tab2" type="button" role="tab" aria-controls="nav-tab2" aria-selected="false"><span class="text-secondary">Profile</span></button> </a>
+
+
+    </div> *@
+
+
+
+
+<!-- navbar -->
+<nav class="navbar  shadow z-3">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-center ">
+            <button class="navbar-toggler d-inline-block d-sm-none my-3 px-1" style="height:40px;width:40px" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+                <img src="/images/logo.png" alt="" class="img">
+            </a>
+        </div>
+        <div class="d-flex align-items-center">
+            <div class="mx-2 d-flex align-items-center d-none d-sm-inline-block">
+                <p class="text-secondary fs-6">
+                    <h5>
+                        Welcome
+                        <strong>
+                            @Accessor.HttpContext.Session.GetString("fname")
+                        </strong>
+                    </h5>
+                </p>
+            </div>
+            <div class="mx-2">
+                <button type="button" class="btn btn-outline-dark text-info shadow border-info py-2" onclick=" location.href = '@Url.Action("logout","Home")';">
+                    <span class="d-none d-sm-inline-block ">Logout</span>
+                    <span class="d-inline-block d-sm-none">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </span>
+                </button>
+            </div>
+            <div class="me-2">
+                <button onclick="toggleDarkTheme()" type="button" class="btn shadow border-info"
+                        style="border-radius: 10px; border-color: aqua" id="colorButton">
+                    @*   <i id="moon" class="bi bi-moon text-info fs-4"></i>
+                    <i id="sun" class="bi bi-sun text-info fs-4 d-none"></i> *@
+
+                    <i class="fas fa-light fa-moon" id="moon" style="color: #43bcf9;"></i>
+                    <i class="fa-regular fa-sun d-none" id="sun" style="color: white"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <hr class="w-100 m-0 p-0 d-none d-sm-block">
+
+
+    <div class="collapse w-100 mx-sm-1 show d-sm-block" id="navbarToggleExternalContent">
+        <div class="px-3">
+            <ul class="nav nav-underline" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active text-info TabItem" id="nav-tab1-tab" data-bs-toggle="tab" data-bs-target="#nav-tab1" type="button" role="tab" aria-controls="nav-tab1" aria-selected="true"><span class="text-secondary">Dashboard</span></button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a asp-action="patientProfile" asp-controller="Home" style="text-decoration:none">  <button class="nav-link TabItem text-info" id="nav-tab2-tab" data-bs-toggle="tab" data-bs-target="#nav-tab2" type="button" role="tab" aria-controls="nav-tab2" aria-selected="false"><span class="text-secondary">Profile</span></button> </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</nav>
+
+@* </div>
+ *@
+
+
+
+@* ---content--- *@
+<div id="contentAll">
+
+
+
+
+
+    <h2 class="pt-3" style="margin-left:15px;">Medical History</h2>
+
+    <div class=" shadow rounded border container-fluid" style="width:99%">
+
+
+        <button type="submit" data-bs-toggle="modal"
+                data-bs-target="#newRequestModal" class="btn3 me-3">
+            <span class="dis createnewreq"><i class="fa-solid fa-plus"></i></span>
+            <span class="display createnewreq">Create New Request</span>
+        </button>
+
+
+
+        @*
+        @{
+        string[] currentStatus = { "", "Accepted", "Processing", "Clear", "Closed", "Cancelled By Admin", "Block Request" };
+        } *@
+
+
+
+        <table class="table" style=" margin-top:80px">
+            <thead class="table-light">
+
+                <tr>
+                    <th width="20%">Created Date</th>
+                    <th width="60%">Current Status</th>
+                    <th width="20%">Document</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var obj in Model)
+                {
+                    @* var current = currentStatus[obj.Status]; *@
+                    <tr>
+                        <td>@obj.Createddate.ToString("MMMM dd, yyyy")</td>
+                        @if (obj.Status == 1)
+                        {
+                            <td>Unassigned</td>
+                        }@if (obj.Status == 2)
+                        {
+                            <td>Accepted</td>
+                        }@if (obj.Status == 3)
+                        {
+                            <td>Cancelled</td>
+                        }@if (obj.Status == 4)
+                        {
+                            <td>MDEnRoute</td>
+                        }@if (obj.Status == 5)
+                        {
+                            <td>MDONSite</td>
+                        }@if (obj.Status == 6)
+                        {
+                            <td>Conclude</td>
+                        }@if (obj.Status == 7)
+                        {
+                            <td>Cancelled By Patient</td>
+                        }@if (obj.Status == 8)
+                        {
+                            <td>Closed</td>
+                        }@if (obj.Status == 9)
+                        {
+                            <td>Unpaid</td>
+                        }@if (obj.Status == 7)
+                        {
+                            <td>Clear</td>
+                        }
+
+                        <td>
+                            @{
+                                if (@obj.doc_Count >= 0)
+                                {
+                                    <a asp-controller="Home" asp-action="viewDocuments" asp-route-data="@obj.Requestid"><button type="submit" class="btnDoc">(@obj.doc_Count) Document</button></a>
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+
+
+        <div class="accordion accordion-flush" id="accordionFlushExample" style="display:none; ">
+            @{
+                int count = 0;
+            }
+            @foreach (var obj in Model)
+            {
+                var current = "None";
+
+                @if (obj.Status == 1)
+                {
+                    current = "Unassigned";
+                }
+                @if (obj.Status == 2)
+                {
+
+                    current = "Accepted";
+                }@if (obj.Status == 3)
+                {
+
+                    current = "Cancelled";
+                }@if (obj.Status == 4)
+                {
+
+                    current = "MDEnRoute";
+                }@if (obj.Status == 5)
+                {
+
+                    current = "MDONSite";
+                }@if (obj.Status == 6)
+                {
+
+                    current = "Conclude";
+                }@if (obj.Status == 7)
+                {
+
+                    current = "Cancelled By Patient";
+                }@if (obj.Status == 8)
+                {
+
+                    current = "Closed";
+                }@if (obj.Status == 9)
+                {
+
+                    current = "Unpaid";
+                }@if (obj.Status == 7)
+                {
+
+                    current = "Clear";
+                }
+
+
+
+                <div class="accordion-item">
+
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#div-@count" aria-expanded="false" aria-controls="flush-collapseOne">
+                            Created Date : @obj.Createddate.ToString("MMMM dd, yyyy")
+                        </button>
+                    </h2>
+                    <div id="div-@count" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">Current Status : @current </div>
+                        <div class="accordion-body">
+
+                            @{
+                                if (@obj.doc_Count >= 0)
+                                {
+                                    <a asp-controller="Home" asp-action="viewDocuments" asp-route-data="@obj.Requestid"> <button class="btnDoc">(@obj.doc_Count) Document</button></a>
+
+                                   
+                                }
+                            }
+
+                        </div>
+                    </div>
+                </div>
+                count++;
+            }
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+
+<script>
+    @* function showmodel() {
+        var myModal1 = new bootstrap.Modal(document.getElementById('myModal1'), {})
+        myModal1.show()
+        } *@
+</script>

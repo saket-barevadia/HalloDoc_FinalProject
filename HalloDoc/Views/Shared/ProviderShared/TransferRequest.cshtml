@@ -1,0 +1,42 @@
+﻿@model Data_Layer.CustomModels.ProviderDashboardcm;
+
+<div class="modal fade" id="TranferModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <div class="modal-title text-light" id="exampleModalLongTitle">Transfer Request</div>
+                <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+            </div>
+            <form class="p-3" method="post" id="TranferRequestForm" onsubmit="transferReqPost()">
+                <input type="text" asp-for="@Model.Requestid" hidden />
+                <div class="text-secondary">
+                    This request will be transfferd to admin.
+                </div>
+
+                <div class="mt-4 form-floating text-secondary">
+                    <textarea asp-for="AdminTransferRequestModalBoxx.AssignAdditionalNotes" class="form-control h-100" id="floatingInputDescription" placeholder="Description" rows="3"></textarea>
+                    <span class="text-danger" asp-validation-for="AdminTransferRequestModalBoxx.AssignAdditionalNotes"></span>
+                    <label for="floatingInputDescription" class="text-wrap">Description</label>
+                </div>
+
+                <div class="mt-4 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-info text-white mx-2">Submit</button>
+                    <button type="button" class="btn btn-outline-info cancel-btn" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<partial name="_ValidationScriptsPartial" />
+
+
+
+
+<script>
+    
+</script>
+

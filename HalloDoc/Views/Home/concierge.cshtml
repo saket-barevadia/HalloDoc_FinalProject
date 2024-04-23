@@ -1,0 +1,242 @@
+﻿@model Data_Layer.CustomModels.ConciergeRequestCm;
+
+@{
+    ViewData["Title"] = "concierge request";
+}
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+
+<link rel="stylesheet" href="~/css/concierge.css">
+<script src="~/js/request.js" defer></script>
+
+
+<div>
+    <!-- header -->
+    @Html.Partial("header")
+    <!-- header -->
+    <!-- content -->
+    <div class="content" style="padding: 0 10px;">
+        <div class="content-header">
+            <a href=@Url.Action("submitReq","Home")>
+                <button class="btn2">
+                    <span>
+                        <i class="fa-solid fa-less-than size"
+                           style="color: rgb(23, 200, 245)"></i>
+                    </span> <span class="size"
+                                  style="color: rgb(23, 200, 245);">Back</span>
+                </button>
+            </a>
+        </div>
+
+        <form method="post">
+        <div class="container box">
+            <h4 class="mt-3 font">Concierge Information</h4>
+            <div class="row">
+                <div class="col-md-6 mt-3">
+                    <div class="form-floating">
+                        <input asp-for="firstnameconcierge" type="text" class="form-control shadow" id="floatingInputGroup2"
+                               placeholder="Username" required>
+                        <label for="floatingInputGroup2"><span class="input">Your First Name</span></label>
+                        <span asp-validation-for="firstnameconcierge" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <div class="form-floating">
+                        <input asp-for="lastnameconcierge" type="text" class="form-control shadow" id="floatingInputGroup2"
+                               placeholder="Username" required>
+                        <label for="floatingInputGroup2"><span class="input">Your Last Name</span></label>
+                            <span asp-validation-for="lastnameconcierge" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <input asp-for="mobileconcierge" id="phone" class="form-control country shadow " placeholder="" aria-label="Contact"
+                           type="tel">
+                        <span asp-validation-for="mobileconcierge" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <div class="form-floating">
+                        <input asp-for="emailconcierge" type="email" class="form-control shadow" id="floatingInputGroup2"
+                               placeholder="Username" required>
+                        <label for="floatingInputGroup2"><span class="input">Your Email</span></label>
+                            <span asp-validation-for="emailconcierge" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <div class="form-floating">
+                        <input type="text" class="form-control shadow" id="floatingInputGroup2"
+                               placeholder="Username">
+                        <label for="floatingInputGroup2"><span class="input">Hotel/Property Name</span></label>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="mt-4 font">Concierge Location</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-floating mt-3">
+                        <input asp-for="Street" type="text" class="form-control shadow" id="floatingInputGroup2"
+                               placeholder="Username" required>
+                        <label for="floatingInputGroup2"><span class="input">Street</span></label>
+                            <span asp-validation-for="Street" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating mt-3">
+                        <input asp-for="City" type="text" class="form-control shadow" id="floatingInputGroup2"
+                               placeholder="Username" required>
+                        <label for="floatingInputGroup2"><span class="input">City</span></label>
+                            <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating mt-3">
+                        @* <input asp-for="State" type="text" class="form-control shadow" id="floatingInputGroup2"
+                               placeholder="Username" required>
+                        <label for="floatingInputGroup2"><span class="input">State</span></label>
+                            <span asp-validation-for="State" class="text-danger"></span> *@
+
+                            <select asp-for="regionId" id="selectRegion" class="form-select  form-control mb-2" aria-label="Floating label select example">
+
+
+
+                                <option value="0" disabled selected>
+                                    State
+                                </option>
+                                <option value="1">Bihar</option>
+                                <option value="2">Maharashtra</option>
+                                <option value="3">Gujarat</option>
+                                <option value="4">Assam</option>
+                                <option value="5">Karnataka</option>
+                                <option value="6">Andhra Pradesh</option>
+
+
+                            </select>
+                            <label for="selectRegion">Select State</label>
+                            <span asp-validation-for="regionId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating mt-3">
+                        <input asp-for="Zipcode" type="number" class="form-control shadow" id="floatingInputGroup2"
+                               placeholder="Username" required>
+                        <label for="floatingInputGroup2"><span class="input">Zip Code</span></label>
+                            <span asp-validation-for="Zipcode" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <h4 class="mt-3 font">Patient Information</h4>
+            <div class="form-floating mt-3">
+                    <input asp-for="Symptons" type="text" class="form-control shadow" style="height: 90px;" id="floatingInputGroup2"
+                       placeholder="Username" >
+                <label for="floatingInputGroup2" class="absolute">
+                    <span class="input">
+                        Enter Breif Details Of
+                        Symptoms
+                        <span class="optional">(Optional)</span>
+                    </span>
+                </label>
+                  @*   <span asp-validation-for="Symptons" class="text-danger"></span> *@
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mt-3">
+                    <div class="form-floating">
+                        <input asp-for="FirstNameclient" type="text" class="form-control shadow" id="floatingInputGroup2"
+                               placeholder="Username" required>
+                        <label for="floatingInputGroup2"><span class="input">First Name</span></label>
+                            <span asp-validation-for="FirstNameclient" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <div class="form-floating">
+                        <input asp-for="LastNameclient" type="text" class="form-control shadow" id="floatingInputGroup2"
+                               placeholder="Username" required>
+                        <label for="floatingInputGroup2"><span class="input">Last Name</span></label>
+                            <span asp-validation-for="LastNameclient" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <div class="form-floating">
+                            <input asp-for="Strmonth" type="date" class="form-control shadow" id="DateOfBirth"
+                               placeholder="Username" required>
+                        <label for="floatingInputGroup2"><span class="input">Date Of Birth</span></label>
+                            <span asp-validation-for="Strmonth" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="mt-4 font">Patient Contact Information</h4>
+            <div class="row">
+                <div class="col-md-6 mt-3">
+                    <div class="form-floating">
+                        <input asp-for="Emailclient" type="email" class="form-control shadow" id="floatingInputGroup2"
+                               placeholder="Username" required>
+                        <label for="floatingInputGroup2"><span class="input">Email</span></label>
+                            <span asp-validation-for="Emailclient" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <input asp-for="Phoneclient" id="phone2" class="form-control country shadow " placeholder="" aria-label="Contact"
+                           type="tel">
+                        <span asp-validation-for="Phoneclient" class="text-danger"></span>
+                </div>
+            </div>
+
+            <h4 class="mt-4 font">Patient Location</h4>
+            <div class="col-md-6">
+                <div class="form-floating mt-3">
+                    <input type="text" class="form-control shadow" id="floatingInputGroup2" placeholder="Username"
+                           >
+                    <label for="floatingInputGroup2"><span class="input">Room # / Suite (Optional)</span></label>
+                       
+                </div>
+            </div>
+
+            <div class="submit mt-3">
+                <button type="submit" class="btn5 mb-3">Submit</button>
+                <button type="button" class="btn6 mb-3">Cancel</button>
+            </div>
+
+        </div>
+        </form>
+
+        <!-- content -->
+        <!-- footer -->
+        @Html.Partial("footer")
+        <!-- footer -->
+    </div>
+
+    <script>
+        const phoneInputField = document.querySelector("#phone");
+        const phoneInput = window.intlTelInput(phoneInputField, {
+            utilsScript:
+                "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        });
+        const phoneField = document.querySelector("#phone2");
+        const phoneeInput = window.intlTelInput(phoneField, {
+            utilsScript:
+                "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        });
+
+
+
+        // Date Validation
+
+        const currentDate = new Date().toISOString().split('T')[0];
+
+        document.getElementById('DateOfBirth').setAttribute('max', currentDate);
+    </script>
+
+
+
+    @section scripts{
+        @{
+            <partial name="_ValidationScriptsPartial" />
+        }
+    }

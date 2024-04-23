@@ -1,0 +1,280 @@
+﻿@model Data_Layer.CustomModels.Encounter;
+
+@{
+    ViewData["Title"] = "Encounter Page";
+}
+
+
+@* <partial name="notification" />
+ *@
+
+<div class="container">
+    <div class=" mt-4 d-flex justify-content-between align-items-center">
+        <h4>Encounter Form</h4>
+        <a asp-action="dashboard" asp-controller="Admin">
+            <button type="button" class="btn btn-outline-info">
+                <i class="fa-solid fa-less-than size"></i>
+                <span class="size">Back</span>
+            </button>
+        </a>
+    </div>
+    <form asp-action="encounter" asp-controller="Admin" class="shadow border rounded my-3" method="post">
+        <input type="text" asp-for="Requestid" hidden/>
+        <div class="mx-3 my-4 mt-3">
+            <h3 class="mb-3 text-center text-info">Medical Report-Confidential</h3>
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                    <input asp-for="Firstname" type="text"  class="form-control dclass"
+                           id="exampleFormControlInput1" placeholder="Firstname" disabled>
+                    <label for="exampleFormControlInput1" class="form-label ms-2">Firstname</label>
+                    <span asp-validation-for="Firstname" class="text-danger"></span>
+                   
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                    <input asp-for="Lastname" type="text"  class="form-control dclass"
+                           id="exampleFormControlInput1" placeholder="Lastname" disabled>
+                    <label for="exampleFormControlInput1" class="form-label ms-2">Lastname</label>
+                    <span asp-validation-for="Lastname" class="text-danger"></span>
+                </div>
+                <div class="col-12 form-floating mb-3 text-muted">
+                    <input asp-for="Location" type="text"  class="form-control dclass"
+                           id="exampleFormControlInput1" placeholder="Location" disabled>
+                    <label for="exampleFormControlInput1" class="form-label ms-2">Location</label>
+                    <span asp-validation-for="Location" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                    <input asp-for="DateofBirth" type="date" class="form-control dclass" id="DateOfBirth" placeholder="Username"
+                           required disabled>
+                    <label for="DateOfBirth"><span class="input" style="margin-left:5px;">Date Of Birth</span></label>
+                    <span asp-validation-for="DateofBirth" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                    <input asp-for="Date" type="date" class="form-control dclass" id="Date" placeholder="Date" disabled>
+                    <label for="exampleFormControlInput1" class="form-label ms-2">Date</label>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                    <input asp-for="Mobile" id="phone" class="form-control country dclass" placeholder="" aria-label="Contact" type="tel" disabled>
+                    <label for="phone" class="form-label ms-2">Phone Number</label>
+                    <span asp-validation-for="Mobile" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                    <input asp-for="Email" type="email" class="form-control dclass" id="email"
+                           placeholder="Email" disabled>
+                    <label for="email" class="form-label ms-2">Email</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                    <textarea asp-for="HistoryIllness" class="form-control dclass" placeholder="Leave a comment here" id="floatingTextarea2" disabled
+                              style="height: 100px"></textarea>
+                    <label for="floatingTextarea2" class="ms-2">History Of present illness or Injury</label>
+                    <span asp-validation-for="HistoryIllness" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6 form-floating  mb-3 text-muted">
+                    <textarea asp-for="MedicalHistory" class="form-control dclass" placeholder="Leave a comment here" id="floatingTextarea2" disabled
+                              style="height: 100px"></textarea>
+                    <label for="floatingTextarea2" class="ms-2">Medical History</label>
+                    <span asp-validation-for="MedicalHistory" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                    <textarea asp-for="Medications" class="form-control dclass" placeholder="Leave a comment here" id="floatingTextarea2" disabled
+                              style="height: 100px"></textarea>
+                    <label for="floatingTextarea2" class="ms-2">Medications</label>
+                    <span asp-validation-for="Medications" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-lg-6 form-floating mb-3 text-muted">
+                    <textarea asp-for="Allergies" class="form-control dclass" placeholder="Leave a comment here" id="floatingTextarea2" disabled
+                              style="height: 100px"></textarea>
+                    <label for="floatingTextarea2" class="ms-2">Allergies</label>
+                    <span asp-validation-for="Allergies" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-4 col-6 form-floating mb-3 text-muted">
+                    <input asp-for="Temp" type="text" class="form-control dclass" id="exampleFormControlInput1"
+                           placeholder="Temp" disabled>
+                    <label for="exampleFormControlInput1" class="form-label ms-2">Temp</label>
+                    <span asp-validation-for="Temp" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 col-md-4 col-lg-4 col-6 form-floating mb-3 text-muted">
+                    <input asp-for="Hr" type="text" class="form-control dclass" id="exampleFormControlInput1"
+                           placeholder="HR" disabled>
+                    <label for="exampleFormControlInput1" class="form-label ms-2">HR</label>
+                    <span asp-validation-for="Hr" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 col-md-4 col-xl-4 col-6 form-floating mb-3 text-muted">
+                    <input asp-for="Rr" type="text" class="form-control dclass" id="exampleFormControlInput1"
+                           placeholder="RR" disabled>
+                    <label for="exampleFormControlInput1" class="form-label ms-2">RR</label>
+                    <span asp-validation-for="Rr" class="text-danger"></span>
+                </div>
+
+                <div class="col-sm-6 col-md-2 col-xl-2 col-6 form-floating mb-3 text-muted">
+                    <input asp-for="BpS" type="text" class="form-control dclass" id="exampleFormControlInput1"
+                           placeholder="FirsBlood pressuretname" disabled>
+                    <label for="exampleFormControlInput1" class="form-label ms-2">
+                        Blood pressure
+                        (Systolic)
+                    </label>
+                    <span asp-validation-for="BpS" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 col-md-2 col-xl-2 col-6 form-floating mb-3 text-muted">
+                    <input asp-for="BpD" type="text" class="form-control dclass" id="exampleFormControlInput1"
+                           placeholder="Blood pressure" disabled>
+                    <label for="exampleFormControlInput1" class="form-label ms-2">
+                        Blood pressure
+                        (Diastolic)
+                    </label>
+                    <span asp-validation-for="BpD" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 col-md-4 col-xl-4 col-6 form-floating mb-3 text-muted">
+                    <input asp-for="O2" type="text" class="form-control dclass" id="exampleFormControlInput1"
+                           placeholder="O2" disabled>
+                    <label for="exampleFormControlInput1" class="form-label ms-2">O2</label>
+                    <span asp-validation-for="O2" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 col-md-4 col-xl-4 col-6 form-floating mb-3 text-muted">
+                    <input asp-for="Pain" type="text" class="form-control dclass" id="exampleFormControlInput1"
+                           placeholder="Pain" disabled>
+                    <label for="exampleFormControlInput1" class="form-label ms-2">Pain</label>
+                    <span asp-validation-for="Pain" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6  form-floating mb-3 text-muted">
+                    <textarea asp-for="Heent" class="form-control dclass" placeholder="Leave a comment here" id="floatingTextarea2" disabled
+                              style="height: 100px"></textarea>
+                    <label for="floatingTextarea2" class="ms-2">Heent</label>
+                    <span asp-validation-for="Heent" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                    <textarea asp-for="Cv" class="form-control dclass" placeholder="Leave a comment here" id="floatingTextarea2" disabled
+                              style="height: 100px"></textarea>
+                    <label for="floatingTextarea2" class="ms-2">CV</label>
+                    <span asp-validation-for="Cv" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                    <textarea asp-for="Chest" class="form-control dclass" placeholder="Leave a comment here" id="floatingTextarea2" disabled
+                              style="height: 100px"></textarea>
+                    <label for="floatingTextarea2" class="ms-2">Chest</label>
+                    <span asp-validation-for="Chest" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                    <textarea asp-for="Abd" class="form-control dclass" placeholder="Leave a comment here" id="floatingTextarea2" disabled
+                              style="height: 100px"></textarea>
+                    <label for="floatingTextarea2" class="ms-2">ABD</label>
+                    <span asp-validation-for="Abd" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                    <textarea asp-for="Extr" class="form-control dclass" placeholder="Leave a comment here" id="floatingTextarea2" disabled
+                              style="height: 100px"></textarea>
+                    <label for="floatingTextarea2" class="ms-2">Extr</label>
+                    <span asp-validation-for="Extr" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6 form-floating  mb-3 text-muted">
+                    <textarea asp-for="Skin" class="form-control dclass" placeholder="Leave a comment here" id="floatingTextarea2" disabled
+                              style="height: 100px"></textarea>
+                    <label for="floatingTextarea2" class="ms-2">Skin</label>
+                    <span asp-validation-for="Skin" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                    <textarea asp-for="Neuro" class="form-control dclass" placeholder="Leave a comment here" id="floatingTextarea2" disabled
+                              style="height: 100px"></textarea>
+                    <label for="floatingTextarea2" class="ms-2">Neuro</label>
+                    <span asp-validation-for="Neuro" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                    <textarea asp-for="Other" class="form-control dclass" placeholder="Leave a comment here" id="floatingTextarea2" disabled
+                              style="height: 100px"></textarea>
+                    <label for="floatingTextarea2" class="ms-2">Other</label>
+                    <span asp-validation-for="Other" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                    <textarea asp-for="Diagnosis" class="form-control dclass" placeholder="Leave a comment here" id="floatingTextarea2" disabled
+                              style="height: 100px"></textarea>
+                    <label for="floatingTextarea2" class="ms-2">Diagnosis</label>
+                    <span asp-validation-for="Diagnosis" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6 form-floating  mb-3 text-muted">
+                    <textarea asp-for="TreatmentPlan" class="form-control dclass" placeholder="Leave a comment here" id="floatingTextarea2" disabled
+                              style="height: 100px"></textarea>
+                    <label for="floatingTextarea2" class="ms-2">Treatment Plan</label>
+                    <span asp-validation-for="TreatmentPlan" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                    <textarea asp-for="MedicationDispensed" class="form-control dclass" placeholder="Leave a comment here" id="floatingTextarea2" disabled
+                              style="height: 100px"></textarea>
+                    <label for="floatingTextarea2" class="ms-2">Medications Dispensed</label>
+                    <span asp-validation-for="MedicationDispensed" class="text-danger"></span>
+                </div>
+                <div class="col-sm-12 col-md-6 col-xl-6 form-floating mb-3 text-muted">
+                    <textarea asp-for="Procedures" class="form-control dclass" placeholder="Leave a comment here" id="floatingTextarea2" disabled
+                              style="height: 100px"></textarea>
+                    <label for="floatingTextarea2" class="ms-2">Procedures</label>
+                    <span asp-validation-for="Procedures" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3 text-muted">
+                    <textarea asp-for="FollowUp" class="form-control dclass" placeholder="Leave a comment here" id="floatingTextarea2" disabled
+                              style="height: 100px"></textarea>
+                    <label for="floatingTextarea2" class="ms-2">Followup</label>
+                    <span asp-validation-for="FollowUp" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="d-grid gap-2 d-flex justify-content-center  justify-content-md-end mt-4 pt-4 mb-3">
+                <button type="button" id="editBtn" class="btn btn-info text-white EditBtn" onclick="enableFields()">Edit </button>
+
+                <button type="submit" id="submitBtn" class="btn btn-info text-white EditBtn">Save</button>
+
+                <button type="button" id="cancelBtn" class="btn btn-outline-info EditBtn" onclick="disableFields()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+            }
+
+<script>
+   
+
+
+    function disableFields() {
+        document.querySelectorAll('.dclass').forEach(function (element) {
+            element.disabled = true;
+        });
+        document.getElementById('submitBtn').style.display = 'none';
+        document.getElementById('cancelBtn').style.display = 'none';
+        document.getElementById('editBtn').style.display = 'block';
+    }
+
+    function enableFields() {
+        document.querySelectorAll('.dclass').forEach(function (element) {
+            element.disabled = false;
+        });
+        document.getElementById('submitBtn').style.display = 'block';
+        document.getElementById('cancelBtn').style.display = 'block';
+        document.getElementById('editBtn').style.display = 'none';
+    }
+    disableFields();
+
+    // Date of birth validation
+    const currentDate = new Date().toISOString().split('T')[0];
+
+    document.getElementById('DateOfBirth').setAttribute('max', currentDate);
+
+
+    var dash = document.getElementById("home-tab");
+    var providerLoc = document.getElementById("ProviderLocation-tab");
+    var profile = document.getElementById("Myprofile-tab");
+    var provider = document.getElementById("Providers-tab");
+    var partner = document.getElementById("Partners-tab");
+    var access = document.getElementById("Access-tab");
+    var records = document.getElementById("Records-tab");
+
+    dash.classList.add("active");
+    providerLoc.classList.remove("active");
+    profile.classList.remove("active");
+    provider.classList.remove("active");
+    partner.classList.remove("active");
+    access.classList.remove("active");
+    records.classList.remove("active");
+</script>
+

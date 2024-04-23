@@ -1,0 +1,59 @@
+﻿@model Data_Layer.CustomModels.patientLogincm;
+
+@{
+    ViewData["Title"] = "Forgot password";
+}
+
+<link rel="stylesheet" href="~/css/login.css">
+<script src="~/js/login.js" defer></script>
+
+<partial name="notification" />
+
+<div class="container-fluid flex" id="wrapper">
+    <!-- header -->
+    <div class="button">
+        <img src="~/images/logo.png" alt="" width="300px">
+        <button class="btn1" id="dark">
+            <i class="fas fa-light fa-moon" id="black" style="color: #43bcf9;"></i>
+            <i class="fa-regular fa-sun inactive" id="bright" style="color: white"></i>
+        </button>
+
+    </div>
+    <!-- header -->
+    <!-- content -->
+    <div class="form" id="displayPass">
+        <img class="opacity img-fluid" src="~/images/7768657_3763028.jpg" alt="">
+        <div class="width">
+            <div class="background">
+                <a href=@Url.Action("patientLogin","Home") class="mb-3 link" style="font-size: 17px; font-weight: 600;">
+                    <span>
+                        <i class="fa-solid fa-less-than" style="color: rgb(23, 200, 245)"></i>
+                    </span> Back
+                </a>
+                <p class="d-flex justify-content-center mb-5 font">Reset Your Password</p>
+                <form method="post" asp-action="resetPass" asp-controller="Home">
+                <div class="mb-4 input">
+                    <input asp-for="Email" type="email" class="form-control transparent" id="formGroupExampleInput" placeholder="Email">
+                    <i class="fa-regular fa-circle-user icon"></i>
+                </div>
+                
+                <button type="submit" class="btn2 mb-3">Reset Password</button>
+                </form>
+                <a href=@Url.Action("patientLogin","Home") class="mb-3 pass"
+                   style="font-size: 17px; font-weight: 600;display:flex; justify-content: center;"
+                   id="back">
+                    <span>
+                        <i class="fa-solid fa-less-than"
+                           style="color: rgb(23, 200, 245); padding-right: 5px; font-size: 14px;"></i>
+                    </span> Back To Login
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- content -->
+    <!-- footer -->
+    <div class="d-flex justify-content-center footer wh">
+        <p class="size">Terms of Conditions | Privacy Policy</p>
+    </div>
+    <!-- footer -->
+</div>

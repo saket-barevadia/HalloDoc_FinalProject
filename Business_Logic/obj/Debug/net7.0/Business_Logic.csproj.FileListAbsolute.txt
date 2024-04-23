@@ -1,0 +1,46 @@
+C:\HalloDoc\Business_Logic\bin\Debug\net7.0\Business_Logic.deps.json
+C:\HalloDoc\Business_Logic\bin\Debug\net7.0\Business_Logic.dll
+C:\HalloDoc\Business_Logic\bin\Debug\net7.0\Business_Logic.pdb
+C:\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.GeneratedMSBuildEditorConfig.editorconfig
+C:\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.AssemblyInfoInputs.cache
+C:\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.AssemblyInfo.cs
+C:\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.csproj.CoreCompileInputs.cache
+C:\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.dll
+C:\HalloDoc\Business_Logic\obj\Debug\net7.0\refint\Business_Logic.dll
+C:\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.pdb
+C:\HalloDoc\Business_Logic\obj\Debug\net7.0\ref\Business_Logic.dll
+C:\HalloDoc\Business_Logic\bin\Debug\net7.0\Data_Layer.dll
+C:\HalloDoc\Business_Logic\bin\Debug\net7.0\Data_Layer.pdb
+C:\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.csproj.AssemblyReference.cache
+C:\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.csproj.CopyComplete
+C:\Users\Saket\Downloads\HalloDoc (2)-1\HalloDoc\Business_Logic\bin\Debug\net7.0\Business_Logic.deps.json
+C:\Users\Saket\Downloads\HalloDoc (2)-1\HalloDoc\Business_Logic\bin\Debug\net7.0\Business_Logic.dll
+C:\Users\Saket\Downloads\HalloDoc (2)-1\HalloDoc\Business_Logic\bin\Debug\net7.0\Business_Logic.pdb
+C:\Users\Saket\Downloads\HalloDoc (2)-1\HalloDoc\Business_Logic\bin\Debug\net7.0\Data_Layer.dll
+C:\Users\Saket\Downloads\HalloDoc (2)-1\HalloDoc\Business_Logic\bin\Debug\net7.0\Data_Layer.pdb
+C:\Users\Saket\Downloads\HalloDoc (2)-1\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.csproj.AssemblyReference.cache
+C:\Users\Saket\Downloads\HalloDoc (2)-1\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Saket\Downloads\HalloDoc (2)-1\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.AssemblyInfoInputs.cache
+C:\Users\Saket\Downloads\HalloDoc (2)-1\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.AssemblyInfo.cs
+C:\Users\Saket\Downloads\HalloDoc (2)-1\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.csproj.CoreCompileInputs.cache
+C:\Users\Saket\Downloads\HalloDoc (2)-1\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.sourcelink.json
+C:\Users\Saket\Downloads\HalloDoc (2)-1\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.csproj.CopyComplete
+C:\Users\Saket\Downloads\HalloDoc (2)-1\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.dll
+C:\Users\Saket\Downloads\HalloDoc (2)-1\HalloDoc\Business_Logic\obj\Debug\net7.0\refint\Business_Logic.dll
+C:\Users\Saket\Downloads\HalloDoc (2)-1\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.pdb
+C:\Users\Saket\Downloads\HalloDoc (2)-1\HalloDoc\Business_Logic\obj\Debug\net7.0\ref\Business_Logic.dll
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Business_Logic\bin\Debug\net7.0\Business_Logic.deps.json
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Business_Logic\bin\Debug\net7.0\Business_Logic.dll
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Business_Logic\bin\Debug\net7.0\Business_Logic.pdb
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Business_Logic\bin\Debug\net7.0\Data_Layer.dll
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Business_Logic\bin\Debug\net7.0\Data_Layer.pdb
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.csproj.AssemblyReference.cache
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.AssemblyInfoInputs.cache
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.AssemblyInfo.cs
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.csproj.CoreCompileInputs.cache
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.csproj.CopyComplete
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.dll
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Business_Logic\obj\Debug\net7.0\refint\Business_Logic.dll
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Business_Logic\obj\Debug\net7.0\Business_Logic.pdb
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Business_Logic\obj\Debug\net7.0\ref\Business_Logic.dll

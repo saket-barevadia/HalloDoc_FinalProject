@@ -1,0 +1,111 @@
+﻿@model Data_Layer.CustomModels.patientDashboard;
+
+
+
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+            crossorigin="anonymous"></script>
+@*
+@{
+    ViewData["Title"] = "Patient Login";
+}
+
+<link rel="stylesheet" href="~/css/login.css">
+<script src="~/js/login.js" defer></script>
+
+
+
+<div class="container-fluid flex" id="wrapper">
+    <!-- header -->
+    <div class="button">
+        <img src="~/images/logo.png" alt="" width="300px">
+        <button class="btn1" id="dark">
+            <i class="fas fa-light fa-moon" id="black" style="color: #43bcf9;"></i>
+            <i class="fa-regular fa-sun inactive" id="bright" style="color: white"></i>
+        </button>
+
+    </div>
+    <!-- header -->
+    <!-- content -->
+    @* <div class="form" id="display">
+        <img class="opacity img-fluid" src="~/images/7768657_3763028.jpg" alt="">
+        <div class="width">
+            <div class="background">
+                <a href=@Url.Action("patientSite","Home") class="mb-3 link" style="font-size: 17px; font-weight: 600;">
+                    <span>
+                        <i class="fa-solid fa-less-than" style="color: rgb(23, 200, 245);"></i>
+                    </span> Back
+                </a>
+                <p class="d-flex justify-content-center mb-5 font">Create Your Account</p>
+                <form method="post">
+                    <input type="email" placeholder="email"/>
+                    <label>email</label> 
+                    
+                    <input type="password" placeholder="password"/>
+                    <label>password</label>
+
+                    <button type="submit" class="btn2 mb-3">Create Account</button>
+                </form>
+                
+            </div>
+        </div>
+    </div> *@
+
+    <!-- content -->
+    <!-- footer -->
+ @*    <div class="d-flex justify-content-center footer " id="terms">
+        <p class="size">Terms of Conditions | Privacy Policy</p>
+    </div>
+    <!-- footer -->
+</div> *@
+
+<div class="d-flex ">
+
+<img class="img-fluid" src="~/Documents/11116016_415.jpg" alt="" style="width:100%;height:100vh;position:absolute;opacity:0.5">
+
+<div class="" style="height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;width:100%;position:relative">
+    
+        @if (Model.create.flag == 1)
+        {
+            <h1 class="mb-4">Create New Password</h1>
+        }
+        else
+        {
+            <h1 class="mb-4">Create Account</h1>
+        }
+        
+    <form method="post" >
+            <input asp-for="@Model.create.Id" type="text" hidden />
+        <div class="form-floating mb-3" style="width:400px">
+            <input asp-for="@Model.create.Email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com" required readonly>
+            <label for="floatingInput">Email</label>
+            <span asp-validation-for="@Model.create.Email" class="text-danger"></span>
+        </div>
+        <div class="form-floating mb-3" style="width:400px">
+                <input asp-for="@Model.create.Passwordhash" type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
+            <label for="floatingPassword">Password</label>
+                <span asp-validation-for="@Model.create.Passwordhash" class="text-danger"></span>
+        </div> 
+        <div class="form-floating" style="width:400px">
+                <input asp-for="@Model.create.Passwordhash" type="password" class="form-control" id="floatingPassword" placeholder="Confirm Password" required>
+            <label for="floatingPassword">Password</label>
+                <span asp-validation-for="@Model.create.ConfirmPasswordhash" class="text-danger"></span>
+        </div>
+
+         <button class="btn btn-info text-white mt-3" type="submit">Create</button>
+
+    </form>
+</div>
+
+
+</div>
+
+
+@section scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+            }

@@ -1,0 +1,221 @@
+﻿@model Data_Layer.CustomModels.AdminCreateReq;
+
+
+@* <partial name="notification" />
+ *@
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+
+<div class="container">
+
+    <div class=" mt-4 d-flex justify-content-between align-items-center">
+        <h4>Submit Information</h4>
+        
+            <a asp-action="dashboard" asp-controller="Admin">
+                <button type="button" class="btn btn-outline-info">
+                    <i class="fa-solid fa-less-than size"></i>
+                    <span class="size">Back</span>
+                </button>
+            </a>
+      
+       
+    </div>
+
+    <form class="shadow border rounded my-3" id="createRequest" method="post">
+        <div class="mx-3 my-4 ">
+            <h5 class="mb-3 mt-2">Patient</h5>
+           
+            <div class="row mb-3">
+                <div class="col-12 col-md-6 form-floating mb-3">
+                    <input asp-for="Firstname" type="text" class="form-control bg-transparent" id="floatingInputFName"
+                           placeholder="Firstname">
+                    <label for="floatingInputFName" class="ms-2">First Name</label>
+                    <span asp-validation-for="Firstname" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-md-6 form-floating mb-3">
+                    <input asp-for="Lastname" type="text" class="form-control bg-transparent" id="floatingInputLName"
+                           placeholder="LastName">
+                    <label for="floatingInputLName" class="ms-2">Last Name</label>
+                    <span asp-validation-for="Lastname" class="text-danger"></span>
+
+                </div>
+                <div class="col-12 col-md-6 form-floating mb-3 d-flex flex-column">
+                    <input asp-for="Mobile" id="phone" class="form-control country " placeholder="" aria-label="Contact" type="tel">
+                    <span asp-validation-for="Mobile" class="text-danger"></span>
+                </div>
+                
+                <div class="col-12 col-md-6 form-floating mb-3">
+                    <input asp-for="Email" type="email" class="form-control bg-transparent" id="floatingInputLName"
+                           placeholder="LastName">
+                    <label for="floatingInputLName" class="ms-2">Email</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+
+                </div>
+                <div class="col-12 col-md-6 form-floating mb-3">
+                    <input asp-for="Strmonth" type="date" class="form-control bg-transparent" id="DateOfBirth" placeholder="DateOfBirth">
+                    <label for="DateOfBirth" class="ms-2">Date Of Birth</label>
+                    <span asp-validation-for="Strmonth" class="text-danger"></span>
+
+                </div>
+            </div>
+
+            <h5 class="mb-3 mt-3">Patient Location</h5>
+            <div class="row mb-3">
+                <div class="col-12 col-md-6 form-floating mb-3">
+                    <input asp-for="Street" type="text" class="form-control bg-transparent" id="floatingInputStreet"
+                           placeholder="street">
+                    <label for="floatingInputStreet" class="ms-2">Street</label>
+                    <span asp-validation-for="Street" class="text-danger"></span>
+                </div>
+                <div class="col-12 col-md-6 form-floating mb-3">
+                    <input asp-for="City" type="text" class="form-control bg-transparent" id="floatingInputCity" placeholder="city">
+                    <label for="floatingInputCity" class="ms-2">City</label>
+                    <span asp-validation-for="City" class="text-danger"></span>
+
+                </div>
+                <div class="col-12 col-md-6 form-floating mb-3">
+                    @* <input asp-for="State" type="text" class="form-control bg-transparent" id="floatingInputState" placeholder="state">
+                    <label for="floatingInputState" class="ms-2">State</label>
+                    <span asp-validation-for="State" class="text-danger"></span> *@
+
+                    <select asp-for="State" id="selectRegion" class="form-select form-control mb-2" aria-label="Floating label select example">
+
+                        @*             <select class="form-select mb-2" id="selectRegion" onchange="filterByRegion()" aria-label="Default select example">
+                        *@                @* <option disabled selected value="">Select Regions</option>
+                        <option value="0">All Region</option> *@
+
+                        <option disabled selected>
+                            State
+                        </option>
+                        
+                        @foreach(var item in Model.regions)
+                        {
+                            <option value="@item.Regionid">@item.Region</option>
+                        }
+                        @* <option value="1">Singapore</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option> *@
+                    </select>
+                    <label for="selectRegion" style="margin-left:5px;">Select State</label>
+                    <span asp-validation-for="State" class="text-danger"></span>
+
+                </div>
+
+                <div class="col-12 col-md-6 form-floating mb-3">
+                    <input asp-for="Zipcode" type="text" class="form-control bg-transparent" id="floatingInputZipcode"
+                           placeholder="zipcode">
+                    <label for="floatingInputZipcode" class="ms-2">Zip Code (Optional)</label>
+                    <span asp-validation-for="Zipcode" class="text-danger"></span>
+
+                </div>
+                <div class="col-12 col-md-6 form-floating mb-3">
+                    <input  type="text" class="form-control bg-transparent" id="floatingInputRoom" placeholder="room">
+                    <label for="floatingInputRoom" class="ms-2">Room # (Optional)</label>
+                    
+                </div>
+                <div class="col form-floating mb-3">
+                   @*  <a class="btn btn-outline border-info p-3 text-info me-2">
+                        <span>Verify</span>
+                    </a> *@
+                    <button class="btn btn-outline border-info p-3 text-info" onclick="createReqMap()">
+                        <i class="bi bi-geo-alt-fill "></i>
+                        <span>Map</span>
+                    </button>
+                </div>
+
+            </div>
+            <h5 class="mb-3 mt-2">Notes</h5>
+            <div class="form-floating mb-3">
+                <textarea asp-for="Notes" class="form-control bg-transparent border border-2 h-100" rows="5"
+                          placeholder="Leave a comment here" id="floatingTextareaNotes"></textarea>
+                <label for="floatingTextareaNotes" class="text-wrap">Additional Notes</label>
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="d-flex gap-2 justify-content-end mb-3">
+                
+                    <input class="btn btn-info text-white" type="submit" value="Submit">
+            
+                
+                <button type="reset" class="btn btn-outline-info">Cancel</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+@section scripts{
+    @{
+    <partial name="_ValidationScriptsPartial" />
+    }
+            }
+
+<script>
+
+    const phoneInputField = document.querySelector("#phone");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+        utilsScript:
+            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+
+
+    function getRegion() {
+        $.ajax({
+            url: "/Admin/getRegion",
+            type: "GET",
+            success: function (regions) {
+                console.log(regions)
+                regions.forEach(function (a) {
+                    $("#selectRegion").append(
+                        '<option value="' + a.region + '">' +
+                        a.region +
+                        "</option>"
+                    )
+                })
+
+            }
+        })
+    }
+
+    getRegion();
+
+
+    function createReqMap() {
+        var street = $("#floatingInputStreet").val();
+        var city = $("#floatingInputCity").val();
+        var state = $("#selectRegion").val();
+        var zipcode = $("#floatingInputZipcode").val();
+
+
+        // window.location.href = "https://www.google.com/maps/search/?api=1&query=" + street + city + state + zipcode;
+        window.open("https://www.google.com/maps/search/?api=1&query=" + street + city + state + zipcode,"_blank");
+    }
+
+    // Date of birth validation
+    const currentDate = new Date().toISOString().split('T')[0];
+
+    document.getElementById('DateOfBirth').setAttribute('max', currentDate);
+
+
+    var dash = document.getElementById("home-tab");
+    var providerLoc = document.getElementById("ProviderLocation-tab");
+    var profile = document.getElementById("Myprofile-tab");
+    var provider = document.getElementById("Providers-tab");
+    var partner = document.getElementById("Partners-tab");
+    var access = document.getElementById("Access-tab");
+    var records = document.getElementById("Records-tab");
+
+    dash.classList.add("active");
+    providerLoc.classList.remove("active");
+    profile.classList.remove("active");
+    provider.classList.remove("active");
+    partner.classList.remove("active");
+    access.classList.remove("active");
+    records.classList.remove("active");
+
+
+
+
+
+</script>

@@ -1,0 +1,156 @@
+﻿@model Data_Layer.CustomModels.patientRecordscm;
+
+
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center">
+    <h4 class="mb-4 mt-3">Search Records</h4>
+
+  @using (Html.BeginForm("Export", "Admin", FormMethod.Post))
+ {
+   <input type="hidden" name="GridHtml" />
+            <button style="height:50px" type="submit" class="btn btn-info text-white d-flex align-items-center justify-content-center" onclick="exportBtn()"><span class="me-2"><i class="fa-solid fa-share"></i></span><span class="d-none d-sm-block">Export Data To Excel</span></button>
+ }
+    </div>
+
+    <div class="border rounded shadow mb-3 p-3">
+
+        <form method="post" id="searchRecordForm">
+
+        <div class="row">
+            <div class="mb-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 form-floating  ">
+                <select asp-for="Status" class="form-select form-control"  id="Role" value="">
+                        <option value="null" selected>All</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                    
+
+                </select>
+
+                <label for="Role" class="ms-2 ">Select Request Status</label>
+
+            </div>
+            <div class="mb-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 form-floating ">
+                <input asp-for="patientName" type="text" class="form-control" id="floatingInputUsername" placeholder="Last Name" aria-label="User Name">
+                <label class="ms-2 " for="floatingInputUsername">Patient Name</label>
+
+                
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 form-floating mb-3 ">
+
+                    <select asp-for="RequestTypeid" class="form-select form-control" id="Role" value="">
+                        <option value="null" selected>All</option>
+                        <option value="1">Patient</option>
+                        <option value="2">Family/Friend</option>
+                        <option value="3">Concierge</option>
+                        <option value="4">Business</option>
+
+                </select>
+
+                <label for="Role" class="ms-2 ">Select Request Type</label>
+
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 form-floating mb-3 ">
+
+                <input type="date" class="form-control" id="floatingInputUsername" placeholder="Phone Number" aria-label="User Name">
+                <label class="ms-2 " for="floatingInputUsername">From Date Of Service</label>
+
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 form-floating mb-3 ">
+
+                <input type="date" class="form-control" id="floatingInputUsername" placeholder="Phone Number" aria-label="User Name">
+                <label class="ms-2 " for="floatingInputUsername">To Date Of Service</label>
+
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 form-floating mb-3 ">
+
+                <input asp-for="physician" type="text" class="form-control" id="floatingInputUsername" placeholder="Last Name" aria-label="User Name">
+                <label class="ms-2 " for="floatingInputUsername">Provider Name</label>
+
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 form-floating mb-3 ">
+
+                <input asp-for="Email" type="email" class="form-control" id="floatingInputUsername" placeholder="Last Name" aria-label="User Name">
+                <label class="ms-2 " for="floatingInputUsername">Email</label>
+
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 form-floating mb-3 ">
+
+                <input asp-for="Phonenumber" type="text" class="form-control" id="floatingInputUsername" placeholder="Last Name" aria-label="User Name">
+                <label class="ms-2 " for="floatingInputUsername">Phone Number</label>
+
+            </div>
+        </div>
+
+
+
+        <div class="d-flex justify-content-end mb-2">
+            <button type="button" onclick="location.href='@Url.Action("searchRecords","Admin")'" class="btn btn-outline-info">
+                Clear
+            </button>
+            <button id="search" onclick="sortSearchRecord()" type="button" class="btn btn-info text-white ms-2">
+                Search
+            </button>
+        </div>
+
+        </form>
+
+        <div id="searchRecordContent">
+            <partial name="searchRecordsShared"/>
+        </div>
+     
+
+
+    </div>
+</div>
+
+
+
+
+<script>
+
+
+
+    function sortSearchRecord() {
+        $.ajax({
+            url: "/Admin/searchRecordsShared",
+            type: "GET",
+            data: $("#searchRecordForm").serialize(),
+            success: function (result) {
+                $('#searchRecordContent').html(result);
+            },
+            error: function () {
+                alert('error loading partial view');
+            }
+        })
+    }
+
+
+    var dash = document.getElementById("home-tab");
+    var providerLoc = document.getElementById("ProviderLocation-tab");
+    var profile = document.getElementById("Myprofile-tab");
+    var provider = document.getElementById("Providers-tab");
+    var partner = document.getElementById("Partners-tab");
+    var access = document.getElementById("Access-tab");
+    var records = document.getElementById("Records-tab");
+
+    dash.classList.remove("active");
+    providerLoc.classList.remove("active");
+    profile.classList.remove("active");
+    provider.classList.remove("active");
+    partner.classList.remove("active");
+    access.classList.remove("active");
+    records.classList.add("active");
+
+
+
+</script>

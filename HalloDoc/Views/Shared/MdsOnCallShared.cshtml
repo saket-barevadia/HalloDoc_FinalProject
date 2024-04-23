@@ -1,0 +1,61 @@
+﻿@model Data_Layer.CustomModels.OnCallModal
+
+
+
+<div class="border rounded shadow p-3">
+    <div class="my-2 mb-3">
+        <h5>MD's On Call</h5>
+        <div id="matched-events" class="row my-2">
+            @foreach (var oncall in Model.OnCall)
+            {
+                
+                <div class="col-4 my-2 fw-bolder d-flex align-items-center">
+                    @if (oncall.Photo != null)
+                    {
+                        <div class="me-2 text-center" style="width:40px;height:40px">
+                            <img class="w-100 h-100 border rounded-5" src="~/Documents/@oncall.Photo" />
+                        </div>
+                    }
+                    @if (oncall.Photo == null)
+                    {
+                        <div class="me-2 text-center" style="width:40px;height:40px">
+                            <img class="w-100 h-100 border rounded-5" src="~/Documents/doctor.png" />
+                        </div>
+                    }
+
+                    <div>Dr @oncall.Firstname</div>
+                </div>
+            }
+
+
+        </div>
+
+    </div>
+
+    <div class="mt-3">
+        <h5>Physicians Off Duty</h5>
+
+        <div id="unmatched-events" class="row">
+            @foreach (var offduty in Model.OffDuty)
+            {
+
+
+                <div class="col-4 my-2 fw-bolder d-flex align-items-center">
+                    @if (offduty.Photo != null)
+                    {
+                        <div class="me-2 text-center" style="width:40px;height:40px"><img class="w-100 h-100 border rounded-5" src="~/Documents/@offduty.Photo" /></div>
+                    }
+                    @if (offduty.Photo == null)
+                    {
+                        <div class="me-2 text-center" style="width:40px;height:40px"><img class="w-100 h-100 border rounded-5" src="~/Documents/doctor.png" /></div>
+                    }
+
+                   
+                    <div>Dr @offduty.Firstname</div>
+                </div>
+
+            }
+        </div>
+    </div>
+
+</div>

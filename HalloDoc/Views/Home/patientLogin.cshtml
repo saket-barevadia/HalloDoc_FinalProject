@@ -1,0 +1,72 @@
+﻿@model Data_Layer.CustomModels.patientLogincm;
+
+@{
+    ViewData["Title"] = "Patient Login";
+}
+
+<link rel="stylesheet" href="~/css/login.css">
+<script src="~/js/login.js" defer></script>
+
+
+
+<div class="container-fluid flex" id="wrapper">
+        <!-- header -->
+        <div class="button">
+            <img src="~/images/logo.png" alt="" width="300px">
+            <button class="btn1" id="dark">
+                <i class="fas fa-light fa-moon" id="black" style="color: #43bcf9;"></i>
+                <i class="fa-regular fa-sun inactive" id="bright" style="color: white"></i>
+            </button>
+
+        </div>
+        <!-- header -->
+
+
+        <!-- content -->
+        <div class="form" id="display">
+            <img class="opacity img-fluid" src="~/images/7768657_3763028.jpg" alt="">
+            <div class="width">
+                <div class="background">
+                    <a href=@Url.Action("patientSite","Home") class="mb-3 link" style="font-size: 17px; font-weight: 600;"><span><i
+                                class="fa-solid fa-less-than" style="color: rgb(23, 200, 245);"></i></span> Back</a>
+                    <p class="d-flex justify-content-center mb-5 font">Login To Your Account</p>
+                    <form method="post">
+                    <div class="mb-4 input">
+                        <input asp-for="Email" type="email" class="form-control transparent" id="formGroupExampleInput"
+                            placeholder="Email">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                            
+                        <i class="fa-regular fa-circle-user icon" id="user"></i>
+                    </div>
+                    <div class="mb-4 input">
+                        <input asp-for="Password" type="password" class="form-control transparent" id="changeType"
+                            placeholder="Password">
+                        <span asp-validation-for="Password" class="text-danger"></span>
+
+                        <i class="fa-regular fa-eye-slash icon " id="password"></i>
+                        <i class="fa-regular fa-eye icon " id="password2"></i>
+                    </div>
+                    <button type="submit" class="btn2 mb-3">Log In</button>
+                </form>
+                    <a href=@Url.Action("forgotPass", "Home") class="mb-3 pass" id="click"
+                        style="font-size: 17px; font-weight: 600;display:flex; justify-content: center;">Forgot
+                        Password?</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- content -->
+
+        <!-- footer -->
+        <div class="d-flex justify-content-center footer " id="terms">
+            <p class="size">Terms of Conditions | Privacy Policy</p>
+        </div>
+        <!-- footer -->
+    </div>
+
+
+@section scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    }

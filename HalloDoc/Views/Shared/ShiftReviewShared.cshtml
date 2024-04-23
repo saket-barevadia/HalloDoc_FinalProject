@@ -1,0 +1,105 @@
+﻿
+
+
+<div class="table-responsive d-lg-block d-none">
+    <table class="table">
+        <thead class="bg-body-tertiary ">
+        <thead>
+            <tr>
+                <th scope="col">
+                    <input type="checkbox" class="checkbox-main checkbox " name="selectall"
+                           onchange="tickAll()" />
+                    <span class="ms-5">
+                        Staff
+                    </span>
+                </th>
+                <th>Day</th>
+                <th>Time</th>
+                <th>Region</th>
+            </tr>
+        </thead>
+
+        <tbody>
+                @foreach (var obj in Model.ShiftReview)
+                {
+                <tr class="align-middle" style="color: #8f8383; font-weight: 600;">
+                    <td class="first-col">
+                        <input type="checkbox" name="Mark" class="checkbox fileCheckbox" value="@obj.shiftDetailId"
+                               onchange="allCheck()" />
+                        <span class="ms-5" style="color: #8f8383; font-weight: 600;">
+                                @obj.PhysicianName
+                        </span>
+                    </td>
+                    <td style="color: #8f8383; font-weight: 600;">@obj.ShiftDate</td>
+                    <td style="color: #8f8383; font-weight: 600;">@obj.ShiftTime</td>
+                    <td style="color: #8f8383; font-weight: 600;">@obj.ShiftRegion</td>
+                </tr>
+                }
+        </tbody>
+
+    </table>
+</div>
+
+
+
+<div class="border rounded shadow d-block d-lg-none">
+    <div class="accordion container-fluid p-0" id="accordionPanelsStayOpenExample">
+        <table class="w-100">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" class="checkbox-main checkbox " name="selectall"
+                               onchange="tickAll()" />
+                    </th>
+                    <th class="d-none"></th>
+                </tr>
+            </thead>
+            @{
+                var counter = 1;
+            }
+            <tbody>
+                @foreach (var obj in Model.ShiftReview)
+                {
+                    <tr class="d-flex flex-column">
+                        <td>
+                            <h2 class="accordion-header" id="flush-heading@(counter)"></h2>
+
+                            <div class="accordion-button collapsed d-flex flex-column pb-0" data-bs-toggle="collapse"
+                                 data-bs-target="#flush-collapse@(counter)" aria-expanded="false"
+                                 aria-controls="flush-collapse@(counter)">
+
+                                <div class="w-100 ">
+                                    <input type="checkbox" name="Mark" value="@obj.shiftDetailId" class="checkbox fileCheckbox me-3" onchange="allCheck()" />
+                                    <span class="fw-bolder ms-sm-5 ms-1">
+                                        @obj.PhysicianName
+                                    </span>
+                                </div>
+
+                            </div>
+
+                        </td>
+                        <td>
+                            <div id="flush-collapse@(counter)" class="accordion-collapse collapse"
+                                 aria-labelledby="flush-heading@(counter)" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body main-flex pt-2">
+
+                                    <div class="inner-flex">
+                                        @obj.ShiftDate
+                                    </div>
+                                    <div class="inner-flex">
+                                        @obj.ShiftTime
+                                    </div>
+                                    <div class="inner-flex">
+                                        @obj.ShiftRegion
+                                    </div>
+
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    counter++;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

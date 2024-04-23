@@ -1,0 +1,84 @@
+﻿
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+
+
+@*<partial name="_AdminHeader" /> *@
+<div class="container d-flex flex-column justify-content-center align-content-center vh-100 flex-column mb-5">
+
+    <div class="req_form_container w-lg-50 d-flex justify-content-between my-4">
+        <h3 class="fw-bold m-0 d-flex align-items-center">Provider Location</h3>
+
+        <a asp-action="dashboard" asp-controller="Admin">
+            <button type="button" class="btn btn-outline-info">
+                <i class="fa-solid fa-less-than size"></i>
+                <span class="size">Back</span>
+            </button>
+        </a>
+
+    </div>
+
+    <div id="map" class="w-100 h-100 shadow " style="position:sticky"></div>
+</div>
+
+<script>
+
+
+    var dash = document.getElementById("home-tab");
+    var providerLoc = document.getElementById("ProviderLocation-tab");
+    var profile = document.getElementById("Myprofile-tab");
+    var provider = document.getElementById("Providers-tab");
+    var partner = document.getElementById("Partners-tab");
+    var access = document.getElementById("Access-tab");
+    var records = document.getElementById("Records-tab");
+
+    dash.classList.remove("active");
+    providerLoc.classList.add("active");
+    profile.classList.remove("active");
+    provider.classList.remove("active");
+    partner.classList.remove("active");
+    access.classList.remove("active");
+    records.classList.remove("active");
+
+    var map = L.map('map').setView([22.2587, 71.1924], 8);
+
+    googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+    }).addTo(map);
+
+    // Create a new red icon
+    var redMarkerIcon = L.icon({
+        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+        shadowUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+
+
+
+    $.ajax({
+        url: '/Admin/GetLocation',
+        method: 'GET',
+        success: function (response) {
+            console.log(response);
+            response.map(function (res) {
+                L.marker([res.latitude, res.longitude], { icon: redMarkerIcon }).addTo(map)
+                    .bindPopup(res.physicianname)
+            })
+        }
+    });
+
+
+
+
+
+
+
+</script>
+
+

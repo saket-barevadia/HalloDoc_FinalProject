@@ -1,0 +1,184 @@
+﻿@inject IHttpContextAccessor Accessor;
+@using Microsoft.AspNetCore.Http;
+
+@model Data_Layer.CustomModels.ProviderDashboardcm;
+    
+
+<link href="~/css/Admin/adminDashboard.css" rel="stylesheet" type="text/css" />
+
+<script src="~/js/darkmode.js" defer></script>
+
+<nav class="navbar header bg-white shadow position-sticky top-0 z-3">
+    <div class="container-fluid ">
+        <div class="d-flex justify-content-center ">
+            <button class="navbar-toggler d-inline-block d-sm-none my-3 px-1" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+                <img src="~/images/logo.png" class="logo img-fluid mx-2" alt="" style="height: 70px;">
+            </a>
+        </div>
+        <div class="d-flex align-items-center">
+            <div class="mx-2 d-flex align-items-center d-none d-sm-inline-block">
+                <p class="text-secondary fs-6">
+                    <h5>
+                        Welcome
+                        <strong>
+
+                            @Accessor.HttpContext.Session.GetString("fname")
+                        </strong>
+                    </h5>
+                </p>
+            </div>
+            <div class="mx-2">
+
+                <button onclick="location.href='@Url.Action("logoutSession","Provider")'" type="button"
+                        class="btn btn-outline-info text-info border-info py-2 ">
+
+                    <span class="d-none d-sm-inline-block ">Logout</span>
+                    <span class="d-inline-block d-sm-none">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </span>
+                </button>
+            </div>
+            <div class="me-2">
+
+                <button class="btn1" type="button" id="colorButton">
+                    <i class="fas fa-light fa-moon" id="moon" style="color:#37eded"></i>
+                    <i class="fa-regular fa-sun" id="sun"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <hr class="w-100 m-0 p-0 d-none d-sm-block">
+    <div class="collapse w-100 mx-sm-1 show d-sm-block" id="navbarToggleExternalContent">
+
+
+
+
+        <div class="px-3">
+            <ul class="nav nav-underline" id="myTab" role="tablist">
+               
+                 
+                    <li class="nav-item " role="presentation">
+                        <button  class="nav-link text-muted px-3 active" id="home-tab" data-bs-toggle="tab"
+                        data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
+                        aria-selected="true" onclick="location.href='@Url.Action("ProviderDashboardMain","Provider")'">
+                            Dashboard
+                        </button>
+                    </li>
+
+                
+                @*  <li class="nav-item" role="presentation">
+
+                        <button  class="nav-link text-muted px-3" id="ProviderLocation-tab" data-bs-toggle="tab"
+                                data-bs-target="#ProviderLocation-tab-pane" type="button" role="tab"
+                                aria-controls="ProviderLocation-tab-pane" aria-selected="false">
+                            Invoicing
+                        </button>
+                    </li> *@
+
+           
+
+                <li class="nav-item" role="presentation">
+                    <button  data-bs-toggle="tab" class="nav-link text-muted px-3" role="tab"
+                    aria-controls="Myprofile-tab-pane" aria-selected="true" type="button" id="Myprofile-tab" onclick="getScheduling()">
+                        My Schedule
+                    </button>
+                </li>
+
+                 
+
+               
+
+                    <li class="nav-item" role="presentation">
+                        <button  data-bs-toggle="tab" class="nav-link text-muted px-3" role="tab"
+                        aria-controls="Myprofile-tab-pane" aria-selected="true" type="button" id="Myprofile-tab" onclick="getMyProfile(@Accessor.HttpContext.Session.GetInt32("physicianId"))">
+                            My Profile
+                        </button>
+                    </li>
+
+                
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+<div id="tabContents">
+   @*  <partial name="ProviderShared/ProviderDashboardShared" /> *@
+</div>
+
+<div id="offCanvass">
+
+</div>
+
+
+
+<script>
+
+    function getContent() {
+        $.ajax({
+            method: "Get",
+            url: "/Provider/ProviderDashboardShared",
+            traditional: true,
+            contentType: "application/json",          
+            success: function (result) {
+                $('#tabContents').html(result);
+            },
+            error: function () {
+                alert("error");
+            },
+        });
+    }
+
+    getContent();
+
+
+
+
+
+
+
+
+   
+    function getScheduling() {
+        $.ajax({
+            method: "Get",
+            url: "/Provider/SchedulingShared",
+            traditional: true,
+            contentType: "application/json",
+            success: function (result) {
+                $('#tabContents').html(result);
+            },
+            error: function () {
+                alert("error");
+            },
+        });
+    }
+
+
+    function getMyProfile(PhyId){
+        $.ajax({
+            method: "Get",
+            url: "/Provider/editProviderr",
+            traditional: true,
+            contentType: "application/json",
+            data: { PhyId :PhyId},
+            success: function (result) {
+                $('#tabContents').html(result);
+            },
+            error: function () {
+                alert("error");
+            },
+        });
+    }
+
+
+
+</script>

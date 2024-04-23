@@ -1,0 +1,225 @@
+﻿@model Data_Layer.CustomModels.ProviderMenucm;
+
+
+<style>
+    .form-check-input:checked {
+        background-color: #0dcaf0 !important;
+        border-color: #0dcaf0 !important;
+    }
+</style>
+
+
+<div class="container-fluid mt-4">
+    <h4 class="mb-4">Provider Information</h4>
+
+    <div class="border rounded shadow p-3 mb-3">
+        <div class="d-md-flex justify-content-between align-items-center mb-3">
+            <div class="mb-2" style="width:200px">
+               
+                <select class="form-select cancel-options" id="region"
+                        aria-label="Floating label select example" onchange="sortProviderMenu(this.value)" >
+                   
+                    <option selected value="0">All</option>
+                  @foreach(var item in Model.Region){
+                        <option value="@item.Regionid" >@item.region</option>
+                  }
+                </select>        
+            </div>
+            <div class="d-flex justify-content-center  mb-3">
+
+                <button onclick="location.href='@Url.Action("createProviderAcc","Admin",new{flag=1,filterRole=1})'" type="button" class="btn btn-info text-light ">Create Provider Account</button>
+            </div>
+        </div>
+   
+
+        <div id="providerMenuContent">
+            <partial name="providerMenuShared" />
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+
+<div class="modal fade " id="contactProvider" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header " style="background-color:#0dcaf0">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Contact Your Provider</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close" style="color:white"></button>
+            </div>
+            <form  id="ContactProviderFormm" onsubmit="send()">
+                <div class="modal-body ">
+
+                    @*   <input hidden class="reqId" type="text" value="" id="id" name="id" /> *@
+
+                    <input class="email" asp-for="Email" type="text" hidden />
+                    <input class="phyID" asp-for="Physicianid" type="text" hidden/>
+                    <input type="text" id="Radio" value="" asp-for="Radio" hidden>
+
+                    <p>Choose communication to send message</p>
+
+                    <div class="form-check">
+                        <input style="cursor:pointer;border: 1px solid #918b8b" class="form-check-input smsMsg" value="1" type="radio" name="ContactRadio" id="SMS">
+                        <label class="form-check-label cursor-pointer" for="SMS">
+                            <span style="cursor:pointer">SMS</span>
+                        </label>
+                    </div>
+
+                    <div class="form-check" >
+                        <input style="cursor:pointer;border: 1px solid #918b8b" class="form-check-input" value="2" type="radio" name="ContactRadio" id="Email" checked>
+                        <label class="form-check-label" for="Email">
+                            <span style="cursor:pointer">Email</span>
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input style="cursor:pointer;border: 1px solid #918b8b" class="form-check-input" value="3" type="radio" name="ContactRadio" id="Both">
+                        <label class="form-check-label cursor-pointer" for="Both">
+                            <span style="cursor:pointer">Both</span>
+                        </label>
+                    </div>
+
+                    <div class="form-floating mt-3">
+                        <textarea asp-for="notes"  class="form-control description" placeholder="Leave a comment here" id="note" style="height: 100px"></textarea>
+                        <label for="floatingTextarea2" class="input">Description</label>
+                        <span asp-validation-for="notes" class="text-danger"></span>
+                    </div>
+            
+                </div>
+                <div class="modal-footer">
+                    @* <button type="button" id="cancelCase" class="btn btn-info text-white">Confirm</button> *@
+                    <button  class="btn btn-info text-white" type="submit">Send</button>
+                    <button type="button" class="btn btn-outline-info"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+
+    
+
+
+    function sortProviderMenu(regionId){
+        $.ajax({
+            url: "/Admin/providerMenuShared",
+            type: "GET",
+            data: { regionId: regionId },
+            success: function (result) {
+                $('#providerMenuContent').html(result);
+            },
+            error: function () {
+                alert('error loading partial view');
+            }
+        })
+    }
+
+
+
+
+
+    $(".contact-btn").click(function () {
+        $(".email").val($(this).data("email"));
+        $(".phyID").val($(this).data("phyid"));
+
+    });
+
+
+    // $("#SMS").click(function () {
+    //     document.getElementById("smsMsg").style.display = "block";
+    //     document.getElementById("emaill").style.display = "none";      
+    // });
+
+    // $("#Email").click(function () {
+    //     document.getElementById("emaill").style.display = "block";
+    //     document.getElementById("smsMsg").style.display = "none";
+       
+    // });
+
+    // $("#Both").click(function () {
+    //     document.getElementById("emaill").style.display = "block";
+    //     document.getElementById("smsMsg").style.display = "block";
+    // });
+
+
+    
+    //POST
+    function send() {
+       
+        debugger;
+        var contactType = $('input[name="ContactRadio"]:checked').val();
+      
+        $('#Radio').val(contactType);
+
+        // var mail = document.querySelector("#emaill").value;
+        // var note = document.querySelector("#note").value;
+        // var id = document.querySelector("#phy").value;
+        
+
+       
+        // if ($("#ContactProviderForm").valid()) {
+        $.ajax({
+            method: "POST",
+            url: "/Admin/contactProvider",
+            data: $('#ContactProviderFormm').serialize(),
+            success: function () {
+                toastr.success("Message Sent Successfully");
+            }
+
+        }).done(function (html) {
+            location.reload();
+            
+        });
+        // }
+
+    }
+
+
+   function stopNotification(phyId){
+       $.ajax({
+           url: "/Admin/stopNotification",
+           type: "POST",
+           data: { phyId: phyId },
+           success: function (result) {
+               console.log(result);
+               if (result.indicate == true) {
+                   toastr.success("Notification Off Successfully");
+               }
+               else {
+                   toastr.success("Notification On Successfully");
+               }
+           },
+       });
+    }
+
+
+    var dash = document.getElementById("home-tab");
+    var providerLoc = document.getElementById("ProviderLocation-tab");
+    var profile = document.getElementById("Myprofile-tab");
+    var provider = document.getElementById("Providers-tab");
+    var partner = document.getElementById("Partners-tab");
+    var access = document.getElementById("Access-tab");
+    var records = document.getElementById("Records-tab");
+
+    dash.classList.remove("active");
+    providerLoc.classList.remove("active");
+    profile.classList.remove("active");
+    provider.classList.add("active");
+    partner.classList.remove("active");
+    access.classList.remove("active");
+    records.classList.remove("active");
+
+</script>

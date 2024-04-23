@@ -1,0 +1,150 @@
+﻿@model Data_Layer.CustomModels.ProviderMenucm;
+
+<style>
+    .form-check-input:checked {
+        background-color: #0dcaf0 !important;
+        border-color: #0dcaf0 !important;
+    }
+</style>
+
+<div class="container-fluid">
+    <h4 class="mb-4 mt-3">Account Access</h4>
+
+    <div class="border rounded shadow p-3">
+        <div class="d-flex justify-content-end align-items-center mb-3">
+
+            <button type="button" onclick="location.href='@Url.Action("createAccess","Admin")'" class="btn btn-outline-info">
+                <span class="d-md-block d-none">Create Access</span>
+                <span class="d-block d-md-none"><i class="fa-solid fa-plus"></i></span>
+
+            </button>
+        </div>
+        <div class="table-responsive d-lg-block d-none">
+            <table class="table">
+                <thead class="bg-body-tertiary ">
+                <thead>
+                    <tr>
+                        <th width="35%">Name</th>
+                        <th width="35%">Account Type</th>
+                        <th width="30%">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                       
+                        @foreach(var item in Model.accountAccess)
+                        {
+                            
+                        
+
+                        <tr class="align-middle">
+
+                            <td>
+                                <span class="document-name" style="color: #8f8383; font-weight: 500;">@item.Name</span>
+                            </td>
+                            <td style="color: #8f8383; font-weight: 500;">@item.Accounttype</td>
+                            <td>
+                                <button type="button" onclick="location.href='@Url.Action("editAccountAccess","Admin",new{accTypeId=item.AccounttypeId,roleId=item.Roleid})'" class="btn btn-outline-info">
+                                    Edit
+                                </button>
+                                <button type="button" onclick="location.href='@Url.Action("deleteAccount","Admin",new{roleId=item.Roleid})'" class="btn btn-outline-info">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                        }
+
+                </tbody>
+
+            </table>
+        </div>
+
+        <div class="border rounded shadow d-block d-lg-none">
+            <div class="accordion container-fluid p-0" id="accordionPanelsStayOpenExample">
+                <table class="w-100">
+                    <thead>
+                        <tr>
+                            <th class="d-none"></th>
+                            <th class="d-none"></th>
+                        </tr>
+                    </thead>
+                    @{
+                        var counter = 1;
+                    }
+                    <tbody>
+                        @foreach(var item in Model.accountAccess)
+                        {
+                            
+                      
+                        <tr class="d-flex flex-column">
+                                <td>
+                                    <h2 class="accordion-header" id="flush-heading@(counter)"></h2>
+
+                                    <div class="accordion-button collapsed d-flex flex-column pb-0" data-bs-toggle="collapse"
+                                         data-bs-target="#flush-collapse@(counter)" aria-expanded="false"
+                                         aria-controls="flush-collapse@(counter)">
+
+                                        <div class="w-100 ">
+                                            <span class="fw-bolder">
+                                           Name: @item.Name
+                                            </span>
+                                        </div>
+                                        <div class="w-100">
+                                            <div class="">
+                                                <span class="fw-bolder">Account Type: @item.Accounttype</span> 
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <div id="flush-collapse@(counter)" class="accordion-collapse collapse"
+                                         aria-labelledby="flush-heading@(counter)" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body main-flex pt-2">
+
+                                            <div class="inner-flex d-flex justify-content-start">
+                                                <button type="button" class="btn btn-outline-info " onclick="location.href='@Url.Action("editAccountAccess","Admin",new{accTypeId=item.AccounttypeId,roleId=item.Roleid})'">
+                                                    Edit
+                                                </button>
+                                                <button type="button" class="btn btn-outline-info ms-2" onclick="location.href='@Url.Action("deleteAccount","Admin",new{roleId=item.Roleid})'">
+                                                    Delete
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </td>
+                            </tr>
+                            counter++;
+                        }
+
+                        
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var dash = document.getElementById("home-tab");
+    var providerLoc = document.getElementById("ProviderLocation-tab");
+    var profile = document.getElementById("Myprofile-tab");
+    var provider = document.getElementById("Providers-tab");
+    var partner = document.getElementById("Partners-tab");
+    var access = document.getElementById("Access-tab");
+    var records = document.getElementById("Records-tab");
+
+    dash.classList.remove("active");
+    providerLoc.classList.remove("active");
+    profile.classList.remove("active");
+    provider.classList.remove("active");
+    partner.classList.remove("active");
+    access.classList.add("active");
+    records.classList.remove("active");
+
+</script>

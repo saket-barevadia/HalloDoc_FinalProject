@@ -1,0 +1,154 @@
+﻿@model Data_Layer.CustomModels.ProviderDashboardcm;
+
+
+
+
+
+
+<div class="tab-pane fade show active mt-5" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+     tabindex="0">
+
+    <div class="container-fluid">
+        <div class="row nav mb-3" id="myTab" role="tablist">
+
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 col-6 mb-3 nav-item" role="presentation">
+                <div class="border rounded p-1 p-sm-3 active new" id="new-tab" onclick="newTable(1)" data-bs-toggle="tab"
+                     data-bs-target="#new-tab-pane" type="button" role="tab" aria-controls="new-tab-pane"
+                     aria-selected="true">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-regular fa-star"></i>
+                        <h6 class="px-1 m-0">New</h6>
+                    </div>
+                    <div class="ps-1 pt-3">
+                        <h4>
+                            @{
+                                var countNew = Model.patientDatas.Count(r => r.Status == 1);
+                            }
+                            @countNew
+                        </h4>
+                    </div>
+                </div>
+                <div class="triangle " id="triangle1"></div>
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 mb-3 col-6" role="presentation">
+                <div class="border rounded p-1 p-sm-3 Pending" id="Pending-tab" onclick="newTable(2)" data-bs-toggle="tab"
+                     data-bs-target="#Pending-tab-pane" type="button" role="tab" aria-controls="Pending-tab-pane"
+                     aria-selected="false">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-regular fa-user"></i>
+                        <h6 class="px-1 m-0">Pending</h6>
+                    </div>
+                    <div class="ps-1 pt-3">
+                        <h4>
+                            @{
+                                var countPending = Model.patientDatas.Count(r => r.Status == 2);
+                            }
+                            @countPending
+                        </h4>
+                    </div>
+
+                </div>
+                <div class="triangle " id="triangle2"></div>
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 mb-3 col-6" role="presentation">
+                <div class="border rounded p-1 p-sm-3 Active" id="Active-tab" onclick="newTable(4,1)" data-bs-toggle="tab"
+                     data-bs-target="#Active-tab-pane" type="button" role="tab" aria-controls="Active-tab-pane"
+                     aria-selected="false">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-regular fa-circle-check"></i>
+                        <h6 class="px-1 m-0">Active</h6>
+                    </div>
+                    <div class="ps-1 pt-3">
+                        <h4>
+                            @{
+                                var countActive = Model.patientDatas.Count(r => r.Status == 4 || r.Status == 5);
+                            }
+                            @countActive
+                        </h4>
+                    </div>
+                </div>
+                <div class="triangle " id="triangle3"></div>
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-6 mb-3 col-6" role="presentation">
+                <div class="border rounded p-1 p-sm-3 Conclude" id="Conclude-tab" onclick="newTable(6)" data-bs-toggle="tab"
+                     data-bs-target="#Conclude-tab-pane" type="button" role="tab" aria-controls="Conclude-tab-pane"
+                     aria-selected="false">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-regular fa-clock"></i>
+                        <h6 class="px-1 m-0">Conclude</h6>
+                    </div>
+                    <div class="ps-1 pt-3">
+                        <h4>
+                            @{
+                                var countConclude = Model.patientDatas.Count(r => r.Status == 6);
+                            }
+                            @countConclude
+                        </h4>
+                    </div>
+                </div>
+                <div class="triangle " id="triangle4"></div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <div id="tableContentt">
+
+    </div>
+
+    
+    
+
+</div>
+
+
+
+
+<script>
+
+
+    function getTable(status) {
+        $.ajax({
+            method: "Get",
+            url: "/Provider/ProviderTable",
+            traditional: true,
+            contentType: "application/json",
+            data: { status: status },
+            success: function (result) {
+                $('#tableContentt').html(result);
+            },
+            error: function () {
+                alert("error");
+            },
+        });
+    };
+
+    getTable(1);
+
+
+
+    function newTable(status,flag) {
+        $.ajax({
+            method: "Get",
+            url: "/Provider/ProviderTable",
+            traditional: true,
+            contentType: "application/json",
+            data: { status: status,flag:flag },
+            success: function (result) {
+                $('#tableContentt').html(result);
+            },
+            error: function () {
+                alert("error");
+            },
+        });
+    };
+
+   
+  
+</script>

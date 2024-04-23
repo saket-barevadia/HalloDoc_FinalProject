@@ -1,0 +1,329 @@
+﻿@* <script src="~/js/darkmode.js" defer></script> *@
+
+@model Data_Layer.CustomModels.viewCaseCm;
+
+
+ <link href="~/css/Admin/adminDashboard.css" rel="stylesheet" type="text/css" />
+
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<div class="container" id="caseee">
+<div class="d-flex justify-content-between align-items-center mt-3">
+    @{
+        var bgColor = "";
+        var type = "";
+
+        if (Model.Requesttypeid == 1)
+        {
+            type = "Patient";
+            bgColor = "rgb(93 187 93)";
+        }
+        else if (Model.Requesttypeid == 2)
+        {
+            type = "Family/Friend";
+            bgColor = "rgb(255 143 33)";
+        }
+        else if (Model.Requesttypeid == 3)
+        {
+            type = "Concierge";
+            bgColor = "rgb(31 161 211)";
+        }
+        else
+        {
+            type = "Business";
+            bgColor = "rgb(233 166 204)";
+        }
+
+
+
+        if (Model.Status == 1)
+        {
+            <h3 class=" font">New Request <span style="background-color:@bgColor;color:white;border-radius:10px;font-size:16px;padding:2px 6px;margin-top:5px;">@type</span></h3>
+        }
+        else if (Model.Status == 2)
+        {
+            <h3 class=" font">Pending Request <span style="background-color:@bgColor;color:white;border-radius:10px;font-size:16px;padding:2px 6px">@type</span></h3>
+        }
+        else if(Model.Status==4 || Model.Status == 5)
+        {
+            <h3 class=" font">Active Request <span style="background-color:@bgColor;color:white;border-radius:10px;font-size:16px;padding:2px 6px">@type</span></h3>
+        }
+        else if (Model.Status == 6)
+        {
+            <h3 class=" font">Conclude Request <span style="background-color:@bgColor;color:white;border-radius:10px;font-size:16px;padding:2px 6px">@type</span></h3>
+        }
+        else if(Model.Status==3 || Model.Status==7 || Model.Status == 4)
+        {
+            <h3 class=" font">ToClose Request <span style="background-color:@bgColor;color:white;border-radius:10px;font-size:16px;padding:2px 6px">@type</span></h3>
+        }
+        else if (Model.Status == 9)
+        {
+            <h3 class=" font">Unpaid Request <span style="background-color:@bgColor;color:white;border-radius:10px;font-size:16px;padding:2px 6px">@type</span></h3>
+        }
+    }
+
+    @if(@Model.flag==0){
+        <a asp-action="dashboard" asp-controller="Admin">
+            <button type="button" class="btn btn-outline-info" id="btnOne">
+                <i class="fa-solid fa-less-than size"></i>
+                <span class="size">Back</span>
+            </button>
+        </a>
+    }
+        @if (Model.flag == 1)
+        {
+            <a asp-action="patientRecord" asp-route-userId="@Model.userId" asp-controller="Admin">
+                <button type="button" class="btn btn-outline-info" id="btnTwo">
+                    <i class="fa-solid fa-less-than size"></i>
+                    <span class="size">Back</span>
+                </button>
+            </a>
+        }
+
+        <input type="hidden" id="flagflag" asp-for="@Model.flag" />
+
+</div>
+
+
+    <div class="container mt-5 mb-5 border shadow rounded">
+    <h4 class="mt-3 font">Patient Information</h4>
+    <p class="mt-4 mb-0">Confirmation Number</p>
+    @{if(Model.Confirmationnumber!=null){
+                <h5 style="color:#18d7d7">@Model.Confirmationnumber</h5>
+            }
+            else
+            {
+                <h5 style="color:#18d7d7"></h5>
+            }
+        }
+    <form method="post" enctype="multipart/form-data" class="">
+    <input asp-for="Requestid" type="text" hidden/>
+        <div class="form-floating mt-3">
+            <input asp-for="Notes"  type="text" class="form-control" style="height: 90px;" id="floatingInputGroup2"
+                   placeholder="Username" required disabled>
+            <label for="floatingInputGroup2" class="absolute">
+                <span class="input">
+                    Enter Breif Details Of Symptoms
+                    <span class="optional">(Optional)</span>
+                </span>
+            </label>
+            <span asp-validation-for="Notes" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mt-3">
+                <div class="form-floating">
+                    <input asp-for="Firstname" type="text" class="form-control" id="floatingInputGroup2" placeholder="Username"
+                               required disabled>
+                    <label for="floatingInputGroup2"><span class="input">First Name</span></label>
+                        <span asp-validation-for="Firstname" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6 mt-3">
+                <div class="form-floating">
+                    <input asp-for="Lastname" type="text" class="form-control" id="floatingInputGroup2" placeholder="Username"
+                               required disabled>
+                    <label for="floatingInputGroup2"><span class="input">Last Name</span></label>
+                        <span asp-validation-for="Lastname" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6 mt-3">
+                <div class="form-floating">
+                        <input asp-for="Date" type="date" class="form-control" id="DateOfBirth" placeholder="Username"
+                               required disabled>
+                    <label for="floatingInputGroup2"><span class="input">Date Of Birth</span></label>
+                        <span asp-validation-for="Date" class="text-danger"></span>
+                </div>
+            </div>
+                <div class="col-md-6 mt-3">
+            <div class="d-flex">
+                        <input asp-for="Phonenumber" id="phone" class="form-control country" placeholder="" aria-label="Contact" type="tel" disabled>
+                
+                    <button type="button" class="btn btn-outline-info"><i class="fa-solid fa-phone"></i></button>
+                    
+            </div>
+                    <span asp-validation-for="Phonenumber" class="text-danger"></span>
+                </div>
+                
+            <div class="col-md-6 mt-3">
+                <div class="form-floating">
+                    <input asp-for="Email" onblur="checkEmailAvailibility()" type="email" class="form-control fetchEmail" id="emailMain" placeholder="Username"
+                               required disabled>
+                    <label for="floatingInputGroup2"><span class="input">Email</span></label>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+                @*<div class="col-md-6 mt-3">
+                    <button type="submit" class="btn btn-outline-info d-flex justify-content-center align-items-center" style="height: 100%; width: 15%;">
+                        Edit
+                    </button>
+                </div>*@
+
+
+
+        </div>
+
+
+        <h4 class="mt-4 font">Location Information</h4>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-floating mt-3">
+                    <input asp-for="State" type="text" class="form-control" id="floatingInputGroup2" placeholder="Username"
+                               required disabled>
+                    <label for="floatingInputGroup2"><span class="input">Region</span></label>
+                        <span asp-validation-for="State" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-floating mt-3 d-flex">
+                    <input asp-for="Address" type="text" class="form-control" id="floatingInputGroup2" placeholder="Username"
+                               required disabled>
+                    <label for="floatingInputGroup2"><span class="input">Business Name/Address</span></label>
+                       @*  <button type="button" class="btn btn-outline-info"><i class="fa-solid fa-map-pin"></i></button> *@
+                        <a type="button" class="dclass btn btn-outline-info border-info p-3 text-info"
+                           href="https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString(@Model.Address).ToString()}"
+                           ;" target="_blank" onclick="map_init()">
+                            <i class="fa-solid fa-map-pin"></i>
+                        </a>
+                </div>
+                    <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+           
+            <div class="col-md-6">
+                <div class="form-floating mt-3 mb-4">
+                    <input type="text" class="form-control" id="floatingInputGroup2" placeholder="Username"
+                               required disabled>
+                    <label for="floatingInputGroup2"><span class="input">Room #</span></label>
+                </div>
+            </div>
+        </div>
+
+            <div class="d-flex justify-content-end">
+                @if (Model.Status == 1 && Model.PhysicianId==null)
+                {
+                    <button onclick="assignCase(@Model.Requestid)" type="button" class="btn btn-primary mb-3 me-3">Assign</button>
+                }
+                @if (@Model.flag == 0)
+                {
+                    <button onclick="location.href='@Url.Action("viewNotes", "Admin",new{id=Model.Requestid} )'" type="button" class="btn btn-primary mb-3 me-3">View Notes</button>
+                }          
+                @if (@Model.flag == 1)
+                {
+                    <button onclick="location.href='@Url.Action("viewNotes", "Admin",new{id=Model.Requestid,flag=1} )'" type="button" class="btn btn-primary mb-3 me-3">View Notes</button>
+                }
+                @if (Model.Status == 1)
+                {
+            <button data-bs-toggle="modal"
+                        data-bs-target="#newRequestModal" data-id="@Model.Requestid" data-name="@Model.Firstname" type="button" class="btn btn-danger mb-3 cancel-btn">
+                Cancel
+            </button>
+                }
+            </div>
+
+       
+    </form>
+    </div>
+        </div>
+
+
+<div>
+    <div class="footer">
+        <p class="para">Terms of Conditions &nbsp; | &nbsp; Privacy Policy</p>
+    </div>
+</div>
+
+@section scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+            }
+
+
+<partial name="cancelCase" />
+
+<script>
+
+    // Cancel Case
+
+    $(".cancel-btn").click(function () {
+        $(".reqId").val($(this).data("id"));
+        $(".name").html($(this).data("name"));
+
+
+        $.ajax({
+            url: "/Admin/cancelCase",
+            type: "GET",
+            success: function (data) {
+                $("#floatingSelect").empty();
+                // Assuming data is an list of reasons
+                data.forEach(function (reason) {
+                    console.log(reason)
+                    $("#floatingSelect").append(
+                        '<option value="' + reason.casetagid + '">' +
+                        reason.name +
+                        "</option>"
+                    );
+                });
+            },
+            error: function (error) {
+                console.error(error);
+            },
+        });
+
+
+    });
+
+    // Date Validation
+
+    const currentDate = new Date().toISOString().split('T')[0];
+
+    document.getElementById('DateOfBirth').setAttribute('max', currentDate);
+
+
+
+                    const phoneInputField = document.querySelector("#phone");
+        const phoneInput = window.intlTelInput(phoneInputField, {
+            utilsScript:
+                "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        });
+
+    if (document.getElementById("flagflag").value == 0) {
+        var dash = document.getElementById("home-tab");
+        var providerLoc = document.getElementById("ProviderLocation-tab");
+        var profile = document.getElementById("Myprofile-tab");
+        var provider = document.getElementById("Providers-tab");
+        var partner = document.getElementById("Partners-tab");
+        var access = document.getElementById("Access-tab");
+        var records = document.getElementById("Records-tab");
+
+        dash.classList.add("active");
+        providerLoc.classList.remove("active");
+        profile.classList.remove("active");
+        provider.classList.remove("active");
+        partner.classList.remove("active");
+        access.classList.remove("active");
+        records.classList.remove("active");
+    }
+
+    if (document.getElementById("flagflag").value == 1) {
+        var dash = document.getElementById("home-tab");
+        var providerLoc = document.getElementById("ProviderLocation-tab");
+        var profile = document.getElementById("Myprofile-tab");
+        var provider = document.getElementById("Providers-tab");
+        var partner = document.getElementById("Partners-tab");
+        var access = document.getElementById("Access-tab");
+        var records = document.getElementById("Records-tab");
+
+        dash.classList.remove("active");
+        providerLoc.classList.remove("active");
+        profile.classList.remove("active");
+        provider.classList.remove("active");
+        partner.classList.remove("active");
+        access.classList.remove("active");
+        records.classList.add("active");
+    }
+
+</script>

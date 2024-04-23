@@ -1,0 +1,235 @@
+﻿@model Data_Layer.CustomModels.ViewUploads;
+
+@{
+    ViewData["Title"] = "View Uploads";
+}
+
+<link href="~/css/Admin/adminDashboard.css" rel="stylesheet" type="text/css" />
+
+
+<div class="container border shadow rounded" style="margin-top:50px;margin-bottom:50px">
+    <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+        <h5 class="mt-3 font">Documents</h5>
+
+        <a asp-action="ProviderDashboardMain" asp-controller="Provider">
+            <button type="button" class="btn btn-outline-info">
+                <i class="fa-solid fa-less-than size"></i>
+                <span class="size">Back</span>
+            </button>
+        </a>
+        
+
+        
+
+    </div>
+
+    <p class="mb-0">Patient Name</p>
+
+
+    <h5 style="color:#15e5e5">@Model.fullName<span style="font-size:15px;color: #8f8383; font-weight: 400;">(@Model.Confirmationnumber)</span></h5>
+
+
+    <p class="input">Check here to review and add files that you or the Client/Member has attached to the Request.</p>
+
+
+    <form onsubmit="viewUploadPost(@Model.Requestid)" method="post" enctype="multipart/form-data" id="uploadForm" class="mt-4">
+        <div class="input-group mb-3">
+            <input type="text" asp-for="@Model.Requestid" value="@Model.Requestid" hidden/>
+           
+            <input asp-for="@Model.Upload" type="file" class="form-control" id="inputGroupFile02">
+            <button type="submit" class="input-group-text " style="color:white; background-color:#15e5e5" for="inputGroupFile02">
+                <i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;<span class="remove">Upload</span>
+            </button>
+
+
+        </div>
+        <span asp-validation-for="Upload" class="text-danger"></span>
+    </form>
+
+
+
+    <div class="d-flex align-items-center justify-content-between mt-4 flex-d">
+        <h4>Documents</h4>
+        <div class="d-flex">
+            <button class="btn btn-outline-info downloadAll button-back me-2"><span class="font-back"> Download All</span></button>
+            <button class="btn btn-outline-info deleteAll button-back me-2"><span class="font-back">Delete All</span></button>
+
+            <form method="post" onsubmit="sendMail(@Model.Requestid)" id="sendMailForm" enctype="multipart/form-data">
+                <input type="hidden" asp-for="@Model.Requestid" value="@Model.Requestid" />
+                
+                <button type="submit" class="btn btn-outline-info button-back"><span class="font-back">Send Mail</span></button>
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <table class="table d-none d-md-table" style=" margin-top:80px">
+        <thead class="table-light">
+
+            <tr>
+                <th class="" width="60%">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" class="check" id="checkAll">
+                        </label>
+                    </div>
+                </th>
+                <th class="" width="20%">Upload Date <i class="fa-solid fa-arrow-up"></i></th>
+                <th class="" width="20%">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var obj in Model.documents)
+            {
+                <tr>
+                    <td>
+                        <div class="checkbox d-flex">
+                            <label>
+                                <input type="checkbox" class="check fileCheckbox">
+                            </label>
+                            <span class="ps-3" style="color:#eb4343"><i class="fa-solid fa-file"></i></span>
+                            <p class="ps-3 font-back" style="color: #8f8383; font-weight: 500;">@obj.Filename</p>
+                        </div>
+                    </td>
+
+                    <td class=" font-back" style="color: #8f8383; font-weight: 500;">@obj.Createddate</td>
+
+
+                    <td class="btn-action">
+                        <a type="button" href="~/Documents/@obj.Filename" download="@obj.Filename" class="btn btn-outline-info download-btn"><i class="fa-solid fa-cloud-arrow-down"></i></a>
+                        <button type="button" onclick="deleteFile(@obj.Requestwisefileid,@Model.Requestid)" class="btn btn-outline-info delete-btn"><i class="fa-solid fa-trash-can"></i></button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+    @foreach (var item in Model.documents)
+    {
+
+        <div class="d-block d-md-none mt-3 mb-2">
+
+            <div class="d-flex ms-2">
+                <span class="" style="color:#eb4343"><i class="fa-solid fa-file"></i></span>
+                <p class="ps-3 ">@item.Filename</p>
+            </div>
+            <p class="ms-2">@item.Createddate</p>
+            <a type="button" href="~/Documents/@item.Filename" download="@item.Filename" class="btn btn-outline-info download-btn"><i class="fa-solid fa-cloud-arrow-down"></i></a>
+            <button type="button" onclick="deleteFile(@item.Requestwisefileid,@Model.Requestid)" class="btn btn-outline-info delete-btn"><i class="fa-solid fa-trash-can"></i></button>
+            <hr />
+        </div>
+
+
+
+    }
+
+
+</div>
+
+<div>
+    <div class="footer" style="position:fixed;bottom:0">
+        <p class="para">Terms of Conditions &nbsp; | &nbsp; Privacy Policy</p>
+    </div>
+</div>
+
+
+
+@section scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+            }
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js" defer></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.js" defer></script>
+
+
+<script>
+    $("#checkAll").click(function () {
+        $(".check").prop('checked', $(this).prop('checked'));
+    });
+
+
+    $('.downloadAll').click(function () {
+        $('.fileCheckbox:checked').each(function () {
+            var filePath = $(this).closest('tr').find('.download-btn')[0].click();
+        });
+    });
+
+    $('.deleteAll').click(function () {
+        $('.fileCheckbox:checked').each(function () {
+            var filePath = $(this).closest('tr').find('.delete-btn')[0].click();
+        });
+    });
+
+
+    function viewUploadPost(id) {
+        event.preventDefault();
+        var formdata = new FormData($("#uploadForm")[0]);
+        if ($('#uploadForm').valid()) {
+            $.ajax({
+                method: "POST",
+                url: "/Provider/ViewUploads",
+                processData: false,
+                contentType: false,
+                data: formdata,
+                success: function () {
+
+                    toastr.success("File Uploaded Successfully");
+                    viewUploads(id)
+                },
+                error: function () {
+                    toastr.error("Something Went Wrong");
+                }
+            });
+        }
+    }
+
+
+    function sendMail(id) {
+        event.preventDefault();      
+        if ($('#sendMailForm').valid()) {
+            $.ajax({
+                method: "POST",
+                url: "/Provider/sendEmail",
+                
+                data: $("#sendMailForm").serialize(),
+                success: function () {
+
+                    toastr.success("Email Sent Successfully");
+                    viewUploads(id)
+                },
+                error: function () {
+                    toastr.error("Something Went Wrong");
+                }
+            });
+        }
+    }
+
+
+
+    function deleteFile(id,reqId) {
+        event.preventDefault();      
+       
+            $.ajax({
+            method: "POST",
+            url: "/Provider/delete",
+            data: { id: id, reqId: reqId },
+                success: function () {
+
+                    toastr.success("File Deleted Successfully");
+                    viewUploads(reqId)
+                },
+                error: function () {
+                    toastr.error("Something Went Wrong");
+                }
+            });
+        
+    }
+
+</script>

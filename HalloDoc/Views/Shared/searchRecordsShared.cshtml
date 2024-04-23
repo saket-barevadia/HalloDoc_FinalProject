@@ -1,0 +1,365 @@
+﻿@model Data_Layer.CustomModels.patientRecordscm;
+
+@functions {
+    public string GetStatusName(int status)
+    {
+        switch (status)
+        {
+            case 1: return "Unassigned";
+            case 2: return "Accepted";
+            case 3: return "Cancelled";
+            case 4: return "Active";
+            case 5: return "Active";
+            case 6: return "Conclude";
+            case 7: return "Cancelled By Patient";
+            case 8: return "Closed";
+            case 9: return "Unpaid";
+            case 10: return "Clear";
+            default: return "-";
+        }
+    }
+}
+
+
+<div class="table-responsive container-fluid d-lg-block d-none" id="tableParentDiv">
+    <table class="table adminTable" >
+
+        <thead class="align-middle">
+            <tr style="font-size:15px">
+                <th hidden>requestId</th>
+                <th>Patient <br /> Name</th>
+                <th>Requestor</th>
+                <th>Date Of <br />Service</th>
+                <th>Close Case <br />Date <span class="ms-2"><i class="fa-solid fa-arrow-down"></i></span></th>
+                <th>Email</th>
+                <th>Phone<br /> Number</th>
+                <th>Address</th>
+                <th>Zip</th>
+                <th>Request<br /> Status</th>
+                <th>Physician</th>
+                <th>Physician<br /> Note</th>
+                <th>Cancelled <br />By Provider<br /> Note</th>
+                <th>Admin<br /> Note</th>
+                <th>Patient<br /> Note</th>
+                <th>Delete Permanently</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.patientDetail)
+            {
+
+
+
+                <tr class="align-middle">
+                    <td hidden>@item.Requestid</td>
+                    <td style="color: #8f8383; font-weight: 500;">@item.patientName</td>
+                    @if (item.RequestTypeid == 1)
+                    {
+                        <td style="color: #8f8383; font-weight: 500;">Patient</td>
+                    }
+                    @if (item.RequestTypeid == 2)
+                    {
+                        <td style="color: #8f8383; font-weight: 500;">Family/Friend</td>
+                    }
+                    @if (item.RequestTypeid == 3)
+                    {
+                        <td style="color: #8f8383; font-weight: 500;">Concierge</td>
+                    }
+                    @if (item.RequestTypeid == 4)
+                    {
+                        <td style="color: #8f8383; font-weight: 500;">Business</td>
+                    }
+
+                    <td style="color: #8f8383; font-weight: 500;">@item.Createddate</td>
+                    <td style="color: #8f8383; font-weight: 500;">@item.closeCaseDate</td>
+                    <td style="color: #8f8383; font-weight: 500;">@item.Email</td>
+                    <td style="color: #8f8383; font-weight: 500;">@item.Phonenumber</td>
+                    <td style="color: #8f8383; font-weight: 500;">@item.Address</td>
+                    <td style="color: #8f8383; font-weight: 500;">@item.Zip</td>
+                    <td style="color: #8f8383; font-weight: 500;">@GetStatusName(item.Status)</td>
+
+
+
+
+
+
+                    <td style="color: #8f8383; font-weight: 500;">@item.physician</td>
+                    <td style="color: #8f8383; font-weight: 500;">@item.PhysicianNote</td>
+                    <td style="color: #8f8383; font-weight: 500;">@item.CancelledNote</td>
+                    <td style="color: #8f8383; font-weight: 500;">@item.AdminNote</td>
+                    <td style="color: #8f8383; font-weight: 500;">@item.PatientNote</td>
+                    <td>
+                        <form method="post" asp-action="deletePermanently" asp-controller="Admin" asp-route-requestId="@item.Requestid">
+                        <button type="submit" class="btn btn-outline-info">
+                            Delete
+                        </button>
+                        </form>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+
+    </table>
+</div>
+
+
+
+<div class="border rounded shadow d-block d-lg-none">
+    <div class="accordion container-fluid p-0 " id="accordionPanelsStayOpenExample">
+        <table class="w-100 adminTable">
+            <thead>
+                <tr>
+                    <th hidden>req</th>
+                    <th class="d-none"></th>
+                    <th class="d-none"></th>
+                </tr>
+            </thead>
+            @{
+                var counter = 1;
+            }
+            <tbody>
+                @foreach (var item in Model.patientDetail)
+                {
+
+                    
+                    <tr class="d-flex flex-column">
+                        <td hidden>@item.Requestid</td>
+                        <td>
+                            <h2 class="accordion-header" id="flush-heading@(counter)"></h2>
+
+                            <div class="accordion-button collapsed d-flex flex-column pb-0" data-bs-toggle="collapse"
+                                 data-bs-target="#flush-collapse@(counter)" aria-expanded="false"
+                                 aria-controls="flush-collapse@(counter)">
+
+                                <div class="w-100 ">
+                                    <span class="fw-bolder">
+                                        @item.patientName
+                                    </span>
+                                </div>
+                             
+
+                            </div>
+
+                        </td>
+                        <td>
+                            <div id="flush-collapse@(counter)" class="accordion-collapse collapse"
+                                 aria-labelledby="flush-heading@(counter)" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body main-flex pt-2">
+
+                                    <div class="inner-flex">
+                                        <i class="fa-regular fa-user me-2"></i>
+                                        <span class="accordion-heading-inner">
+
+                                           
+
+                                            <b>Requestor:</b>
+                                            @if (item.RequestTypeid == 1)
+                                            {
+                                                <span class="accordion-value-inner">
+                                                   Patient
+                                                </span>
+                                            }
+                                            @if (item.RequestTypeid == 2)
+                                            {
+                                                <span class="accordion-value-inner">
+                                                    Family/Friend
+                                                </span>
+                                            }
+                                            @if (item.RequestTypeid == 3)
+                                            {
+                                                <span class="accordion-value-inner">
+                                                   Concierge
+                                                </span>
+                                            } 
+                                            @if (item.RequestTypeid == 4)
+                                            {
+                                                <span class="accordion-value-inner">
+                                                   Business
+                                                </span>
+                                            }
+                                        </span>
+                                    </div>
+                                    <div class="inner-flex">
+
+                                        <span class="accordion-heading-inner">
+                                            <i class="fa-solid fa-calendar-days me-2"></i>
+                                            <b>Date Of Service:</b>
+                                            <span class="accordion-value-inner">
+                                               -
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="inner-flex">
+                                        <i class="fa-solid fa-calendar-days me-2"></i>
+                                        <span class="accordion-heading-inner me-2">
+                                            <b>Case Closed Date:</b>
+                                            <span class="accordion-value-inner">
+                                                -
+                                            </span>
+                                        </span>
+                                    </div>
+                                      <div class="inner-flex">
+                                        <i class="fa-regular fa-envelope me-2"></i>
+                                        <span class="accordion-heading-inner">
+                                            <b>Email:</b>
+                                            <span class="accordion-value-inner">
+                                                @item.Email
+                                            </span>
+                                        </span>
+                                    </div>
+                                      <div class="inner-flex">
+                                        <i class="fa-solid fa-phone me-2"></i>
+                                        <span class="accordion-heading-inner">
+                                            <b>Phone:</b>
+                                            <span class="accordion-value-inner">
+                                                @item.Phonenumber
+                                            </span>
+                                        </span>
+                                    </div>
+                                      <div class="inner-flex">
+                                        <i class="fa-solid fa-map-pin me-2"></i>
+                                        <span class="accordion-heading-inner">
+                                            <b>Address:</b>
+                                            <span class="accordion-value-inner">
+                                                @item.Address
+                                            </span>
+                                        </span>
+                                    </div>
+                                      <div class="inner-flex">
+                                        <i class="fa-solid fa-map-pin me-2"></i>
+                                        <span class="accordion-heading-inner">
+                                            <b>ZipCode:</b>
+                                            <span class="accordion-value-inner">
+                                                @item.Zip
+                                            </span>
+                                        </span>
+                                    </div>
+                                      <div class="inner-flex">
+                                        <i class="fa-solid fa-check me-2"></i>
+                                        <span class="accordion-heading-inner">
+                                            <b>Request Status:</b>
+                                            <span class="accordion-value-inner">
+                                                @GetStatusName(item.Status)
+                                            </span>
+                                        </span>
+                                    </div>
+                                      <div class="inner-flex">
+                                        <i class="fa-solid fa-user-doctor me-2"></i>
+                                        <span class="accordion-heading-inner">
+                                            <b>Provider:</b>
+                                            <span class="accordion-value-inner">
+                                                @item.physician
+                                            </span>
+                                        </span>
+                                    </div>
+                                      <div class="inner-flex">
+                                        <i class="fa-regular fa-file-lines me-2"></i>
+                                        <span class="accordion-heading-inner">
+                                            <b>Provider Note:</b>
+                                            <span class="accordion-value-inner">
+                                                @item.PhysicianNote
+                                            </span>
+                                        </span>
+                                    </div>
+                                      <div class="inner-flex">
+                                        <i class="fa-regular fa-file-lines me-2"></i>
+                                        <span class="accordion-heading-inner">
+                                            <b>Cancelled By Provider Note:</b>
+                                            <span class="accordion-value-inner">
+                                                @item.CancelledNote
+                                            </span>
+                                        </span>
+                                    </div>
+                                      <div class="inner-flex">
+                                        <i class="fa-regular fa-file-lines me-2"></i>
+                                        <span class="accordion-heading-inner">
+                                            <b>Admin Note:</b>
+                                            <span class="accordion-value-inner">
+                                                @item.AdminNote
+                                            </span>
+                                        </span>
+                                    </div>
+                                      @* <div class="inner-flex">
+                                        <i class="fa-regular fa-file-lines me-2"></i>
+                                        <span class="accordion-heading-inner">
+                                            <b>Cancellation Reasons:</b>
+                                            <span class="accordion-value-inner">
+                                                -
+                                            </span>
+                                        </span>
+                                    </div> *@
+                                      <div class="inner-flex">
+                                        <i class="fa-regular fa-file-lines me-2"></i>
+                                        <span class="accordion-heading-inner">
+                                            <b>Patient Note:</b>
+                                            <span class="accordion-value-inner">
+                                                @item.PatientNote
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="d-flex justify-content-end mt-2">
+                                        <button class="btn btn-outline-info">
+                                            Delete Permanently
+                                        </button>
+
+                                        </div>
+                                 
+
+                                </div>
+                            </div>
+                            <hr />
+                        </td>
+
+                    </tr>
+                    counter++;
+
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+<script>
+
+    function exportBtn() {
+        // Get the HTML content of the table
+        var htmlContent = $("#tableParentDiv").html();
+        console.log(htmlContent)
+
+        // Set the modified HTML content to the input value
+        $("input[name='GridHtml']").val(htmlContent);
+    }
+
+
+    $(document).ready(function () {
+
+        $('.adminTable').DataTable({
+            "initComplete": function (settings, json) {
+
+                $('#my-search-input').val(settings.oPreviousSearch.sSearch);
+
+                $('#my-search-input').on('keyup', function () {
+                    var searchValue = $(this).val();
+                    settings.oPreviousSearch.sSearch = searchValue;
+                    settings.oApi._fnReDraw(settings);
+                });
+            },
+            "lengthMenu": [[5, 10, -1], [5, 10, "All"]],
+            "pageLength": 5,
+            "order": [[0, "desc"]],
+            language: {
+                oPaginate: {
+                    sNext: '<i class="fa-solid fa-forward text-info"></i>',
+                    sPrevious: '<i class="fa-solid fa-backward text-info"></i>'
+
+                }
+            }
+        });
+        // $('.dataTables_length').hide();
+        $('.dataTables_filter').hide();
+    });
+</script>

@@ -1,0 +1,26 @@
+﻿@model Data_Layer.CustomModels.AdminDashboardcm;
+
+<div class="modal fade" id="AcceptProvider" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body p-5">
+                <form method="post" id="AcceptProviderForm" onsubmit="AcceptRequestPost(this.value)">
+
+                    <div class="d-flex justify-content-center ">
+                        <i class="bi bi-info-circle-fill text-success d-flex justify-content-center display-3 mb-3 border border-2 border-success  rounded-circle  p-2"></i>
+                    </div>
+                    <h5 class="d-flex justify-content-center mb-3">Confirmation for Accept Request</h5>
+                    <p class="text-secondary fw-lighter text-center  mb-3">
+                        Are you sure you want to Accept this request?
+                    </p>
+
+                    <div class="mt-4 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-info text-white continue-btn mx-2">Accept</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+

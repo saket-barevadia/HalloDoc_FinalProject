@@ -1,0 +1,114 @@
+﻿@model List<Data_Layer.CustomModels.TransferRequest>;
+
+<div class="modal fade " id="newRequestModalTransfer" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header " style="background-color:#0dcaf0">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Transfer Request</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close" style="color:white"></button>
+            </div>
+            <form action="" method="post" id="cancelcaseform ">
+                <div class="modal-body ">
+
+                    @*   <input hidden class="reqId" type="text" value="" id="id" name="id" /> *@
+
+                    <p>To transfer this request, search and select another Physician.</p>
+
+                    <div class="form-floating mb-2">
+                        <select class="form-select cancel-options" name="reason" id="region"
+                                aria-label="Floating label select example" onchange="regionChange()">
+                            <option selected>Regions</option>
+                            
+                            @foreach(var item in Model)
+                            {
+                                <option value="@item.Regionid">@item.Name</option>
+                            }
+
+                        </select>
+                        <label for="floatingSelect">Narrow Search by Region</label>
+                    </div>
+
+                    <div class="form-floating mb-2">
+                        <select class="form-select cancel-options" name="reason" id="selectPhysician"
+                                aria-label="Floating label select example">
+                            <option selected>Physicians</option>
+                        </select>
+                        <label for="floatingSelect">Select Physician</label>
+                    </div>
+
+
+                    <div class="form-floating">
+                        <textarea name="note" class="form-control description" placeholder="Leave a comment here" id="" style="height: 100px"></textarea>
+                        <label for="floatingTextarea2" class="input">Description</label>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    @* <button type="button" id="cancelCase" class="btn btn-info text-white">Confirm</button> *@
+                    <button class="btn btn-info text-white" type="button" id="transferRequest">Confirm</button>
+                    <button type="button" class="btn btn-outline-info"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+                     function regionChange() {
+        var id = document.querySelector("#region").value;
+
+        console.log(id);
+
+        $.ajax({
+            url: "/Admin/getPhysician",
+            type: "GET",
+            data: {id : id},
+            success:function(data){
+                // Assuming data is an list of reasons
+                $('#selectPhysician').html("<option>" + "Physicians" + "</option");
+
+                data.forEach(function (a) {
+                    
+                    $("#selectPhysician").append(
+                        '<option value="' + a.physicianid + '">' +
+                        a.firstname +
+                        "</option>"
+                    )
+                })
+            }
+        })
+    }
+
+
+    // POST
+
+    document.getElementById("transferRequest").addEventListener("click", () => {
+
+        let regionId = document.querySelector("#region").value;
+        let physicianId = document.querySelector("#selectPhysician").value;
+        let note = document.querySelector(".description").value;
+
+
+
+        $.ajax({
+            url: "/Admin/transferRequest",
+            type: "POST",
+            data: {
+                regionId: regionId,
+                physicianId: physicianId,
+                description: note
+            }
+        }).done(function (html) {
+            location.reload();
+        });
+    })
+
+</script>

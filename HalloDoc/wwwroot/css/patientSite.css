@@ -1,0 +1,119 @@
+﻿.button {
+    /* margin-top: 12px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn1 {
+    position: absolute;
+    right: 0;
+    border: 1px solid #43bcf9;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    margin-right: 8px;
+    float: right;
+}
+    
+.inactive {
+    display: none;
+}
+
+.pBtn {
+    width: 800px;
+    height: 70px;
+    border-radius: 10px;
+    color: white;
+    font-size:30px;
+   background-color: rgb(23, 200, 245);
+   border:none;
+   margin-top:120px
+}
+.pBtn2 {
+    width: 800px;
+    height: 70px;
+    border-radius: 10px;
+    color: white;
+    font-size: 30px;
+    background-color: rgb(4,17,93);
+    border:none
+}
+
+.footer {
+    margin-bottom: 80px;
+    color: grey;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.toggled {
+    color: white;
+    background-color: black;
+}
+
+.toggler {
+    border: 1px solid white;
+    background-color: rgb(63, 62, 62);
+}
+
+.inactive {
+    display: none;
+}
+
+@media only screen and (max-width: 850px) {
+
+    .pBtn {
+        width: 400px;
+        height: 50px;
+        border-radius: 10px;
+        color: white;
+        font-size: 20px;
+        background-color: rgb(23, 200, 245);
+        border: none;
+        margin-top: 120px
+    }
+
+    .pBtn2 {
+        width: 400px;
+        height: 50px;
+        border-radius: 10px;
+        color: white;
+        font-size: 20px;
+        background-color: rgb(4,17,93);
+        border: none
+    }
+
+    .button img{
+        width:200px
+    }
+}
+@media only screen and (max-width: 430px) {
+
+    .pBtn {
+        width: 250px;
+        height: 50px;
+        border-radius: 10px;
+        color: white;
+        font-size: 15px;
+        background-color: rgb(23, 200, 245);
+        border: none;
+        margin-top: 120px
+    }
+
+    .pBtn2 {
+        width: 250px;
+        height: 50px;
+        border-radius: 10px;
+        color: white;
+        font-size: 15px;
+        background-color: rgb(4,17,93);
+        border: none
+    }
+
+    .button img {
+        width: 150px
+    }
+
+}

@@ -1,0 +1,83 @@
+﻿@model Data_Layer.CustomModels.SendAgreement;
+
+<div class="modal fade " id="SendAgreementModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header " style="background-color:#0dcaf0">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Send Agreement</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close" style="color:white"></button>
+            </div>
+            <form onsubmit="sendAgreementPost()" id="sendAgreementForm" method="post">
+                <div class="modal-body ">
+
+
+                    @{
+                        var bgColor = "abc";
+                        var type = "";
+
+                        if (Model.Requesttypeid == 1)
+                        {
+                            bgColor = "rgb(93 187 93)";
+                            type = "Patient";
+                        }
+                        else if (Model.Requesttypeid == 2)
+                        {
+                            bgColor = "rgb(255 143 33)";
+                            type = "Family/Friend";
+                        }
+                        else if (Model.Requesttypeid == 3)
+                        {
+                            bgColor = "rgb(31 161 211)";
+                            type = "Concierge";
+                        }
+                        else if (Model.Requesttypeid == 4)
+                        {
+                            bgColor = "rgb(233 166 204)";
+                            type = "Business";
+                        }
+                    }
+
+                    <div class="d-flex align-items-center">
+                        <i class="fa-solid fa-circle" style="color:@bgColor"></i>
+                        <div class="ps-2">@type</div>
+                    </div>
+
+
+                    <p style="font-size:14px">To send Agreement please make sure you are updating the correct contact information below for the responsive party.</p>
+
+                    <input asp-for="Requestid" hidden type="text" />
+
+                    <div class="form-floating mb-2">
+                        <input asp-for="Phonenumber" type="text" class="form-control" id="floatingInputGroup2" placeholder="Username"
+                               required>
+                        <label for="floatingInputGroup2"><span class="input">Phone Number</span></label>
+                        <span asp-validation-for="Phonenumber" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-floating mb-2">
+                        <input asp-for="Email" type="email" class="form-control" id="floatingInputGroup2" placeholder="Username"
+                               required>
+                        <label for="floatingInputGroup2"><span class="input">Email</span></label>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+
+                    <button class="btn btn-info text-white" type="submit">Send</button>
+                    <button type="submit" class="btn btn-outline-info"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<partial name="_ValidationScriptsPartial" />

@@ -1,0 +1,122 @@
+﻿@model Data_Layer.CustomModels.WeekShiftModal
+
+<div class="table-responsive rounded">
+    <table class="table" style="width:100%;z-index:5">
+        <thead class="dayshiftheader">
+            <tr style="background-color: lightgray;">
+                <th class="text-center">STAFF</th>
+                <th class="text-center">SUN</th>
+                <th class="text-center">MON</th>
+                <th class="text-center">TUE</th>
+                <th class="text-center">WED</th>
+                <th class="text-center">THU</th>
+                <th class="text-center">FRI</th>
+                <th class="text-center">SAT</th>
+
+            </tr>
+        </thead>
+        <tbody style="font-size:larger;font-weight:400;" class="shiftweektable">
+            <tr>
+                <td class="text-center fw-bolder fs-6" style="color: #8f8383; font-weight: 600;">Coverege</td>
+                <td class="text-center fs-6" style="background-color:#cfcff9;">0/24</td>
+                <td class="text-center fs-6" style="background-color:#cfcff9;">0/24</td>
+                <td class="text-center fs-6" style="background-color:#cfcff9;">0/24</td>
+                <td class="text-center fs-6" style="background-color:#cfcff9;">0/24</td>
+                <td class="text-center fs-6" style="background-color:#cfcff9;">0/24</td>
+                <td class="text-center fs-6" style="background-color:#cfcff9;">0/24</td>
+                <td class="text-center fs-6" style="background-color:#cfcff9;">0/24</td>
+            </tr>
+            @{
+                foreach (var phy in Model.Physicians)
+                {
+                    <tr class="text-center">
+                        <td class="p-2">
+                            <div class="d-flex align-items-center h-100 fw-bolder fs-6" style="color: #8f8383; font-weight: 600;">
+                                @if (phy.Photo != null)
+                                {
+                                    <span class="me-1 text-center" style="width:40px;height:40px"><img class="w-100 h-100 border rounded-5" src="~/Documents/@phy.Photo" /></span>
+                                }
+                                @if (phy.Photo == null)
+                                {
+                                    <span class="me-1 text-center" style="width:40px;height:40px"><img class="w-100 h-100 border rounded-5" src="~/Documents/doctor.png" /></span>
+                                }
+                                @phy.Firstname @phy.Lastname
+                            </div>
+                        </td>
+
+                        @{
+                            var list = Model.shiftDetailsmodals.Where(u => u.Physicianid == phy.Physicianid).ToList();
+
+                            foreach (var date in Model.datelist)
+                            {
+
+                                var list2 = list.Where(u => u.Shiftdate.Day == date);
+
+                                @if (list2.Any())
+                                {
+
+                                    var count = 1;
+                                    <td class="p-0">
+                                        @foreach (var shift in list2)
+                                        {
+                                            var bgcolor = "";
+                                            var borderBottom = "";
+                                            if (count < 3)
+                                            {
+                                                if (count > 1)
+                                                {
+                                                    borderBottom = "1px solid gray";
+                                                }
+
+                                                if (shift.Status == 1)
+                                                {
+                                                    bgcolor = "lightpink";
+                                                }
+                                                else if (shift.Status == 2)
+                                                {
+                                                    bgcolor = "lightgreen";
+                                                }
+                                                <div style="background-color:@bgcolor;border-top:@borderBottom; cursor:pointer;" onclick="OpenShiftModal({actionType:'shiftdetails',shiftdetailsid : '@shift.Shiftdetailid'})">
+                                                    <small class="fs-6">
+
+                                                        @shift.Starttime - @shift.Endtime <br> Physician / @shift.PhysicianName
+                                                    </small>
+                                                </div>
+                                                count = count + 1;
+                                            }
+                                            if (count > 2)
+                                            {
+                                                <div style="overflow-y:auto;background-color:#579BB1;">
+                                                    <button class="w-100 h-100 border-0 text-white fs-6 py-1" style="background-color:#579BB1;" onclick="OpenShiftModalWeek('@shift.Shiftdate','@shift.Physicianid')">
+                                                        View All Shifts
+                                                    </button>
+                                                </div>
+                                                count = count + 1;
+                                                break;
+                                            }
+                                        }
+                                    </td>
+
+
+                                }
+                                else
+                                {
+                                    <td></td>
+                                }
+
+                            }
+                        }
+
+                    </tr>
+                }
+            }
+
+
+
+        </tbody>
+    </table>
+
+</div>
+<script>
+
+</script>

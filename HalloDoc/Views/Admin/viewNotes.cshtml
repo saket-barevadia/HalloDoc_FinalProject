@@ -1,0 +1,209 @@
+﻿@model Data_Layer.CustomModels.viewNotescm;
+
+<link href="~/css/Admin/adminDashboard.css" rel="stylesheet" type="text/css" />
+
+@* <partial name="notification" />
+ *@
+
+
+<div class="container" id="notess">
+
+<div class="d-flex justify-content-between align-items-center mt-3">
+
+    <h3 class="">Notes</h3>
+
+        @if (Model.flag == 0)
+        {
+            <a asp-action="dashboard" asp-controller="Admin">
+                <button type="button" class="btn btn-outline-info">
+                    <i class="fa-solid fa-less-than size"></i>
+                    <span class="size">Back</span>
+                </button>
+            </a>
+        }
+        @if (Model.flag == 1)
+        {
+            <a asp-action="viewCase" asp-route-id="@Model.Requestid" asp-route-flag="1" asp-controller="Admin">
+                <button type="button" class="btn btn-outline-info">
+                    <i class="fa-solid fa-less-than size"></i>
+                    <span class="size">Back</span>
+                </button>
+            </a>
+        }
+
+        <input type="hidden" id="flagflag" asp-for="@Model.flag" />
+
+</div>
+
+
+
+
+    <form action="" class="" method="post">
+        <div class="m-3">
+            <div class="row mt-1">
+
+               
+                 
+                
+                <div class="form-floating mb-3 col-12 col-sm-6 ">
+                    <div class=" border shadow rounded" style="height:95px">
+                        <div class="m-3 d-flex align-items-center">
+                            <i class="fa-solid fa-arrow-right-arrow-left pe-2"></i>
+                            <h6 class="mb-0"> Transfer Notes</h6>
+                        </div>
+                      
+                        <div class="mt-2 m-3">   
+                             @if (Model.Status == 4)
+                {
+                           <p>Patient Agreed</p>
+                            }
+                            <p> @Model.transfernotes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-floating mb-3 col-12 col-sm-6 ">
+                    <div class=" border shadow rounded" style="height:95px">
+                        <div class="m-3 d-flex align-items-center">
+                            <i class="fa-solid fa-user-nurse pe-2"></i>
+                            <h6 class="mb-0"> Physician Notes</h6>
+                        </div>
+                
+                        <div class="mt-2 m-3">  
+                           
+                                    <p>@Model.Physiciannotes</p>
+                             
+                               
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="form-floating mb-3 col-12 col-sm-6 ">
+                    <div class="border shadow rounded" style="height:95px">
+                        <div class="m-3 d-flex align-items-center">
+                            <i class="fa-solid fa-user-tie pe-2"></i>
+                            <h6 class="mb-0"> Admin notes</h6>
+                        </div>
+                
+                        <div class="mt-2 m-3">                 
+                             <p>@Model.Adminnotes</p>
+                                
+                                                
+                        </div>
+                    </div>
+                </div> 
+                
+                @if (Model.Status == 3)
+                {
+                    <div class="form-floating mb-3 col-12 col-sm-6 ">
+                        <div class="border shadow rounded" style="height:95px">
+                            <div class="m-3 d-flex align-items-center">
+                                <i class="fa-solid fa-user-tie pe-2"></i>
+                                <h6 class="mb-0">Admin Cancellation Notes</h6>
+                            </div>
+
+                            <div class="mt-2 m-3">                 
+                                <p>@Model.cancellationNotes</p>
+
+
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @if (Model.Status == 7)
+                {
+                    <div class="form-floating mb-3 col-12 col-sm-6 ">
+                        <div class="border shadow rounded" style="height:95px">
+                            <div class="m-3 d-flex align-items-center">
+                                <i class="fa-solid fa-user-tie pe-2"></i>
+                                <h6 class="mb-0">Patient Cancellation Notes</h6>
+                            </div>
+
+                            <div class="mt-2 m-3">
+                                <p>@Model.cancellationNotes</p>
+
+
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+
+            <div class="border shadow rounded mt-3">
+                <div class="row m-3 mx-0 mx-sm-1">
+                    <div class=" col-12 form-floating mb-3 ">
+                        <textarea asp-for="Adminnotes" class="form-control h-100 dclass" id="floatingInput" placeholder="Textarea" rows="5" ></textarea>
+                        <label for="floatingInput" class="text-wrap ms-2">Admin Notes</label>
+                        <span asp-validation-for="Adminnotes" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="d-grid gap-2 d-flex justify-content-center  justify-content-md-end m-4 pt-4 ">
+                    <button asp-route-id="@Model.Requestid" asp-route-flag="@Model.flag" type="submit" class="btn text-white btn-info">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+        </div>
+
+
+
+
+<div>
+    <div class="footer" @* style="position:fixed;bottom:0" *@>
+        <p class="para">Terms of Conditions &nbsp; | &nbsp; Privacy Policy</p>
+    </div>
+</div>
+
+
+@section scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+            }
+
+
+<script>
+    if (document.getElementById("flagflag").value == 0) {
+        var dash = document.getElementById("home-tab");
+        var providerLoc = document.getElementById("ProviderLocation-tab");
+        var profile = document.getElementById("Myprofile-tab");
+        var provider = document.getElementById("Providers-tab");
+        var partner = document.getElementById("Partners-tab");
+        var access = document.getElementById("Access-tab");
+        var records = document.getElementById("Records-tab");
+
+        dash.classList.add("active");
+        providerLoc.classList.remove("active");
+        profile.classList.remove("active");
+        provider.classList.remove("active");
+        partner.classList.remove("active");
+        access.classList.remove("active");
+        records.classList.remove("active");
+    }
+
+    if (document.getElementById("flagflag").value == 1) {
+        var dash = document.getElementById("home-tab");
+        var providerLoc = document.getElementById("ProviderLocation-tab");
+        var profile = document.getElementById("Myprofile-tab");
+        var provider = document.getElementById("Providers-tab");
+        var partner = document.getElementById("Partners-tab");
+        var access = document.getElementById("Access-tab");
+        var records = document.getElementById("Records-tab");
+
+        dash.classList.remove("active");
+        providerLoc.classList.remove("active");
+        profile.classList.remove("active");
+        provider.classList.remove("active");
+        partner.classList.remove("active");
+        access.classList.remove("active");
+        records.classList.add("active");
+    }
+</script>

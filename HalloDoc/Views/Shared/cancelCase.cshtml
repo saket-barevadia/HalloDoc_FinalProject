@@ -1,0 +1,79 @@
+﻿
+<div class="modal fade " id="newRequestModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header " style="background-color:#0dcaf0">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Confirm Cancellation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close" style="color:white"></button>
+            </div>
+            <form action="" method="post" id="cancelcaseform ">
+                <div class="modal-body ">
+
+                    <input hidden class="reqId" type="text" value="" id="id" name="id" />
+                    <div class="d-flex align-items-center mb-4">
+                    <h4 class="">Patient Name :  </h4>
+
+                        <p class="name mb-0" style="font-size:18px;color:#0dcaf0;margin-left:8px;"></p>
+                    </div>
+
+                    <div class="form-floating mb-2">
+                        <select class="form-select cancel-options" name="reason" id="floatingSelect"
+                                aria-label="Floating label select example">
+                            <option selected>Reasons</option>
+                        </select>
+                        <label for="floatingSelect">Reasons for Cancellation</label>
+                    </div>
+
+                    <div class="form-floating">
+                        <textarea name="note" class="form-control" placeholder="Leave a comment here" id="note" style="height: 100px"></textarea>
+                        <label for="floatingTextarea2" class="input">Provide Additional Notes</label>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    @* <button type="button" id="cancelCase" class="btn btn-info text-white">Confirm</button> *@
+                    <button class="btn btn-info text-white" type="button" id="cancelCase">confirm</button>
+                    <button type="button" class="btn btn-outline-info"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+
+
+
+    document.getElementById("cancelCase").addEventListener("click", (e) => {
+        // e.preventDefault();
+        let id = document.getElementById("id").value;
+        let reason = document.querySelector(".cancel-options").value;
+        let note = document.getElementById("note").value;
+
+        // console.log(id, reason, note);
+        // console.log(document.querySelector(".cancel-options"))
+
+        $.ajax({
+            url: "/Admin/cancelCase",
+            type: "POST",
+            data: {
+                id: id,
+                reason: reason,
+                note: note
+            }
+
+        }).done(function (html) {
+            location.reload();
+        });
+
+
+    })
+
+</script>

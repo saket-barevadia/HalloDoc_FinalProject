@@ -1,0 +1,87 @@
+﻿@model Data_Layer.CustomModels.ProviderMenucm;
+
+
+<div class="container-fluid">
+    <h4 class="mb-4 mt-3">User Access</h4>
+
+    <div class="border rounded shadow mb-3 p-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+
+           @*  <form role="search"> *@
+
+                <div class="mb-2" style="width:200px">
+
+                    <select class="form-select cancel-options" id="AspTypeidRole"
+                        aria-label="Floating label select example" onchange="sortUserAccess(this.value)">
+
+                        <option selected value="0">All</option>
+                        @foreach (var obj in Model.Aspnetroles)
+                        {
+                        <option value="@obj.Id">
+                        @obj.Name
+                        </option>
+                        }
+                    </select>
+                </div>
+           @*  </form> *@
+           
+            
+                <div class=" mb-3 d-none" id="buttonProvider">
+                <button type="button" class="btn btn-info text-light d-md-block d-none" onclick="location.href='@Url.Action("createProviderAcc","Admin",new{flag=2,filterRole=1})'">Create Provider Account</button>
+                <button type="button" class="btn border-info text-light d-md-none d-block px-2 py-0" onclick="location.href='@Url.Action("createProviderAcc","Admin",new{flag=2})'"><i class="fa-solid fa-plus text-info"></i></button>
+                </div>
+          
+                <div class=" mb-3 d-none" id="buttonAdmin">
+                <button type="button" class="btn btn-info text-light d-md-block d-none" onclick="location.href='@Url.Action("createAdminAccount","Admin")'">Create Admin Account</button>
+                <button type="button" class="btn border-info text-light d-md-none d-block px-2 py-0" onclick="location.href='@Url.Action("createAdminAccount","Admin")'"><i class="fa-solid fa-plus text-info"></i></button>
+                </div>
+            
+            
+        </div>
+
+
+        <div id="userAccessContent">
+            <partial name="userAccessShared" />
+        </div>
+
+       
+    </div>
+</div>
+
+
+
+<script>
+
+    
+
+    function sortUserAccess(accountTypeId){
+        $.ajax({
+            url: "/Admin/userAccessShared",
+            type:"GET",
+            data: { acccountTypeId : accountTypeId},
+            success: function (result) {
+                $('#userAccessContent').html(result);
+            },
+            error: function () {
+                   alert('error loading partial view');
+              }
+        })
+    }
+
+    var dash = document.getElementById("home-tab");
+    var providerLoc = document.getElementById("ProviderLocation-tab");
+    var profile = document.getElementById("Myprofile-tab");
+    var provider = document.getElementById("Providers-tab");
+    var partner = document.getElementById("Partners-tab");
+    var access = document.getElementById("Access-tab");
+    var records = document.getElementById("Records-tab");
+
+    dash.classList.remove("active");
+    providerLoc.classList.remove("active");
+    profile.classList.remove("active");
+    provider.classList.remove("active");
+    partner.classList.remove("active");
+    access.classList.add("active");
+    records.classList.remove("active");
+
+</script>

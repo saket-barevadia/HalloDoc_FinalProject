@@ -1,0 +1,30 @@
+﻿
+<div class="modal fade " id="clearCaseModel" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-flex flex-column justify-content-center mt-5" style="border-bottom:none">
+
+                <img class="mb-2" width="100px" height="100px" src="~/images/kisspng-symbol-icon-warning-icons-5aa8e8dd02cc16.0225436815210191010115.png"/>
+
+                <h4>Confirmation for clear case</h4>
+               
+                
+            </div>
+            <div class="modal-body text-center mb-5">
+                
+                <p>Are you sure you want to clear this request? Once clear this request then you are not able to see this request.</p>
+                <form asp-action="clearCase" asp-controller="Admin" method="post">
+                <button class="btn btn-info text-white me-1 " style="width:70px" type="submit" id="">Clear</button>
+                
+                    <button type="button" class="btn btn-outline-info"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                </form>
+                    </div>
+
+                </div>
+           
+        </div>
+    </div>

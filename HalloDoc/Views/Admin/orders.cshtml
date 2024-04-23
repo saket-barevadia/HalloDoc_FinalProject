@@ -1,0 +1,182 @@
+﻿ @model Data_Layer.CustomModels.Orders;
+
+@* <partial name="notification" />
+ *@
+
+<div class="container mt-4" id="orderss">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <h3>Send Order</h3>
+
+        <a asp-action="dashboard" asp-controller="Admin">
+            <button type="button" class="btn btn-outline-info">
+                <i class="fa-solid fa-less-than size"></i>
+                <span class="size">Back</span>
+            </button>
+        </a>
+    </div>
+
+    <div class="shadow border rounded container">
+        <form asp-action="orders" asp-controller="Admin" method="post">
+            <input asp-for="Requestid" type="text" hidden/>
+            <div class="row mb-3">
+                <div class="col-md-6 mt-3">
+                     <div class="form-floating mb-2">
+                        <select class="form-select cancel-options" name="profession" id="profession"
+                                aria-label="Floating label select example" onchange="professionChange()">
+                            <option disabled selected>Profession</option>
+                            @foreach(var item in Model.professions)
+                            {
+                                <option value="@item.Healthprofessionalid">@item.Professionname</option>
+                            } 
+                        </select>
+                        <label for="floatingSelect">Select Profession</label>
+                        
+                    </div> 
+
+                   
+                </div>
+
+                <div class="col-md-6 mt-3">
+                    <div class="form-floating mb-2">
+                        <select  class="form-select cancel-options" name="business" id="selectVendor"
+                                aria-label="Floating label select example" onchange="vendorChange()">
+                            <option disabled selected>Business</option>
+                        </select>
+                        <label for="floatingSelect">Select Business</label>
+                      
+                    </div>
+                </div>
+
+                <div class="col-md-6 mt-3">
+                    <div class="form-floating">
+                        <input asp-for="Businesscontact" type="text" class="form-control" id="businessContact" value="" placeholder="Username"
+                               required>
+                        <label for="floatingInputGroup2"><span class="input">Business contact</span></label>
+                        <span asp-validation-for="Businesscontact" class="text-danger"></span>
+
+                    </div>
+                </div>
+
+                <div class="col-md-6 mt-3">
+                    <div class="form-floating">
+                        <input asp-for="Email" type="email" class="form-control" id="email" value="" placeholder="Username"
+                               required>
+                        <label for="floatingInputGroup2"><span class="input">Email</span></label>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mt-3">
+                    <div class="form-floating">
+                        <input asp-for="Faxnumber" type="number" class="form-control" id="faxNumber" value="" placeholder="Username"
+                               required>
+                        <label for="floatingInputGroup2"><span class="input">Fax Number</span></label>
+                        <span asp-validation-for="Faxnumber" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-12 mt-3">
+                    <div class="form-floating">
+                        <textarea asp-for="Prescription" class="form-control" placeholder="Leave a comment here" style="height: 100px"></textarea>
+                        <label for="floatingTextarea2" class="input">Prescription or Order details</label>
+                        <span asp-validation-for="Prescription" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6 mt-3">
+                    <div class="form-floating mb-2">
+                        <select asp-for="Noofrefill" class="form-select cancel-options"  id="floatingSelect"
+                                aria-label="Floating label select example">
+                            <option selected disabled>Not required</option>
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </select>
+                        <label for="floatingSelect">Number of Refill</label>
+                        <span asp-validation-for="Noofrefill" class="text-danger"></span>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary mb-3 me-3">Submit</button>
+                <button type="button" class="btn btn-outline-info mb-3">Cancel</button>
+            </div>
+        </form>
+
+    </div>
+
+
+</div>
+
+@section scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+            }
+
+
+
+<script>
+    function professionChange(){
+        var id = document.querySelector("#profession").value;
+
+        $.ajax({
+            url: "/Admin/getBusiness",
+            type: "GET",
+            data: {
+                id:id
+            },
+            success: function (data) {
+                $('#selectVendor').html("<option>" + "Business" + "</option");
+                data.forEach(function (a) {
+
+                    $("#selectVendor").append(
+                        '<option value="' + a.vendorid + '">' +
+                        a.vendorname +
+                        "</option>"
+                    )
+                })
+            }
+
+        })
+    }
+
+
+    function vendorChange() {
+        var vendorID = document.querySelector("#selectVendor").value;
+
+        console.log(vendorID)
+ 
+        $.ajax({
+            url: "/Admin/getVendorData",
+            type: "GET",
+            data: {
+                vendorID: vendorID
+            },
+            success: function (details) {          
+                document.querySelector("#businessContact").value = details.businesscontact;
+                document.querySelector("#email").value = details.email;
+                document.querySelector("#faxNumber").value = details.faxnumber;
+            }
+        });
+    }
+
+    var dash = document.getElementById("home-tab");
+    var providerLoc = document.getElementById("ProviderLocation-tab");
+    var profile = document.getElementById("Myprofile-tab");
+    var provider = document.getElementById("Providers-tab");
+    var partner = document.getElementById("Partners-tab");
+    var access = document.getElementById("Access-tab");
+    var records = document.getElementById("Records-tab");
+
+    dash.classList.add("active");
+    providerLoc.classList.remove("active");
+    profile.classList.remove("active");
+    provider.classList.remove("active");
+    partner.classList.remove("active");
+    access.classList.remove("active");
+    records.classList.remove("active");
+</script>

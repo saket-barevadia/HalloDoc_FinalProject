@@ -1,0 +1,216 @@
+﻿@inject IHttpContextAccessor Accessor;
+@using Microsoft.AspNetCore.Http;
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+
+<link rel="stylesheet" href="~/css/patientDashboard.css">
+
+<script src="~/js/darkmode.js" defer></script>
+
+
+@* @model Data_Layer.CustomModels.patientProfile; *@
+@model Data_Layer.DataModels.User;
+
+
+
+
+
+<!-- navbar -->
+<nav class="navbar  shadow z-3">
+    <div class="container-fluid ">
+        <div class="d-flex justify-content-center ">
+            <button class="navbar-toggler d-inline-block d-sm-none my-3 px-1" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+                <img src="/images/logo.png" alt="" class="img">
+            </a>
+        </div>
+        <div class="d-flex align-items-center">
+            <div class="mx-2 d-flex align-items-center d-none d-sm-inline-block">
+                <p class="text-secondary fs-6">
+                    <h5>
+                        Welcome
+                        <strong>
+                            @Accessor.HttpContext.Session.GetString("fname")
+                        </strong>
+                    </h5>
+                </p>
+            </div>
+            <div class="mx-2">
+                <button type="button" class="btn btn-outline-dark text-info shadow border-info py-2" onclick=" location.href = '@Url.Action("logout","Home")';">
+                    <span class="d-none d-sm-inline-block ">Logout</span>
+                    <span class="d-inline-block d-sm-none">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </span>
+                </button>
+            </div>
+            <div class="me-2">
+                <button onclick="toggleDarkTheme()" type="button" class="btn shadow border-info"
+                        style="border-radius: 10px; border-color: aqua" id="colorButton">
+                    @*   <i id="moon" class="bi bi-moon text-info fs-4"></i>
+                    <i id="sun" class="bi bi-sun text-info fs-4 d-none"></i> *@
+
+                    <i class="fas fa-light fa-moon" id="moon" style="color: #43bcf9;"></i>
+                    <i class="fa-regular fa-sun d-none" id="sun" style="color: white"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <hr class="w-100 m-0 p-0 d-none d-sm-block">
+
+
+    <div class="collapse w-100 mx-sm-1 show d-sm-block" id="navbarToggleExternalContent">
+        <div class="px-3">
+            <ul class="nav nav-underline" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a asp-action="patientDashboard" asp-route-emaill="@Accessor.HttpContext.Session.GetString("email")" asp-controller="Home" style="text-decoration:none"> <button class="nav-link  text-info TabItem" id="nav-tab1-tab" data-bs-toggle="tab" data-bs-target="#nav-tab1" type="button" role="tab" aria-controls="nav-tab1" aria-selected="true"><span class="text-secondary">Dashboard</span></button></a>
+                </li>
+                <li class="nav-item " role="presentation">
+                    <a asp-action="patientProfile" asp-controller="Home" style="text-decoration:none">  <button class="nav-link active TabItem text-info" id="nav-tab2-tab" data-bs-toggle="tab" data-bs-target="#nav-tab2" type="button" role="tab" aria-controls="nav-tab2" aria-selected="false"><span class="text-secondary">Profile</span></button> </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</nav>
+
+
+
+
+
+
+
+
+<div class="container">
+    <div class=" mt-2 d-flex justify-content-between align-items-center">
+        <h4>User Profile</h4>
+        <a asp-controller="Home" asp-action="patientDashboard" asp-route-emaill="@Model.Email"
+           class="btn shadow  btn-outline-secondary border-info text-info px-3 ">
+            <i class="fa-solid fa-angle-left"></i> Back
+        </a>
+    </div>
+
+
+    <form action="" method="post" class="shadow border rounded my-3">
+        <div class="mx-3 my-4 ">
+            <div class="mt-3">
+                <h4 class="my-4 pt-4">General Information</h4>
+                <div class="form-floating mb-3 overflow-hidden  ">
+                    <textarea class="form-control  " style="height: 100px"
+                              placeholder="Enter Brief Details Of Symptoms (Optional)"
+                              id="floatingTextarea"></textarea>
+                    <label class=" " for="floatingTextarea">
+                        Enter Brief Details Of Symptoms
+                        <span class="optional">(Optional)</span>
+                    </label>
+                </div>
+                <div class="row">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 form-floating mb-3 ">
+                        <input asp-for="Firstname" type="text" class="form-control " id="floatingInputFirst"
+                               placeholder="First Name" aria-label="First Name">
+                        <label class="ms-2 " for="floatingInputFirst">First Name</label>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12  form-floating mb-3 ">
+                        <input asp-for="Lastname" type="text" class="form-control " id="floatingInputLast"
+                               placeholder="Last Name" aria-label="Last Name">
+                        <label class="ms-2  " for="floatingInputLast">Last Name</label>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12  form-floating  ">
+                        <input asp-for="Strmonth" type="date" class="form-control " id="floatingInputdate"
+                               placeholder="Date Of Birth" aria-label="First Name">
+                        <label class="ms-2 " for="floatingInputdate">Date Of Birth</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-4">
+                <h4 class="mb-4">Contact Information</h4>
+                <div class="row mb-3">
+                    <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 form-floating mb-3">
+                        <select class="form-select" id="floatingSelectGrid" aria-label="Floating label select example">
+                            <option selected>Mobile</option>
+                            <option value="1">Phone</option>
+
+                        </select>
+                        <label class="ms-2" for="floatingSelectGrid">Type</label>
+
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-9 form-floating mb-3">
+                        <input asp-for="Mobile" type="tel" class="phone form-control " id="floatingInputcontact"
+                               placeholder="99XXXXXXXX" aria-label="Contact Number">
+
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 form-floating mb-3">
+                        <input asp-for="Email" type="email" class="form-control " id="floatingInputemail"
+                               placeholder="Email" aria-label="Email" readonly>
+                        <label class="ms-2 " for="floatingInputemail">Email</label>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="pt-4">
+                <h4 class="mb-4">Patient Location</h4>
+                <div class="row mb-3">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 form-floating mb-3">
+                        <input asp-for="Street" type="text" class="form-control " id="floatingInputStreet"
+                               placeholder="Street" aria-label="Street">
+                        <label class="ms-2 " for="floatingInputStreet">Street</label>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 form-floating mb-3">
+                        <input asp-for="City" type="text" class="form-control " id="floatingInputCity" placeholder="City"
+                               aria-label="City">
+                        <label class="ms-2  " for="floatingInputCity">City</label>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 form-floating mb-3">
+                        <input asp-for="State" type="text" class="form-control " id="floatingInputState" placeholder="State"
+                               aria-label="State">
+                        <label class="ms-2 " for="floatingInputState">State</label>
+                    </div>
+                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 form-floating mb-3">
+                        <input asp-for="Zipcode" type="text" class="form-control " id="floatingInputZipCode"
+                               placeholder="Zip Code" aria-label="Zip Code">
+                        <label class="ms-2  " for="floatingInputZipCode">Zip Code</label>
+                    </div>
+                   @*  <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 form-floating mb-3">
+                        <button type="button" class="btn btn-outline-dark border-info p-3 text-info w-100">
+                            <i class="bi bi-geo-alt-fill "></i>
+                            <span>Map</span>
+                        </button>
+                    </div> *@
+                </div>
+
+            </div>
+
+
+            <div class="d-grid gap-2 d-flex justify-content-center  justify-content-md-end mt-4 pt-4 mb-3">
+                <button class="btn btn-info me-md-2 text-white fw-bold mb-3 px-5" type="submit">Edit</button>
+
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+<script>
+
+
+    const phoneInputField = document.querySelector("#phone");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+        utilsScript:
+            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+
+
+</script>

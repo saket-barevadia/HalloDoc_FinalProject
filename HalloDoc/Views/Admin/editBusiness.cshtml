@@ -1,0 +1,157 @@
+﻿@model Data_Layer.CustomModels.ProviderMenucm.Vendor;
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mx-3 mt-3">
+        <h4>Edit Business</h4>
+
+        <a asp-action="vendors" asp-controller="Admin">
+            <button type="button" class="btn btn-outline-info">
+                <i class="fa-solid fa-less-than size"></i>
+                <span class="size">Back</span>
+            </button>
+        </a>
+    </div>
+
+
+    <form method="post" asp-action="editBusiness" asp-controller="Admin">
+        <input type="text" asp-for="Vendorid" hidden/>
+        <div class="m-3 p-3 border rounded shadow">
+            <h5>Submit Information</h5>
+            <div class="row mt-1">
+                <div class="form-floating mb-3 col-12 col-sm-6 ">
+                    <input asp-for="Vendorname" type="text" class=" form-control " id="businessName"
+                           placeholder="Business Name" aria-label="businessName" />
+
+                    <label class="ms-2 " for="businessName">Business Name</label>
+                    <span asp-validation-for="Vendorname" class="text-danger"></span>
+
+                </div>
+
+                <div class="form-floating mb-3 col-12 col-sm-6 ">
+                    <select asp-for="Healthprofessionalid" class=" form-select" aria-label="Region">
+                        <option value="" selected disabled>Select Professions</option>
+                        @foreach (var obj in Model.healthprofessionaltypes)
+                        {
+                            <option value="@obj.Healthprofessionalid">
+                                @obj.Professionname
+                            </option>
+                        }
+                    </select>
+                    <label for="state" class="ms-2 ">Profession</label>
+                    <span asp-validation-for="Healthprofessionalid" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-3 col-12 col-sm-6 ">
+                    <input type="text" asp-for="Faxnumber" class=" form-control " id="RoleName"
+                           placeholder="Fax Number" aria-label="RoleName" />
+
+                    <label class="ms-2 " for="RoleName">Fax Number</label>
+                    <span asp-validation-for="Faxnumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-3 col-12 col-sm-6 d-flex flex-column ">
+                    <input asp-for="Phonenumber" id="phone" class="form-control country" placeholder="" aria-label="Contact" type="tel">
+                    <span asp-validation-for="Phonenumber" class="text-danger"></span>
+
+                </div>
+
+                <div class="form-floating mb-3 col-12 col-sm-6 ">
+                    <input asp-for="Email" type="text" class=" form-control " id="RoleName"
+                           placeholder="Email" aria-label="RoleName" />
+
+                    <label class="ms-2 " for="RoleName">Email</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+
+                </div>
+
+                <div class="form-floating mb-3 col-12 col-sm-6 ">
+                    <input asp-for="Businesscontact" type="text" class=" form-control " id="RoleName"
+                           placeholder="Business Contact" aria-label="RoleName" />
+
+                    <label class="ms-2 " for="RoleName">Business Contact</label>
+                    <span asp-validation-for="Businesscontact" class="text-danger"></span>
+
+                </div>
+
+                <div class="form-floating mb-3 col-12 col-sm-6 ">
+                    <input asp-for="Street" type="text" class=" form-control " id="RoleName"
+                           placeholder="Street" aria-label="RoleName" />
+
+                    <label class="ms-2 " for="RoleName">Street</label>
+                    <span asp-validation-for="Street" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-3 col-12 col-sm-6 ">
+                    <input asp-for="City" type="text" class=" form-control " id="RoleName"
+                           placeholder="City" aria-label="RoleName" />
+
+                    <label class="ms-2 " for="RoleName">City</label>
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-3 col-12 col-sm-6 ">
+                    <select asp-for="RegionId" class=" form-select" aria-label="Region">
+                        <option value="" selected disabled>Select State</option>
+                        @foreach (var obj in Model.regions)
+                        {
+                            <option value="@obj.Regionid">
+                                @obj.Name
+                            </option>
+                        }
+                    </select>
+                    <label for="state" class="ms-2 ">State</label>
+                    <span asp-validation-for="RegionId" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating mb-3 col-12 col-sm-6 ">
+                    <input asp-for="Zip" type="text" class=" form-control " id="RoleName"
+                           placeholder="Zip/Postal" aria-label="RoleName" />
+
+                    <label class="ms-2 " for="RoleName">Zip/Postal</label>
+                    <span asp-validation-for="Zip" class="text-danger"></span>
+                </div>
+
+            </div>
+
+
+
+            <div class="d-grid gap-2 d-flex justify-content-center  justify-content-md-end m-4 pt-4 ">
+
+                <button type="submit" class="btn text-white btn-info">Save</button>
+                <button type="reset" id="cancelBtnPhyEdit1" class="btn btn-outline-info CancelBtn">
+                    Cancel
+                </button>
+
+
+            </div>
+
+        </div>
+
+    </form>
+
+
+
+</div>
+
+
+<partial name="_ValidationScriptsPartial" />
+
+
+<script>
+    const phoneInputField = document.querySelector("#phone");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+        utilsScript:
+            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+
+    const phoneField = document.querySelector("#phone2");
+    const phoneeInput = window.intlTelInput(phoneField, {
+        utilsScript:
+            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+</script>

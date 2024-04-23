@@ -1,0 +1,230 @@
+﻿@model Data_Layer.CustomModels.ViewUploads;
+
+
+<link href="~/css/Admin/adminDashboard.css" rel="stylesheet" type="text/css" />
+
+
+<div class="container border shadow rounded" style="margin-top:50px;margin-bottom:50px">
+    <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+        <h3 class="mt-3 font">Conclude Care</h3>
+
+        <a asp-action="ProviderDashboardMain" asp-controller="Provider">
+            <button type="button" class="btn btn-outline-info">
+                <i class="fa-solid fa-less-than size"></i>
+                <span class="size">Back</span>
+            </button>
+        </a>
+
+
+
+
+    </div>
+
+    <p class="mb-0">Patient Name</p>
+
+
+    <h5 style="color:#15e5e5">@Model.fullName<span style="font-size:15px;color: #8f8383; font-weight: 400;">(@Model.Confirmationnumber)</span></h5>
+
+
+    <h4 class="mt-3">Encounter Forms</h4>
+
+
+    <form onsubmit="viewUploadPostt(@Model.Requestid)" method="post" enctype="multipart/form-data" id="uploadForm" class="mt-2">
+        <div class="input-group mb-3">
+            <input type="text" asp-for="@Model.Requestid" value="@Model.Requestid" hidden />
+
+            <input asp-for="@Model.Upload" type="file" class="form-control" id="inputOnboardFile" multiple accept=".pdf">
+            <button type="submit" class="input-group-text " style="color:white; background-color:#15e5e5"  for="inputGroupFile02">
+                <i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;<span class="remove">Upload</span>
+            </button>
+        </div>
+        <span asp-validation-for="Upload" class="text-danger"></span>
+    </form>
+
+
+
+    <table class="table d-none d-md-table" style=" margin-top:80px">
+        <thead class="table-light">
+
+            <tr>
+                <th class="" width="60%">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" class="check" id="checkAll">
+                        </label>
+                    </div>
+                </th>
+                <th class="" width="20%">Upload Date <i class="fa-solid fa-arrow-up"></i></th>
+                <th class="" width="20%">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var obj in Model.documents)
+            {
+                <tr>
+                    <td>
+                        <div class="checkbox d-flex">
+                            <label>
+                                <input type="checkbox" class="check fileCheckbox">
+                            </label>
+                            <span class="ps-3" style="color:#eb4343"><i class="fa-solid fa-file"></i></span>
+                            <p class="ps-3 font-back" style="color: #8f8383; font-weight: 500;">@obj.Filename</p>
+                        </div>
+                    </td>
+
+                    <td class=" font-back" style="color: #8f8383; font-weight: 500;">@obj.Createddate</td>
+
+
+                    <td class="btn-action">
+                        <a type="button" href="~/Documents/@obj.Filename" download="@obj.Filename" class="btn btn-outline-info download-btn"><i class="fa-solid fa-cloud-arrow-down"></i></a>
+                        <button type="button" onclick="deleteFilee(@obj.Requestwisefileid,@Model.Requestid)" class="btn btn-outline-info delete-btn"><i class="fa-solid fa-trash-can"></i></button>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+    @foreach (var item in Model.documents)
+    {
+
+        <div class="d-block d-md-none mt-3 mb-2">
+
+            <div class="d-flex ms-2">
+                <span class="" style="color:#eb4343"><i class="fa-solid fa-file"></i></span>
+                <p class="ps-3 ">@item.Filename</p>
+            </div>
+            <p class="ms-2">@item.Createddate</p>
+            <a type="button" href="~/Documents/@item.Filename" download="@item.Filename" class="btn btn-outline-info download-btn"><i class="fa-solid fa-cloud-arrow-down"></i></a>
+            <button type="button" onclick="deleteFile(@item.Requestwisefileid,@Model.Requestid)" class="btn btn-outline-info delete-btn"><i class="fa-solid fa-trash-can"></i></button>
+            <hr />
+        </div>
+
+
+
+    }
+
+    <form method="post" id="providerNotesForm" onsubmit="concludeCarePost()">
+        <input type="text" asp-for="@Model.Requestid" hidden/>
+    <h5 class="mt-4">Provider Notes</h5>
+    <div class="mt-3">
+        <div class="row m-3 mx-0 mx-sm-1">
+            <div class=" col-12 form-floating mb-3 ">
+                <textarea asp-for="providerNote" class="form-control h-100 dclass" id="floatingInput" placeholder="Textarea" rows="5"></textarea>
+                <label for="floatingInput" class="text-wrap ms-2">Provider Notes</label>
+                <span asp-validation-for="providerNote" class="text-danger"></span>
+            </div>
+        </div>
+
+            @if (Model.IsFinalized != null && Model.IsFinalized[0])
+            {
+            <div class="d-grid gap-2 d-flex justify-content-center  justify-content-md-end m-4 pt-4 ">
+                    <button type="submit" class="btn text-white btn-info">Conclude Care</button>
+                </div>
+            }
+            else
+            {
+                <div class="d-grid gap-2 d-flex justify-content-center  justify-content-md-end m-4 pt-4 ">
+                    <button onclick="openEncounterModal(@Model.Requestid)" class="btn text-white btn-info">Conclude Care</button>
+                </div>
+            }
+    </div>
+    </form>
+
+</div>
+
+<partial name="_ValidationScriptsPartial" />
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js" defer></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.js" defer></script>
+
+
+
+<script>
+
+
+    function viewUploadPostt(id) {
+        event.preventDefault();
+        var formdata = new FormData($("#uploadForm")[0]);
+        if ($('#uploadForm').valid()) {
+            $.ajax({
+                method: "POST",
+                url: "/Provider/ViewUploads",
+                processData: false,
+                contentType: false,
+                data: formdata,
+                success: function () {
+                    toastr.success("File Uploaded Successfully");
+                    concludeCare(id)
+                },
+                error: function () {
+                    toastr.error("Something Went Wrong");
+                }
+            });
+        }
+    }
+
+    function deleteFilee(id, reqId) {
+        event.preventDefault();
+
+        $.ajax({
+            method: "POST",
+            url: "/Provider/delete",
+            data: { id: id, reqId: reqId },
+            success: function () {
+
+                toastr.success("File Deleted Successfully");
+                concludeCare(reqId);
+            },
+            error: function () {
+                toastr.error("Something Went Wrong");
+            }
+        });
+
+    }
+
+
+    function concludeCarePost(){
+        if ($('#providerNotesForm').valid()) {
+            $.ajax({
+                method: "POST",
+                url: "/Provider/PostNote",              
+                data: $("#providerNotesForm").serialize(),
+                success: function () {
+                    toastr.success("Note Added Successfully");
+                    
+                },
+                error: function () {
+                    toastr.error("Something Went Wrong");
+                }
+            });
+        }
+    }
+
+
+    function openEncounterModal(requestid) {
+        event.preventDefault();
+        $.ajax({
+            method: "GET",
+            url: "/Provider/FinalizeEncounter",
+            
+            success: function (result) {
+                if (result.code == 401) {
+                    setTimeout(function () { location.reload(); }, 2000);
+                    toastr.error("Something Went Wrong");
+                } else {
+                    $('#offCanvass').html(result);
+                    $('#encounterFromConclude').modal('show');
+                    $('#EncounterModalFormm').val(requestid);
+
+                }
+            },
+            error: function () {
+                toastr.error("Something Went Wrong");
+            }
+        });
+    }
+</script>

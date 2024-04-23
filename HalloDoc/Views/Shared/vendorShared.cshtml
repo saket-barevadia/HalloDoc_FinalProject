@@ -1,0 +1,136 @@
+﻿@model Data_Layer.CustomModels.ProviderMenucm.Vendor;
+
+
+<div class="table-responsive d-xl-block d-none">
+    <table class="table vendorTable">
+        <thead class="bg-body-tertiary ">
+       
+            <tr>
+                <th >Profession</th>
+                <th>Business Name</th>
+                <th>Email</th>
+                <th>Fax Number</th>
+                <th>Phone Number</th>
+                <th>Business Contact</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+                @foreach(var item in Model.vendors)
+                {
+                    
+                
+              
+                <tr class="align-middle">                              
+                    <td style="color: #8f8383; font-weight: 500;">@item.Professionname</td>                 
+                    <td style="color: #8f8383; font-weight: 500;">@item.Vendorname</td>
+                    <td style="color: #8f8383; font-weight: 500;">@item.Email</td>
+
+                    <td style="color: #8f8383; font-weight: 500;">@item.Faxnumber</td>
+                    <td style="color: #8f8383; font-weight: 500;">@item.Phonenumber</td>
+                    <td style="color: #8f8383; font-weight: 500;">@item.Businesscontact</td>
+                    <td class="d-flex">
+                        <button type="button" onclick="location.href='@Url.Action("editBusiness","Admin",new{vendorId=item.Vendorid})'" class="btn btn-outline-info me-2">
+                            Edit
+                        </button>
+                        <form method="post" asp-action="deleteBusiness" asp-controller="Admin" asp-route-vendorId="@item.Vendorid">
+                        <button type="submit" class="btn btn-outline-info">
+                            Delete
+                        </button>
+                        </form>
+                    </td>
+                </tr>
+
+                }
+        </tbody>
+
+    </table>
+</div>
+
+
+
+<div class="border rounded shadow d-block d-xl-none">
+    <div class="accordion container-fluid p-0" id="accordionPanelsStayOpenExample">
+        <table class="w-100">
+            <thead>
+                <tr>
+                    <th class="d-none"></th>
+                    <th class="d-none"></th>
+                </tr>
+            </thead>
+            @{
+                var counter = 1;
+            }
+            <tbody>
+                @foreach (var item in Model.vendors)
+                {
+
+                    <tr class="d-flex flex-column">
+                        <td>
+                            <h2 class="accordion-header" id="flush-heading@(counter)"></h2>
+
+                            <div class="accordion-button collapsed d-flex flex-column pb-0" data-bs-toggle="collapse"
+                                 data-bs-target="#flush-collapse@(counter)" aria-expanded="false"
+                                 aria-controls="flush-collapse@(counter)">
+
+                                <div class="w-100 ">
+                                    <span class="fw-bolder">
+                                        @item.Vendorname
+                                    </span>
+                                </div>                        
+
+                            </div>
+
+                        </td>
+                        <td>
+                            <div id="flush-collapse@(counter)" class="accordion-collapse collapse"
+                                 aria-labelledby="flush-heading@(counter)" data-bs-parent="#accordionFlushExample" >
+                                <div class="accordion-body main-flex pt-0">
+                                    <div class="inner-flex pt-1 pb-2">
+                                        <i class="fa-solid fa-envelope me-2"></i>
+                                        <span class="fw-bolder">Email</span>: @item.Email
+                                    </div>
+                                    <div class="inner-flex pb-2">
+                                        <i class="fa-solid fa-phone me-2"></i>
+                                        <span class="fw-bolder">Fax</span>: @item.Faxnumber
+                                    </div> 
+                                    <div class="inner-flex pb-2">
+                                        <i class="fa-solid fa-phone me-2"></i>
+                                        <span class="fw-bolder">Phone Number</span>: @item.Phonenumber
+                                    </div>
+                                    <div class="inner-flex pb-2">
+                                        <i class="fa-solid fa-envelope me-2"></i>
+                                        <span class="fw-bolder">Business Contact</span>: @item.Businesscontact
+                                    </div>
+                                    <div class="inner-flex d-flex justify-content-end">
+                                        <button type="button" onclick="location.href='@Url.Action("editBusiness","Admin",new{vendorId=item.Vendorid})'" class="btn btn-outline-info ">
+                                            Edit
+                                        </button>
+                                         <form method="post" asp-action="deleteBusiness" asp-controller="Admin" asp-route-vendorId="@item.Vendorid">
+                                        <button type="submit" class="btn btn-outline-info ms-2" >
+                                            Delete
+                                        </button>
+                                        </form>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <hr>
+                        </td>
+                    </tr>
+                    counter++;
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+<script>
+    
+</script>
+

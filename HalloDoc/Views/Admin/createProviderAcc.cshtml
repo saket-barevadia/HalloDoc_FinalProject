@@ -1,0 +1,487 @@
+﻿@model Data_Layer.CustomModels.ProviderMenucm.ProviderProfile;
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js" crossorigin="anonymous"></script>
+
+@* <style>
+    .regionbtn {
+        &:focus
+
+    {
+        box-shadow: none !important;
+        border-color: #0dcaf0 !important;
+        color: #0dcaf0 !important;
+    }
+
+    }
+</style> *@
+
+
+<div class="container">
+    <div class=" mt-3 d-flex justify-content-between align-items-center">
+        <h4>Create Provider Account</h4>
+        @if (Model.Flag == 1)
+        {
+            <a asp-action="providerMenu" asp-controller="Admin">
+                <button type="button" class="btn btn-outline-info">
+                    <i class="fa-solid fa-less-than size"></i>
+                    <span class="size">Back</span>
+                </button>
+            </a>
+        }
+        @if (Model.Flag == 2)
+        {
+            <a asp-action="userAccess" asp-controller="Admin">
+                <button type="button" class="btn btn-outline-info">
+                    <i class="fa-solid fa-less-than size"></i>
+                    <span class="size">Back</span>
+                </button>
+            </a>
+        }
+
+        <input type="hidden" id="flagflag" asp-for="@Model.Flag" />
+    </div>
+
+    <div class="shadow border rounded my-3">
+        <div class="mx-3 my-4 ">
+            <form method="post" enctype="multipart/form-data" asp-action="createProviderAcc" asp-route-back="@Model.Flag" asp-controller="Admin" id="CreatePhysicianAccountForm" onsubmit="return checkOnboardingFiles(1) && checkOnboardingFiles(2) && checkOnboardingFiles(3) && checkOnboardingFiles(4) && CreateProviderAccountPost()">
+                <input id="longitude" type="text" asp-for="Longitude" hidden />
+                <input id="latitude" type="text" asp-for="Latitude" hidden />
+                <div class="mt-3">
+                    <h4 class="my-4 pt-4">Account Information</h4>
+
+                    <div class="row">
+                        <div class="mb-3 col-xl-4 col-lg-4 col-md-6 col-sm-12 form-floating  ">
+                            <input asp-for="Username" type="text" class="form-control" id="floatingInputUsername" placeholder="User Name" aria-label="User Name">
+                            <label class="ms-2 " for="floatingInputUsername">User Name</label>
+                           <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3 col-xl-4 col-lg-4 col-md-6 col-sm-12 form-floating ">
+                            <input asp-for="Passwordhash" type="password" class="form-control bg-transparent"
+                                   id="floatingPassword2" placeholder="Password">
+                            
+                            <label class="ms-2" for="floatingPassword2">Password</label>
+                            <span asp-validation-for="Passwordhash" class="text-danger"></span>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 form-floating mb-3 ">
+                            <select class="form-select form-control d1class" asp-for="Roleid" id="Role" value="@Model.Roleid">
+                                @foreach (var item in Model.roles)
+                                {
+                                    <option value="@item.Roleid">@item.role</option>
+                                }
+
+                            </select>
+
+                            <label for="Role" class="ms-2 ">Role</label>
+                            <span asp-validation-for="Roleid" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="pt-4">
+                    <h4 class="mb-4">Administrator Information</h4>
+                    <div class="row mb-3">
+                        <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-12 form-floating mb-3 ">
+                            <input asp-for="Firstname" type="text" class=" form-control " id="floatingInputFirstName"
+                                   placeholder="First Name" aria-label="First Name">
+                            <label class="ms-2 " for="floatingInputFirstName">First Name</label>
+                            <span asp-validation-for="Firstname" class="text-danger"></span>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12  form-floating mb-3 ">
+                            <input asp-for="Lastname" type="text" class=" form-control " id="floatingInputLast"
+                                   placeholder="Last Name" aria-label="Last Name">
+                            <label class="ms-2  " for="floatingInputLast">Last Name</label>
+                            <span asp-validation-for="Lastname" class="text-danger"></span>
+                        </div>
+                        <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-12 form-floating mb-3">
+                            <input asp-for="Email" type="email" class="form-control " id="ProfileInputemail" value="" placeholder="Email" aria-label="Email">
+                            <label class="ms-2 " for="floatingInputemail">Email</label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-12 form-floating mb-3 d-flex flex-column">
+                            <input asp-for="Mobile" id="phone" class="form-control country" placeholder="" aria-label="Contact" type="tel">
+                            @* <input type="text" asp-for="Phonenumber" id="patientPhone" hidden /> *@
+                            <span asp-validation-for="Mobile" class="text-danger"></span>
+                            
+                        </div>
+                        <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-12 form-floating mb-3">
+                            <input asp-for="Medicallicense" type="text" class=" form-control " id="MedicalLicense"
+                                   placeholder="MedicalLicense" aria-label="MedicalLicense">
+                   
+                            <label class="ms-2 " for="MedicalLicense">MedicalLicense #</label>
+                            <span asp-validation-for="Medicallicense" class="text-danger"></span>
+                           
+                        </div>
+                        <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-12 form-floating mb-3">
+                            <input asp-for="Npinumber" type="text" class=" form-control " id="NPINumber"
+                                   placeholder="NPINumber" aria-label="NPINumber">
+                     
+                            <label class="ms-2 " for="NPINumber">NPI Number</label>
+                            <span asp-validation-for="Npinumber" class="text-danger"></span>
+                        </div>
+                        <div class="d-md-flex form-floating mb-3">
+                            @foreach (var obj in Model.Region)
+                            {
+                                <div class="form-check form-check-inline p-3 mx-3">
+                                    <input class="form-check-input " style="cursor:pointer;border: 1px solid #918b8b" name="physicianRegions" type="checkbox" id="@obj.Regionid" value="@obj.Regionid">
+                                    <label class="form-check-label" for="@obj.Regionid">@obj.region</label>
+                                </div>
+
+                            
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <h4 class="mb-4">Mailing And Billing Information</h4>
+                    <div class="row mb-3">
+                        <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-12 form-floating mb-3">
+                            <input asp-for="Address1" type="text" class=" form-control " id="floatingInputAddress1"
+                                   placeholder="Address1" aria-label="Address1">
+                            
+                            <label class="ms-2 " for="floatingInputAddress1">Address1</label>
+                            <span asp-validation-for="Address1" class="text-danger"></span>
+                        </div>
+                        <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-12 form-floating mb-3">
+                            <input asp-for="Address2" type="text" class=" form-control " id="floatingInputAddress2"
+                                   placeholder="Address2" aria-label="Address2">
+                            <label class="ms-2 " for="floatingInputAddress2">Address2</label>
+                            <span asp-validation-for="Address2" class="text-danger"></span>
+                        </div>
+                        <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-12 form-floating mb-3">
+                            <input asp-for="City" type="text" class=" form-control " id="floatingInputCity"
+                                   placeholder="City" aria-label="City">
+                            <label class="ms-2 " for="floatingInputCity">City</label>
+                            <span asp-validation-for="City" class="text-danger"></span>
+                        </div>
+                        <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-12 form-floating mb-3">
+                            <select asp-for="Regionid" class=" form-select " id="state"  aria-label="Region">
+                                <option value="" selected disabled>Select Region</option>
+                                @foreach (var obj in Model.Region)
+                                {
+                                    <option value="@obj.Regionid">
+                                        @obj.region
+                                    </option>
+                                }
+                            </select>
+                            <label for="state" class="ms-2 ">State</label>
+                            <span asp-validation-for="Regionid" class="text-danger"></span>
+                        </div>
+                        <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-12 form-floating mb-3">
+                            <input asp-for="Zip" type="text" class=" form-control " id="floatingInputZipCode"
+                                   placeholder="Zip Code" aria-label="Zip Code" onchange="getcoordinates()">
+
+                            <label class="ms-2" for="floatingInputZipCode">Zip</label>
+                            <span asp-validation-for="Zip" class="text-danger"></span>
+                        </div>
+                        <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-12 form-floating mb-3 d-flex flex-column">
+                            <input asp-for="Altphone" id="phone2" class="form-control country" placeholder="" aria-label="Contact" type="tel">
+                            @* <input type="text" asp-for="@Model.AltPhone" id="otherPhone" hidden /> *@
+                            <span asp-validation-for="Altphone" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-4">
+                    <h4 class="mb-4">Provider Profile</h4>
+                    <div class="row mb-3">
+                        <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-12 form-floating mb-3">
+                            <input asp-for="Businessname" type="text" class=" form-control " id="Businessname"
+                                   placeholder="Businessname" aria-label="Businessname">
+                           
+                            <label class="ms-2 " for="Businessname">Business Name</label>
+                            <span asp-validation-for="Businessname" class="text-danger"></span>
+                        </div>
+                        <div class=" col-xl-6 col-lg-6 col-md-6 col-sm-12 form-floating mb-3">
+                            <input asp-for="Businesswebsite" type="text" class=" form-control " id="Businesswebsite"
+                                   placeholder="Businesswebsite" aria-label="Businesswebsite">
+                            <label class="ms-2 " for="Businesswebsite">Business website</label>
+                            <span asp-validation-for="Businesswebsite" class="text-danger"></span>
+                        </div>
+                        <div class=" col-xl-12 col-lg-12 col-md-12 col-sm-12 form-floating mb-3 ">
+                            <div>
+                                <div class="input-group border border-2 rounded d-flex">
+                                    <input asp-for="@Model.Photo" type="file" class=" form-control py-3" id="fileUploadInp">
+                                    <button class="btn btn-info text-white" type="button" disabled id="upload-btn" onclick="checkFileExtension()"> <i class="fa-solid fa-cloud-arrow-up"></i> <span class="d-none d-md-inline-block">Profile</span></button>
+                                </div>
+                                <span asp-validation-for="Photo" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class=" col-12 form-floating mb-3">
+                            <textarea asp-for="Adminnotes" class="form-control " rows="5" placeholder="Admin Notes" id="AdminNotes"></textarea>
+                            <label class="ms-2" for="AdminNotes">
+                                Admin Notes
+                            </label>
+                            <span asp-validation-for="Adminnotes" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="w-100" />
+
+                <div class="pt-4">
+                    <h4 class="mb-4">Onboarding</h4>
+                    <div class="mb-3 d-md-flex align-items-center justify-content-between onBoardContainer">
+                        <div class="form-check d-flex">
+                            <input class="form-check-input ms-1 p-2 Onboarding" type="checkbox" value="1" id="Onboarding1">
+                            <label class="form-check-label ms-3 fw-bolder" for="Onboarding1">
+                                Independent Contractor Agreement
+                            </label>
+                        </div>
+                        <span class="text-danger" id="errorSpan1"></span>
+                        <div class="d-flex justify-content-center">
+                            <a type="button" href="#" target="_blank" id="OnboardingView1" class="btn btn-info text-white me-2" style="display:none">
+                                View
+                            </a>
+                            <input asp-for="ContractorAgreement" type="file" hidden class="form-control onBoardInpFile"  id="inputOnboardFile1" onchange="checkOnboardingFiles(1)">
+                            <label class="input-group-text me-3 input-group-text bg-info text-white" for="inputOnboardFile1">Upload</label>
+                        </div>
+                    </div>
+                    <div class="mb-3 d-md-flex align-items-center justify-content-between onBoardContainer">
+                        <div class="form-check d-flex">
+                            <input class="form-check-input ms-1 p-2 Onboarding" type="checkbox" value="2" id="Onboarding2">
+                            <label class="form-check-label ms-3 fw-bolder" for="Onboarding2">
+                                Background Check
+                            </label>
+                        </div>
+                        <span class="text-danger" id="errorSpan2"></span>
+                        <div class="d-flex justify-content-center">
+                            <a type="button" href="#" target="_blank" id="OnboardingView2" class="btn btn-info text-white me-2" style="display:none">
+                                View
+                            </a>
+                            <input asp-for="BackgroundCheck" type="file" hidden class="form-control onBoardInpFile" id="inputOnboardFile2" onchange="checkOnboardingFiles(2)">
+                            <label class="input-group-text me-3 input-group-text bg-info text-white" for="inputOnboardFile2">Upload</label>
+                        </div>
+                    </div>
+                    <div class="mb-3 d-flex align-items-center justify-content-between onBoardContainer">
+                        <div class="form-check d-flex">
+                            <input class="form-check-input ms-1 p-2 Onboarding" type="checkbox" value="3" id="Onboarding3">
+                            <label class="form-check-label ms-3 fw-bolder" for="Onboarding3">
+                                HIPAA Compliance
+                            </label>
+                        </div>
+                        <span class="text-danger" id="errorSpan3"></span>
+                        <div class="d-flex justify-content-center">
+                            <a type="button" href="#" target="_blank" id="OnboardingView3" class="btn btn-info text-white me-2" style="display:none">
+                                View
+                            </a>
+                            <input asp-for="HIPAA" type="file" hidden class="form-control onBoardInpFile" id="inputOnboardFile3" onchange="checkOnboardingFiles(3)">
+                            <label class="input-group-text me-3 input-group-text bg-info text-white" for="inputOnboardFile3">Upload</label>
+                        </div>
+                    </div>
+                    <div class="mb-3 d-flex align-items-center justify-content-between onBoardContainer">
+                        <div class="form-check d-flex">
+                            <input class="form-check-input ms-1 p-2 Onboarding" type="checkbox" value="4" id="Onboarding4">
+                            <label class="form-check-label ms-3 fw-bolder" for="Onboarding4">
+                                Non-disclouser Agreement
+                            </label>
+                        </div>
+                        <span class="text-danger" id="errorSpan4"></span>
+                        <div class="d-flex justify-content-center">
+                            <a type="button" href="#" target="_blank" id="OnboardingView4" class="btn btn-info text-white me-2" style="display:none">
+                                View
+                            </a>
+                            <input asp-for="NonDisclosure" type="file" hidden class="form-control onBoardInpFile" id="inputOnboardFile4" onchange="checkOnboardingFiles(4)">
+                            <label class="input-group-text me-3 input-group-text bg-info text-white" for="inputOnboardFile4">Upload</label>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="w-100" />
+
+                <div class="d-grid gap-2 d-flex justify-content-center justify-content-md-end mb-3">
+                    <button type="submit" id="savebtn" class="btn btn-success text-white me-1">Create Account</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<partial name="_ValidationScriptsPartial" />
+
+<script>
+
+    const phoneInputField = document.querySelector("#phone");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+        utilsScript:
+            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+
+    const phoneField = document.querySelector("#phone2");
+    const phoneeInput = window.intlTelInput(phoneField, {
+        utilsScript:
+            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+
+    $(document).ready(function () {
+        $('.onBoardInpFile').change(function () {
+            var checkbox = $(this).closest('.onBoardContainer').find('.Onboarding');
+            var buttonId = checkbox.prop('value');
+            var file = this.files[0];
+
+            if (file) {
+                var blobUrl = URL.createObjectURL(file);
+
+                checkbox.prop('checked', true);
+                $('#OnboardingView' + buttonId).show();
+                $('#OnboardingView' + buttonId).prop('href', blobUrl);
+            }
+            else {
+                checkbox.prop('checked', false);
+                $('#OnboardingView' + buttonId).hide();
+            }
+        });
+    });
+
+    // function showPassword() {
+
+    //     const togglePassword = document.querySelector("#togglePassword2");
+    //     const password = document.querySelector("#floatingPassword2");
+
+    //     const type = password.getAttribute("type") === "password" ? "text" : "password";
+    //     password.setAttribute("type", type);
+
+    //     this.classList.toggle('bi-eye');
+    //     this.classList.toggle('bi-eye-slash');
+    // }
+
+    $(document).ready(function () {
+        $('#fileUploadInp').on('input', function () {
+            var inputValue = $('#fileUploadInp').val();
+
+            if (inputValue != "") {
+                $("#upload-btn").prop("disabled", false);
+            }
+            else {
+                $("#upload-btn").prop("disabled", true);
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $('#fileUploadInp2').on('input', function () {
+            var inputValue = $('#fileUploadInp2').val();
+
+            if (inputValue != "") {
+                $("#upload-btn2").prop("disabled", false);
+            }
+            else {
+                $("#upload-btn2").prop("disabled", true);
+            }
+        });
+    });
+
+    function checkFileExtension() {
+        var fileName = document.getElementById('fileUploadInp').value.toLowerCase();
+        var tagToDisplayMessage = document.getElementById('errormessgespan');
+        if (fileName) {
+            if (!(fileName.endsWith('.pdf') || fileName.endsWith('.png') || fileName.endsWith('.jpeg') || fileName.endsWith('.jpg') || fileName.endsWith('.mp4') || fileName.endsWith('.mp3') || fileName.endsWith('.mkv'))) {
+                tagToDisplayMessage.innerText = "Please Upload File With Valid Format";
+                return false;
+            }
+            else {
+                tagToDisplayMessage.innerText = "";
+                return true;
+            }
+        }
+        else {
+            return true;
+        }
+    }
+
+    function checkOnboardingFiles(inputid) {
+        var fileName = document.getElementById('inputOnboardFile' + inputid).value.toLowerCase();
+        var tagToDisplayMessage = document.getElementById('errorSpan' + inputid);
+        if (fileName) {
+            if (!(fileName.endsWith('.pdf'))) {
+                tagToDisplayMessage.innerText = "Please Upload File with .pdf extension";
+                return false;
+            }
+            else {
+                tagToDisplayMessage.innerText = "";
+                return true;
+            }
+        }
+        else {
+            return true;
+        }
+    }
+
+
+    function getcoordinates() {
+        event.preventDefault();
+        var postalCode = document.getElementById('floatingInputZipCode').value;
+        fetchCoordinates(postalCode);
+    }
+
+    function fetchCoordinates(postalCode) {
+        var apiUrl = 'https://nominatim.openstreetmap.org/search?postalcode=' + postalCode + '&format=json';
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    var lat = data[0].lat;
+                    var lon = data[0].lon;
+                    console.log(lat);
+                    console.log(lon);
+                    document.getElementById("longitude").setAttribute("value", lon);
+                    document.getElementById("latitude").setAttribute("value", lat);
+                } else {
+                    alert("error");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+
+    if (document.getElementById("flagflag").value == 1) {
+        var dash = document.getElementById("home-tab");
+        var providerLoc = document.getElementById("ProviderLocation-tab");
+        var profile = document.getElementById("Myprofile-tab");
+        var provider = document.getElementById("Providers-tab");
+        var partner = document.getElementById("Partners-tab");
+        var access = document.getElementById("Access-tab");
+        var records = document.getElementById("Records-tab");
+
+        dash.classList.remove("active");
+        providerLoc.classList.remove("active");
+        profile.classList.remove("active");
+        provider.classList.add("active");
+        partner.classList.remove("active");
+        access.classList.remove("active");
+        records.classList.remove("active");
+    }
+
+    if (document.getElementById("flagflag").value == 2) {
+        var dash = document.getElementById("home-tab");
+        var providerLoc = document.getElementById("ProviderLocation-tab");
+        var profile = document.getElementById("Myprofile-tab");
+        var provider = document.getElementById("Providers-tab");
+        var partner = document.getElementById("Partners-tab");
+        var access = document.getElementById("Access-tab");
+        var records = document.getElementById("Records-tab");
+
+        dash.classList.remove("active");
+        providerLoc.classList.remove("active");
+        profile.classList.remove("active");
+        provider.classList.remove("active");
+        partner.classList.remove("active");
+        access.classList.add("active");
+        records.classList.remove("active");
+    }
+
+</script>
+
+<script src="~/js/countriesinput.js"></script>
+

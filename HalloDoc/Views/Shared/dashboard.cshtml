@@ -1,0 +1,455 @@
+﻿@inject IHttpContextAccessor Accessor;
+@using Microsoft.AspNetCore.Http;
+
+@model List<Data_Layer.CustomModels.AdminDashboardcm>
+    
+
+<link href="~/css/adminDashboard.css" rel="stylesheet" type="text/css" />
+
+
+
+<div class="tab-pane fade show mt-5" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+     tabindex="0">
+    
+    <div class="container-fluid" >
+        <div class="row nav" id="myTab" role="tablist">
+
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 col-4 mb-3 nav-item" role="presentation">
+                <div class="border rounded p-1 p-sm-3 active new" id="new-tab" onclick="newPartial()" data-bs-toggle="tab"
+                     data-bs-target="#new-tab-pane" type="button" role="tab" aria-controls="new-tab-pane"
+                     aria-selected="true">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-regular fa-star"></i>
+                        <h6 class="px-1 m-0">New</h6>
+                    </div>
+                    <div class="ps-1 pt-3">
+                        <h4>
+                            @{
+                                var countNew = Model.Count(r => r.Status == 1);
+                            }
+                            @countNew
+                        </h4>
+                    </div>
+                </div>
+                <div class="triangle " id="triangle1"></div>
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 mb-3 col-4" role="presentation">
+                <div class="border rounded p-1 p-sm-3 Pending" id="Pending-tab" onclick="pendingPartial()" data-bs-toggle="tab"
+                     data-bs-target="#Pending-tab-pane" type="button" role="tab" aria-controls="Pending-tab-pane"
+                     aria-selected="false">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-regular fa-user"></i>
+                        <h6 class="px-1 m-0">Pending</h6>
+                    </div>
+                    <div class="ps-1 pt-3">
+                        <h4>
+                            @{
+                                var countPending = Model.Count(r => r.Status == 2);
+                            }
+                            @countPending
+                        </h4>
+                    </div>
+
+                </div>
+                <div class="triangle " id="triangle2"></div>
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 mb-3 col-4" role="presentation">
+                <div class="border rounded p-1 p-sm-3 Active" id="Active-tab" onclick="activePartial()" data-bs-toggle="tab"
+                     data-bs-target="#Active-tab-pane" type="button" role="tab" aria-controls="Active-tab-pane"
+                     aria-selected="false">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-regular fa-circle-check"></i>
+                        <h6 class="px-1 m-0">Active</h6>
+                    </div>
+                    <div class="ps-1 pt-3">
+                        <h4>
+                            @{
+                                var countActive = Model.Count(r => r.Status == 4 || r.Status==5);
+                            }
+                            @countActive
+                        </h4>
+                    </div>
+                </div>
+                <div class="triangle " id="triangle3"></div>
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 mb-3 col-4" role="presentation">
+                <div class="border rounded p-1 p-sm-3 Conclude" id="Conclude-tab" onclick="concludePartial()" data-bs-toggle="tab"
+                     data-bs-target="#Conclude-tab-pane" type="button" role="tab" aria-controls="Conclude-tab-pane"
+                     aria-selected="false">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-regular fa-clock"></i>
+                        <h6 class="px-1 m-0">Conclude</h6>
+                    </div>
+                    <div class="ps-1 pt-3">
+                        <h4>
+                            @{
+                                var countConclude = Model.Count(r => r.Status == 6);
+                            }
+                            @countConclude
+                        </h4>
+                    </div>
+                </div>
+                <div class="triangle " id="triangle4"></div>
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 mb-3 col-4" role="presentation">
+                <div class="border rounded p-1 p-sm-3 ToClose" id="ToClose-tab" onclick="toClosePartial()" data-bs-toggle="tab"
+                     data-bs-target="#ToClose-tab-pane" type="button" role="tab" aria-controls="ToClose-tab-pane"
+                     aria-selected="false">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-regular fa-circle-xmark"></i>
+                        <h6 class="px-1 m-0">To Close</h6>
+                    </div>
+                    <div class="ps-1 pt-3">
+                        <h4>
+                            @{
+                                var countClose = Model.Count(r => r.Status == 3 || r.Status == 7 || r.Status==8);
+                            }
+                            @countClose
+                        </h4>
+                    </div>
+                </div>
+                <div class="triangle " id="triangle5"></div>
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-4 col-sm-4 mb-3 col-4" role="presentation">
+                <div class="border rounded p-1 p-sm-3 Unpaid" id="Unpaid-tab" onclick="unpaidPartial()" data-bs-toggle="tab"
+                     data-bs-target="#Unpaid-tab-pane" type="button" role="tab" aria-controls="Unpaid-tab-pane"
+                     aria-selected="false">
+                    <div class="d-flex align-items-center">
+                        <i class="fa-solid fa-dollar-sign"></i>
+                        <h6 class="px-1 m-0">Unpaid</h6>
+                    </div>
+                    <div class="ps-1 pt-3">
+                        <h4>
+                            @{
+                                var countUnpaid = Model.Count(r => r.Status == 9 );
+                            }
+                            @countUnpaid
+                        </h4>
+                    </div>
+                </div>
+                <div class="triangle " id="triangle6"></div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center">
+            <h5>Patient<span id="patientStatus" style="color:rgba(2, 2, 146);font-size:14px;padding-left:5px">(New)</span></h5>
+            <div class="d-flex">
+                <button onclick="sendLink()" type="button" class="btn btn-info d-flex ms-1 ms-sm-2 p-sm-2 p-1 align-items-center text-light">
+                    <i class="fa-regular fa-paper-plane"></i>
+                    <span class="d-md-block d-none px-2 ">
+                        Send
+                        Link
+                    </span>
+                </button>
+               
+                    <button onclick="location.href='@Url.Action("createRequest","Admin")'" type="button" class="btn btn-info d-flex ms-1 ms-sm-2 p-1 p-sm-2 align-items-center text-light">
+                    <i class="fa-regular fa-pen-to-square"></i><span class="d-md-block d-none px-2 ">
+                        Create
+                        Request
+                    </span>
+                </button>
+        
+              
+                @using (Html.BeginForm("Export", "Admin", FormMethod.Post))
+                {
+                    <input type="hidden" name="GridHtml" />
+                    <button type="submit" class="btn btn-info d-flex ms-1 ms-sm-2 p-1 p-sm-2 align-items-center text-light" onclick="exportBtnNew()">
+                        <i class="fa-solid fa-share"></i><span class="d-md-block d-none px-2 ">Export</span>
+                    </button>
+
+                }
+
+
+                <button type="button" class="btn btn-info d-flex ms-1 ms-sm-2 p-1 p-sm-2 align-items-center text-light">
+                    <i class="fa-regular fa-share-from-square"></i><span class="d-md-block d-none px-2 " onclick="window.location.href='@Url.Action("ExportAll","Admin")'">
+                        Export
+                        All
+                    </span>
+                </button>
+                <button type="button" class="btn btn-info d-flex ms-1 ms-sm-2 p-1 p-sm-2 align-items-center text-light">
+                    <i class="fa-regular fa-user"></i><span class="d-md-block d-none px-2 ">
+                        Request DTY
+                        Support
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+   
+
+
+
+        <div id="tabsContent">
+
+     
+
+    </div>
+
+
+ @*    <partial name="pending" />
+    <partial name="Active" />
+    <partial name="conclude" />
+    <partial name="toClose" />
+    <partial name="unpaid" /> *@
+
+    <partial name="cancelCase" />
+
+    <partial name="blockCase" />
+
+
+    <div id="offCanvasContent">
+    </div>
+   
+</div>
+
+
+
+    <script>
+
+
+   
+
+
+    function newPartial(){
+        $.ajax({
+            url:"/Admin/newDash",
+            type:"GET",
+       
+            success:function(result){
+                $('#tabsContent').html(result);
+            }
+        })
+    }
+
+        newPartial();
+
+
+    function pendingPartial() {
+        $.ajax({
+            url: "/Admin/pending",
+            type: "GET",
+            success: function (result) {
+                $('#tabsContent').html(result);
+            }
+        })
+    }
+
+      function activePartial() {
+        $.ajax({
+            url: "/Admin/Active",
+            type: "GET",
+            success: function (result) {
+                $('#tabsContent').html(result);
+            }
+        })
+    }
+
+      function concludePartial() {
+        $.ajax({
+            url: "/Admin/conclude",
+            type: "GET",
+            success: function (result) {
+                $('#tabsContent').html(result);
+            }
+        })
+    }
+
+      function toClosePartial() {
+        $.ajax({
+            url: "/Admin/toClose",
+            type: "GET",
+            success: function (result) {
+                $('#tabsContent').html(result);
+            }
+        })
+    }
+
+      function unpaidPartial() {
+        $.ajax({
+            url: "/Admin/unpaid",
+            type: "GET",
+            success: function (result) {
+                $('#tabsContent').html(result);
+            }
+        })
+    }
+
+
+
+        document.getElementById("new-tab").addEventListener("click", () => {
+
+        document.getElementById("patientStatus").innerText = "(New)";
+        document.getElementById("patientStatus").style.color = "rgba(2, 2, 146)";
+
+        });
+    document.getElementById("Pending-tab").addEventListener("click", () => {
+            document.getElementById("patientStatus").innerText = "(Pending)";
+        document.getElementById("patientStatus").style.color = "rgb(41, 179, 197)";
+        });
+    document.getElementById("Active-tab").addEventListener("click", () => {
+            document.getElementById("patientStatus").innerText = "(Active)";
+        document.getElementById("patientStatus").style.color = "rgb(36 159 91)";
+        });
+    document.getElementById("Conclude-tab").addEventListener("click", () => {
+            document.getElementById("patientStatus").innerText = "(Conclude)";
+        document.getElementById("patientStatus").style.color = "rgb(173 34 167)";
+        });
+      document.getElementById("ToClose-tab").addEventListener("click", () => {
+            document.getElementById("patientStatus").innerText = "(ToClose)";
+        document.getElementById("patientStatus").style.color = "rgb(24 127 167)";
+        });
+    document.getElementById("Unpaid-tab").addEventListener("click", () => {
+             document.getElementById("patientStatus").innerText = "(Unpaid)";
+        document.getElementById("patientStatus").style.color = "rgb(174 72 255)";
+        });
+    
+    
+
+
+    
+
+    // data filter by requestType
+
+        // function forAll() {
+        //     document.querySelectorAll(".Patient").forEach(e => {
+        //         e.style.display = "table-row";
+        //     })
+
+        //     document.querySelectorAll(".Family").forEach(e => {
+        //         e.style.display = "table-row";
+        //     })
+
+        //     document.querySelectorAll(".Concierge").forEach(e => {
+        //         e.style.display = "table-row";
+        //     })
+
+        //     document.querySelectorAll(".Business").forEach(e => {
+        //         e.style.display = "table-row";
+        //     })
+        // }
+
+        // function patient() {
+           
+
+        //     document.querySelectorAll(".Patient").forEach(e => {
+        //         e.style.display = "table-row";
+        //     })
+
+        //     document.querySelectorAll(".Family").forEach(e => {
+        //         e.style.display = "none";
+        //     })
+            
+        //     document.querySelectorAll(".Concierge").forEach(e => {
+        //         e.style.display = "none";
+        //     })
+            
+        //     document.querySelectorAll(".Business").forEach(e => {
+        //         e.style.display = "none";
+        //     })
+           
+        // }
+        
+        // function friend() {
+        //     document.querySelectorAll(".Patient").forEach(e => {
+        //         e.style.display = "none";
+        //     })
+
+        //     document.querySelectorAll(".Family").forEach(e => {
+        //         e.style.display = "table-row";
+        //     })
+
+        //     document.querySelectorAll(".Concierge").forEach(e => {
+        //         e.style.display = "none";
+        //     })
+
+        //     document.querySelectorAll(".Business").forEach(e => {
+        //         e.style.display = "none";
+        //     })
+        // }
+        
+        // function business() {
+        //     document.querySelectorAll(".Patient").forEach(e => {
+        //         e.style.display = "none";
+        //     })
+
+        //     document.querySelectorAll(".Family").forEach(e => {
+        //         e.style.display = "none";
+        //     })
+
+        //     document.querySelectorAll(".Concierge").forEach(e => {
+        //         e.style.display = "none";
+        //     })
+
+        //     document.querySelectorAll(".Business").forEach(e => {
+        //         e.style.display = "table-row";
+        //     })
+        // }
+        
+        // function concierge() {
+        //     document.querySelectorAll(".Patient").forEach(e => {
+        //         e.style.display = "none";
+        //     })
+
+        //     document.querySelectorAll(".Family").forEach(e => {
+        //         e.style.display = "none";
+        //     })
+
+        //     document.querySelectorAll(".Concierge").forEach(e => {
+        //         e.style.display = "table-row";
+        //     })
+
+        //     document.querySelectorAll(".Business").forEach(e => {
+        //         e.style.display = "none";
+        //     })
+        // }
+        
+        // function vip() {
+
+        // }
+
+
+        // function patient(id) {
+        //     $.ajax({
+        //         url:"Admin/dashboard"
+        //     })
+        // }
+
+
+
+
+
+
+
+    var dash = document.getElementById("home-tab");
+    var providerLoc = document.getElementById("ProviderLocation-tab");
+    var profile = document.getElementById("Myprofile-tab");
+    var provider = document.getElementById("Providers-tab");
+    var partner = document.getElementById("Partners-tab");
+    var access = document.getElementById("Access-tab");
+    var records = document.getElementById("Records-tab");
+
+    dash.classList.add("active");
+    providerLoc.classList.remove("active");
+    profile.classList.remove("active");
+    provider.classList.remove("active");
+    partner.classList.remove("active");
+    access.classList.remove("active");
+    records.classList.remove("active");
+       
+
+
+       
+
+
+
+
+    </script>
+
+
+

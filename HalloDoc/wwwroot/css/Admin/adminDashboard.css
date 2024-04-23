@@ -1,0 +1,349 @@
+﻿html[data-bs-theme="dark"] nav.header {
+    background-color: rgb(42, 50, 56) !important;
+}
+
+html[data-bs-theme="dark"] .text-testing {
+    color: white !important;
+}
+
+html[data-bs-theme="dark"] .modal-dark {
+    color: #212529 !important;
+}
+
+
+
+.btn1 {
+    position:relative!important;
+    border: 1px solid #43bcf9;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+}
+
+.items {
+    height: 100px;
+    border: 1px solid black;
+}
+
+.foot {
+    position: absolute;
+    bottom: 0%;
+    width: 100%;
+    background-color: rgb(44, 43, 43);
+}
+
+.tnc {
+    justify-content: end;
+    height: 40px;
+    color: white;
+}
+
+.create-request-active {
+    background-color: #0dcaf0 !important;
+    color: white !important;
+}
+
+.nav-item .active {
+    color: #0dcaf0 !important;
+}
+
+.navbar-toggler{
+    color:white;
+}
+/*.nav-link .active {
+    color: #0dcaf0 !important;
+}*/
+.linkActive {
+    color: cyan
+}
+
+.hover:hover {
+    background-color: #ebe2e2;
+    color: black;
+}
+
+
+
+.box1 {
+    background-color: white;
+    border: none;
+    -moz-box-shadow: 0 0 5px rgba(182, 181, 181, 0.295);
+    -webkit-box-shadow: 0 0 5px rgba(182, 181, 181, 0.295);
+    box-shadow: 0 0 20px rgba(182, 181, 181, 0.295);
+    border-radius: 10px;
+    padding: 10px 20px;
+}
+
+
+.country {
+    height: 58px;
+}
+
+
+.iti {
+    display: block;
+}
+
+.iti__country-list {
+    z-index: 25!important;
+}
+
+
+.btn-outline-info:hover{
+    color:white!important;
+}
+
+.page-item .page-link {
+    box-shadow: none;
+    color: #0dcaf0;
+}
+
+.page-item.active .page-link {
+    color: black;
+    background-color: #0dcaf0;
+    border-color: #0dcaf0;
+    box-shadow: none;
+/*    margin-bottom:50px;
+*/}
+
+.btn-close:focus {
+    box-shadow:none;
+}
+
+/ / Dashboard Cards / /
+
+
+.new {
+    background-color: rgba(2, 2, 255, 0.1) !important;
+    border-color: rgba(2, 2, 146) !important;
+    color: rgba(2, 2, 146) !important;
+}
+
+.new:hover, .new.active {
+    background-color: rgb(36 36 179);
+    border-color: rgb(36 36 179) !important;
+    color: white;
+}
+
+.Pending {
+    background-color: rgba(167, 239, 248, 0.10);
+    border-color: rgb(41, 179, 197) !important;
+    color: rgb(41, 179, 197);
+}
+
+    .Pending:hover, .Pending.active {
+        background-color: rgb(41, 179, 197);
+        border-color: rgb(41, 179, 197) !important;
+        color: white;
+    }
+
+.Active {
+    background-color: rgba(138, 253, 215, 0.10);
+    border-color: rgb(19, 99, 55) !important;
+    color: rgb(36 159 91);
+}
+
+    .Active:hover, .Active.active {
+        background-color: rgb(19, 99, 55);
+        border-color: rgb(19, 99, 55) !important;
+        color: white;
+    }
+
+
+.Conclude {
+    background-color: rgba(252, 87, 238, 0.10);
+    border-color: rgb(129, 22, 124) !important;
+    color: rgb(173 34 167);
+}
+
+    .Conclude:hover, .Conclude.active {
+        background-color: rgb(129, 22, 124);
+        border-color: rgb(129, 22, 124) !important;
+        color: white;
+    }
+
+.ToClose {
+    background-color: rgba(68, 156, 228, 0.10);
+    border-color: rgb(16, 100, 133) !important;
+    color: rgb(24 127 167);
+}
+
+
+    .ToClose:hover, .ToClose.active {
+        background-color: rgb(16, 100, 133);
+        border-color: rgb(16, 100, 133) !important;
+        color: white;
+    }
+
+.Unpaid {
+    background-color: rgba(164, 46, 233, 0.10);
+    border-color: rgb(86, 26, 134) !important;
+    color: rgb(174 72 255);
+}
+
+    .Unpaid:hover, .Unpaid.active {
+        background-color: rgb(86, 26, 134);
+        border-color: rgb(86, 26, 134) !important;
+        color: white;
+    }
+
+
+    .table tr td{
+        background:none;
+        color:white;
+    }
+
+.accBtn {
+    display: flex!important;
+    justify-content: center!important;
+    margin-bottom: 5px;
+    border: none;
+    border-radius: 10px;
+}
+
+.footer {
+    margin-top: 40px;
+    margin-bottom:0;
+   /* position:fixed!important;
+    bottom:0!important;
+    z-index:50!important;*/
+    width: 100%;
+    color: rgb(160, 158, 158);
+    background-color: black;
+    height: 50px;
+}
+
+
+.para {
+    float: right;
+    padding-right: 50px;
+    padding-top: 10px;
+    font-size: small;
+}
+
+
+@media screen and (max-width : 375px) {
+    .logo {
+        height: 50px !important;
+    }
+    .input{
+        font-size:12px;
+    }
+    .optional{
+        display:none;
+    }
+}
+
+@media screen and (max-width : 300px) {
+    .logo {
+        display: none !important;
+    }
+}
+
+.dataTables_length{
+    margin-left:20px;
+}
+
+.dataTables_info{
+    padding-left:20px;
+}
+
+
+
+
+
+@media screen and (max-width : 470px){
+    .button-back{
+        width:100px;
+        
+    }
+
+    .font-back{
+        font-size:12px;
+    }
+
+    .flex-d{
+        flex-direction:column;
+    }
+
+    .t-head{
+        font-size:13px!important;
+    }
+
+    .btn-action{
+        display:flex
+    }
+
+}
+
+@media screen and (max-width : 770px){
+    .t-width1 {
+        width: 35%;
+    }
+
+    .t-width2 {
+        width: 32%;
+    }
+
+    .invoice{
+       display:block!important;
+    }
+}
+
+
+/*Scheduling*/
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+    .upload-btn-wrapper input {
+        position: absolute !important;
+        opacity: 0 !important;
+    }
+
+
+#shifttable tr td {
+    border-left: 1px solid gray !important;
+    border-right: 1px solid gray !important;
+    height: 60px !important;
+    width: 10% !important;
+}
+
+    #shifttable tr td div {
+        border-bottom: 1px solid gray !important;
+        height: 60px !important;
+    }
+
+        #shifttable tr td div button {
+            border: none !important;
+            font-size: 13px !important;
+            font-weight: 400 !important;
+            height: 100% !important;
+        }
+
+.dayshiftheader tr th {
+    border: 1px solid gray !important;
+    color: white !important;
+    font-weight: 600;
+    background-color: #424242f2 !important;
+    border-bottom-color: gray !important;
+    font-size: 12px !important;
+    text-align: center !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    width: 18px !important;
+}
+
+#dayshiftbody tr td {
+    border: 1px solid gray !important;
+    height: 30px !important;
+}
+
+.shiftweektable tr td {
+    border: 1px solid gray !important;
+    height: 40px !important;
+    width: 10% !important;
+}

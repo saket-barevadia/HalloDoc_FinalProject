@@ -1,0 +1,61 @@
+﻿
+<div class="modal fade " id="newRequestModalBlock" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header " style="background-color:#0dcaf0">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Confirm Block</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close" style="color:white"></button>
+            </div>
+            <form action="" method="post" id="blockcaseform ">
+                <div class="modal-body ">
+
+                    <input hidden class="id" type="text" value="" id="Id" name="Id" />
+                    <div class="d-flex align-items-center mb-4">
+                        <h4 class="">Patient Name :  </h4>
+
+                        <p class="Name mb-0" style="font-size:18px;color:#0dcaf0;margin-left:8px;"></p>
+                    </div>
+
+                    <div class="form-floating">
+                        <textarea name="note" class="form-control note" placeholder="Leave a comment here" id="" style="height: 100px"></textarea>
+                        <label for="floatingTextarea2" class="input">Reason for Block Request</label>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    @* <button type="button" id="cancelCase" class="btn btn-info text-white">Confirm</button> *@
+                    <button class="btn btn-info text-white" type="button" id="blockPatient">Confirm</button>
+                    <button type="submit" class="btn btn-outline-info"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+ <script>
+    document.getElementById("blockPatient").addEventListener("click", (e) => {
+         // e.preventDefault();
+         let requestId = document.getElementById("Id").value;
+         let note = document.querySelector(".note").value;
+
+         console.log(requestId,note);
+
+         $.ajax({
+            url: "/Admin/blockCase",
+             type:"POST",
+             data: {
+                requestId: requestId,
+                reasonNote: note
+             }
+        }).done(function (html) {
+            location.reload();
+        });
+     });
+ </script>

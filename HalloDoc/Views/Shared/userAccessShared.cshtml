@@ -1,0 +1,198 @@
+﻿@model Data_Layer.CustomModels.ProviderMenucm;
+
+<style>
+    .form-check-input:checked {
+        background-color: #0dcaf0 !important;
+        border-color: #0dcaf0 !important;
+    }
+</style>
+@functions {
+    public string GetStatusName(int status)
+    {
+        switch (status)
+        {
+            case 1: return "Active";
+            case 2: return "Pending";
+            case 3: return "Not Active";
+            default: return "Active";
+        }
+    }
+}
+
+
+<div class="table-responsive d-lg-block d-none">
+    <table class="table">
+        <thead class="bg-body-tertiary ">
+        <thead>
+            <tr>
+                <th>Account Type<span class="ms-2"><i class="fa-solid fa-arrow-up"></i></span></th>
+                <th>Account POC</th>
+                <th>Phone</th>
+                <th>Status</th>
+                <th>Open Request</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+                @foreach (var obj in Model.Useraccess)
+                {
+
+                <tr class="align-middle">
+
+                    <td>
+                        <span class="document-name" style="color: #8f8383; font-weight: 500;">@obj.Accounttype</span>
+                    </td>
+                    <td style="color: #8f8383; font-weight: 500;">@obj.accountname</td>
+                    <td style="color: #8f8383; font-weight: 500;">@obj.phone</td>
+                    <td style="color: #8f8383; font-weight: 500;">@GetStatusName(@obj.status)</td>
+                    <td style="color: #8f8383; font-weight: 500;">@obj.openrequest</td>
+                    <td>
+                            @if (obj.roleid == 1)
+                            {
+                            <button type="button" onclick="location.href='@Url.Action("adminMyProfile","Admin",new{flag=2,aspnetuserId=obj.aspnetid})'" class="btn btn-outline-info ">
+                                Edit
+                            </button>
+                            }
+                            else
+                            {
+                            <button type="button" class="btn btn-outline-info" onclick="location.href='@Url.Action("editProvider","Admin",new{phyId=obj.PhysicianId,flag=2})'">
+                                Edit
+                            </button>
+                            }
+
+                    </td>
+                </tr>
+                }
+
+        </tbody>
+
+    </table>
+</div>
+
+<div class="border rounded shadow d-block d-lg-none">
+    <div class="accordion container-fluid p-0" id="accordionPanelsStayOpenExample">
+        <table class="w-100">
+            <thead>
+                <tr>
+                    <th class="d-none"></th>
+                    <th class="d-none"></th>
+                </tr>
+            </thead>
+            @{
+                var counter = 1;
+            }
+            <tbody>
+                   @foreach (var obj in Model.Useraccess)
+                {
+
+
+                <tr class="d-flex flex-column">
+                    <td>
+                        <h2 class="accordion-header" id="flush-heading@(counter)"></h2>
+
+                        <div class="accordion-button collapsed d-flex flex-column pb-0" data-bs-toggle="collapse"
+                             data-bs-target="#flush-collapse@(counter)" aria-expanded="false"
+                             aria-controls="flush-collapse@(counter)">
+
+                            <div class="w-100 ">
+                                <span class="fw-bolder">
+                                        @obj.accountname.Substring(0,obj.accountname.IndexOf(",")), @obj.Accounttype
+                                </span>
+                            </div>
+                            <div class="w-100">
+                                <div class="">
+                                        <span class="fw-bolder">Account Type: </span> @obj.Accounttype
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </td>
+                    <td>
+                        <div id="flush-collapse@(counter)" class="accordion-collapse collapse"
+                             aria-labelledby="flush-heading@(counter)" data-bs-parent="#accordionFlushExample">
+                            <div class="accordion-body main-flex pt-2">
+
+                                <div class="inner-flex">
+
+                                    <span class="accordion-heading-inner">
+                                      
+                                                <i class="fa-solid fa-phone me-2"></i>
+                                    
+                                        <b>Phone:</b>
+                                        <span class="accordion-value-inner">
+                                                @obj.phone
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="inner-flex">
+
+                                    <span class="accordion-heading-inner">
+                                            <i class="fa-solid fa-check me-2"></i>
+                                        <b>Status:</b>
+                                        <span class="accordion-value-inner">
+                                                @GetStatusName(@obj.status)
+                                        </span>
+                                    </span>
+                                </div>
+                                <div class="inner-flex">
+                                        <i class="fa-solid fa-file me-2"></i>
+                                    <span class="accordion-heading-inner">
+                                        <b>Open Request:</b>
+                                        <span class="accordion-value-inner">
+                                                @obj.openrequest
+                                        </span>
+                                    </span>
+                                </div>
+
+                                <div class="inner-flex d-flex justify-content-end">
+                                    @if (@obj.roleid == 1)
+                                    {
+                                            <button type="button" class="btn btn-outline-info" onclick="location.href='@Url.Action("adminMyProfile","Admin",new{flag=2,aspnetuserId=obj.aspnetid})'">
+                                        Edit
+                                    </button>
+                                    }
+                                     else
+                                    {
+                                            <button type="button" class="btn btn-outline-info" onclick="location.href='@Url.Action("editProvider","Admin",new{phyId=obj.PhysicianId,flag=2})'">
+                                        Edit
+                                    </button>
+                                    }
+
+                                </div>
+
+                            </div>
+                        </div>
+                            <hr />
+                    </td>
+                      
+                </tr>
+                  counter++;
+                 
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+
+ <script>
+    if (@Model.Flag== 0) {
+
+        $('#buttonAdmin').addClass('d-none');
+        $('#buttonProvider').addClass('d-none');
+    }
+    if (@Model.Flag==2) {
+
+        $('#buttonAdmin').removeClass('d-none');
+        $('#buttonProvider').addClass('d-none');
+    }
+    if (@Model.Flag==1) {
+
+        $('#buttonProvider').removeClass('d-none');
+        $('#buttonAdmin').addClass('d-none');
+    }
+</script>

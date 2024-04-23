@@ -1,0 +1,110 @@
+﻿@model Data_Layer.CustomModels.ProviderMenucm;
+
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mx-3 mt-3">
+        <h4>Create Role</h4>
+
+        <a asp-action="accountAccess" asp-controller="Admin">
+            <button type="button" class="btn btn-outline-info">
+                <i class="fa-solid fa-less-than size"></i>
+                <span class="size">Back</span>
+            </button>
+        </a>
+    </div>
+
+    <form method="post" id="AccountCreateForm" asp-action="createAccess" asp-controller="Admin">
+
+        <div class="m-3 p-3 border rounded shadow">
+            <h5>Details</h5>
+            <div class="row mt-1">
+                <div class="form-floating mb-3 col-12 col-sm-6 ">
+                    <input asp-for="@Model.CreateAccountAccess.Name" type="text" class=" form-control " id="RoleName"
+                           placeholder="RoleName" aria-label="RoleName" >
+                   
+                    <label class="ms-2 " for="RoleName">Role Name</label>
+                    <span asp-validation-for="@Model.CreateAccountAccess.Name" class="text-danger"></span>
+                </div>
+                <input type="text" hidden />
+                <div class="form-floating mb-3 col-12 col-sm-6 ">
+                    <select class="form-select form-control d1class" id="Role" asp-for="@Model.CreateAccountAccess.AccounttypeId" onchange="FilterRolesMenu(this.value)">
+                        <option value="" disabled selected>All</option>
+                        @foreach(var item in Model.Aspnetroles)
+                        {
+                            <option value="@item.Id">
+                                @item.Name
+                            </option>
+                        }
+                       
+                        
+                    </select>
+                   
+
+                    <label for="Role" class="ms-2 ">Role</label>
+                    <span asp-validation-for="@Model.CreateAccountAccess.AccounttypeId" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="form-floating mb-3 col-12" id="RolesMenuList">
+                    @foreach(var item in Model.Menus)
+                    {
+                        <div class="form-check form-check-inline px-2 mx-3">
+                            <input class="form-check-input d2class" name="AccountMenu" type="checkbox" id="@item.Menuid" value="@item.Menuid">
+                            <label class="form-check-label" for="@item.Menuid">@item.Name</label>
+                        </div>
+                    }
+                   
+                    
+                </div>
+
+            </div>
+
+
+
+            <div class="d-grid gap-2 d-flex justify-content-center  justify-content-md-end m-4 pt-4 ">
+
+                <button type="submit" class="btn text-white btn-info">Save</button>
+                <button type="reset" id="cancelBtnPhyEdit1" class="btn btn-outline-info CancelBtn">
+                    Cancel
+                </button>
+
+
+            </div>
+
+        </div>
+
+    </form>
+</div>
+
+
+<partial name="_ValidationScriptsPartial" />
+
+<script>
+    function FilterRolesMenu(id) {
+        $.ajax({
+            url:"/Admin/filterRoles",
+            type:"GET",
+            data: {accountTypeId:id},
+            success: function (result) {
+                $('#RolesMenuList').html(result);
+            }
+        });
+    }
+
+    var dash = document.getElementById("home-tab");
+    var providerLoc = document.getElementById("ProviderLocation-tab");
+    var profile = document.getElementById("Myprofile-tab");
+    var provider = document.getElementById("Providers-tab");
+    var partner = document.getElementById("Partners-tab");
+    var access = document.getElementById("Access-tab");
+    var records = document.getElementById("Records-tab");
+
+    dash.classList.remove("active");
+    providerLoc.classList.remove("active");
+    profile.classList.remove("active");
+    provider.classList.remove("active");
+    partner.classList.remove("active");
+    access.classList.add("active");
+    records.classList.remove("active");
+</script>

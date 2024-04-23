@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Patient";
+}
+
+<link rel="stylesheet" href="~/css/patientSite.css">
+<script src="~/js/patientSite.js" defer></script>
+
+
+<div class="container-fluid">
+    <!-- header -->
+    <div class="button">
+        <img src="~/images/logo.png" alt="" width="300px">
+        <button class="btn1" id="dark">
+            <i class="fas fa-light fa-moon" id="black" style="color: #43bcf9;"></i>
+            <i class="fa-regular fa-sun inactive" id="bright" style="color: white"></i>
+        </button>
+    </div>
+    <!-- header -->
+
+    <div class="d-flex flex-column align-items-center mt-5">
+        <a href=@Url.Action("submitReq","Home")> <button class="pBtn mb-4">Submit A Request</button></a>
+        <a href=@Url.Action("patientLogin","Home")>  <button class="pBtn2">Registered Patients</button></a>
+
+    <!-- footer -->
+    <div class="d-flex justify-content-center footer " id="terms">
+        <p class="size">Terms of Conditions | Privacy Policy</p>
+    </div>
+    <!-- footer -->
+</div>

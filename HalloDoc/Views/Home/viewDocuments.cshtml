@@ -1,0 +1,240 @@
+﻿@* @model Data_Layer.CustomModels.PatientRequestCm; *@
+@* @model int  *@
+@inject IHttpContextAccessor Accessor;
+@using Microsoft.AspNetCore.Http;
+@model Data_Layer.CustomModels.viewDocument;
+
+@{
+    ViewData["Title"] = "Patient Dashboard";
+}
+
+@* <link rel="stylesheet" href="~/css/patientReq.css">
+ *@@* <script src="~/js/viewDoc.js" defer></script> *@
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" de></script>
+
+<script src="~/js/darkmode.js" defer></script>
+@* <span>@Model</span> *@
+
+
+<!-- navbar -->
+<nav class="navbar  shadow z-3">
+    <div class="container-fluid ">
+        <div class="d-flex justify-content-center ">
+            <button class="navbar-toggler d-inline-block d-sm-none my-3 px-1" style="height:40px;width:40px" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+                <img src="/images/logo.png" alt="" class="img" style="height:100px;width:200px">
+            </a>
+        </div>
+        <div class="d-flex align-items-center">
+            <div class="mx-2 d-flex align-items-center d-none d-sm-inline-block">
+                <p class="text-secondary fs-6">
+                    <h5>
+                        Welcome
+                        <strong>
+                            @Accessor.HttpContext.Session.GetString("fname")
+                        </strong>
+                    </h5>
+                </p>
+            </div>
+            <div class="mx-2">
+                <button type="button" class="btn btn-outline-dark text-info shadow border-info py-2" onclick=" location.href = '@Url.Action("logout","Home")';">
+                    <span class="d-none d-sm-inline-block ">Logout</span>
+                    <span class="d-inline-block d-sm-none">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </span>
+                </button>
+            </div>
+            <div class="me-2">
+                <button onclick="toggleDarkTheme()" type="button" class="btn shadow border-info"
+                        style="border-radius: 10px; border-color: aqua" id="colorButton">
+                    @*   <i id="moon" class="bi bi-moon text-info fs-4"></i>
+                    <i id="sun" class="bi bi-sun text-info fs-4 d-none"></i> *@
+
+                    <i class="fas fa-light fa-moon" id="moon" style="color: #43bcf9;"></i>
+                    <i class="fa-regular fa-sun d-none" id="sun" style="color: white"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <hr class="w-100 m-0 p-0 d-none d-sm-block">
+
+
+    <div class="collapse w-100 mx-sm-1 show d-sm-block" id="navbarToggleExternalContent">
+        <div class="px-3">
+            <ul class="nav nav-underline" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active text-info TabItem" id="nav-tab1-tab" data-bs-toggle="tab" data-bs-target="#nav-tab1" type="button" role="tab" aria-controls="nav-tab1" aria-selected="true"><span class="text-secondary">Dashboard</span></button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a asp-action="patientProfile" asp-controller="Home" style="text-decoration:none">  <button class="nav-link TabItem text-info" id="nav-tab2-tab" data-bs-toggle="tab" data-bs-target="#nav-tab2" type="button" role="tab" aria-controls="nav-tab2" aria-selected="false"><span class="text-secondary">Profile</span></button> </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</nav>
+
+
+
+
+
+<div class="content" style="padding: 0 10px;">
+    <div class="content-header mb-4 mt-4" style="display:flex;justify-content:space-between;width:85%;margin:auto;align-items:center">
+
+        <h3 class="fontme">Documents</h3>
+        <a asp-controller="Home" asp-action="patientDashboard" asp-route-emaill="@Accessor.HttpContext.Session.GetString("email")" style="text-decoration:none; ">
+            <button class="btn btn-outline-info">
+                <span>
+                    <i class="fa-solid fa-less-than size"></i>
+                </span>
+
+                <span class="size">Back</span>
+            </button>
+        </a>
+    </div>
+
+    <div class="container shadow rounded border mb-3">
+
+        <p style="font-size:13px;margin-bottom:2px">Patient Name</p>
+      
+                <h4 class="mb-3"> @Model.Firstname (@Model.Requestid)</h4>
+            
+
+        <p>Check here for any files that you or the doctors of your subsequents requestors have attached for you to review.</p>
+
+        <div class="input-group mb-3">
+
+            
+                    <form method="post" enctype="multipart/form-data" style="display:flex;width:100%">
+                        <input type="hidden" asp-for="@Model.Requestid" />
+                        <input asp-for="@Model.Upload" type="file" class="form-control" id="inputGroupFile02">
+                        <button type="submit" class="input-group-text btn btn-outline-info " for="inputGroupFile02">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;<span class="remove">Upload</span>
+                        </button>
+                        <span asp-validation-for="@Model.Upload" class="text-danger"></span>
+                        @*   <button type="submit" style="display: flex; align-items: center; justify-content: center; background-color: rgb(6, 214, 214) !important; width: 150px; color: wheat; border: none; border-radius: 5px;">
+                submit
+                </button> *@
+                    </form>
+
+                   
+               
+
+
+
+
+        </div>
+
+        <div class="content-header mb-4 mt-4" style="display:flex;justify-content:space-between;width:75%;margin:auto;align-items:center">
+
+            <h3 class="fontme">Documents</h3>
+
+
+            <button type="button" class="btn btn-outline-info downloadAll"  style=" border: 1px solid #43bcf9;width: 150px;height: 40px;border-radius: 10px;">
+                <span class="size">Download All</span>
+            </button>
+
+        </div>
+
+
+        <table class="table d-none d-md-table" style=" margin-top:80px;width:100%">
+            <thead class="table-light">
+
+                <tr>
+                    <th width="40%">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" class="check" id="checkAll">
+                            </label>
+                        </div>
+                    </th>
+                    <th width="20%" class="t-header">Uploader</th>
+                    <th width="20%" class="t-header">Upload Date <i class="fa-solid fa-arrow-up"></i></th>
+                    <th width="20%" class="t-header">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var obj in Model.viewDocs)
+                {
+
+
+                    <tr>
+                        <td>
+                            <div class="checkbox d-flex">
+                                <label>
+                                    <input type="checkbox" class="check fileCheckbox">
+                                </label>
+                                <span class="ps-3" style="color:#eb4343"><i class="fa-solid fa-file"></i></span>
+                                <p class="ps-3 table-text">@obj.Filename</p>
+                            </div>
+                        </td>
+                        <td><span class="table-text">@obj.Firstname</span></td>
+                        <td><span class="table-text">@obj.Createddate.ToString("MMMM dd, yyyy")</span></td>
+                        <td>
+                            <a type="button" href="~/Documents/@obj.Filename" download="@obj.Filename" class="input-group-text btn btn-outline-info download-btn" for="inputGroupFile02" style="text-decoration:none">
+                                <i class="fa-solid fa-cloud-arrow-down"></i>&nbsp;<span class="remove">Download</span>
+                            </a>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+
+        </table>
+
+
+
+        @foreach (var item in Model.viewDocs)
+        {
+
+            <div class="d-block d-md-none mt-3 mb-2">
+
+                <div class="d-flex ms-2">
+                 
+                    <span class="ms-2" style="color:#eb4343"><i class="fa-solid fa-file"></i></span>
+                    <p class="ps-3 ">@item.Filename</p>
+                </div>
+                <div class="d-flex flex-column mb-2">
+                    <span class="ms-2"><span style="font-weight:bold">Uploader:</span> @item.Firstname</span>
+                    <span class="ms-2 "><span style="font-weight:bold">Upload Date:</span> @item.Createddate</span>
+                </div>
+                <a type="button" href="~/Documents/@item.Filename" download="@item.Filename" class="btn btn-outline-info download-btn"><i class="fa-solid fa-cloud-arrow-down"></i></a>
+                <hr />
+            </div>
+
+
+
+        }
+
+
+
+    </div>
+
+</div>
+
+<script defer>
+    // $('.downloadAll').click(function () {
+    //     $('.fileCheckbox:checked').each(function () {
+    //         var filePath = $(this).closest('a').find('.download-btn')[0].click();
+    //     });
+    // });
+
+    $('.downloadAll').click(function () {
+        $('.fileCheckbox:checked').each(function () {
+            var filePath = $(this).closest('tr').find('.download-btn')[0].click();
+        });
+    });
+
+    $("#checkAll").click(function () {
+        $(".check").prop('checked', $(this).prop('checked'));
+    });
+
+    
+</script>

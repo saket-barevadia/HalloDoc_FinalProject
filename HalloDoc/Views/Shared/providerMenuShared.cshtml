@@ -1,0 +1,140 @@
+﻿@model Data_Layer.CustomModels.ProviderMenucm;
+
+@functions {
+    public string GetStatusName(int status)
+    {
+        switch (status)
+        {
+            case 1: return "Active";
+            case 2: return "Pending";
+            case 3: return "Not Active";
+            default: return "Active";
+        }
+    }
+}
+
+<div class="table-responsive d-lg-block d-none">
+    <table class="table">
+        <thead class="bg-body-tertiary ">
+        <thead>
+            <tr>
+                <th class="">Stop Notification </th>
+                <th>Provider Name <span><i class="bi bi-arrow-up"></i></span></th>
+                <th>Role</th>
+                @* <th>On Call Status</th> *@
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+
+                @foreach (var item in Model.Providers)
+                {
+                <tr class="align-middle">
+                    <td class="ps-5">
+                        <input type="checkbox" name="Mark" class="checkbox fileCheckbox px-4" onchange="stopNotification(@item.Physicianid)" />
+                    </td>
+                    <td>
+                        <span class="mx-2" style="color: #8f8383; font-weight: 500;">@item.providerName</span>
+                    </td>
+                    <td style="color: #8f8383; font-weight: 500;">@item.Role</td>
+                    @* <td style="color: #8f8383; font-weight: 500;">Unassigned</td> *@
+
+                    <td style="color: #8f8383; font-weight: 500;">@GetStatusName(Convert.ToInt32(@item.Status))</td>
+                    <td>
+                        <button data-bs-toggle="modal"
+                                data-bs-target="#contactProvider" type="submit" class="btn btn-outline-info contact-btn" data-email="@item.Email" data-phyid="@item.Physicianid" value="">
+                            Contact
+                        </button>
+                        <button type="button" class="btn btn-outline-info" onclick="location.href='@Url.Action("editProvider","Admin",new{phyId=item.Physicianid,flag=1})'">
+                            Edit
+                        </button>
+                    </td>
+                </tr>
+
+                }
+        </tbody>
+
+    </table>
+</div>
+
+<div class="border rounded shadow d-block d-lg-none">
+    <div class="accordion container-fluid p-0" id="accordionPanelsStayOpenExample">
+        <table class="w-100">
+            <thead>
+                <tr>
+                    <th class="d-none"></th>
+                    <th class="d-none"></th>
+                </tr>
+            </thead>
+            @{
+                var counter = 1;
+            }
+            <tbody>
+                @foreach (var item in Model.Providers)
+                {
+
+                    <tr class="d-flex flex-column">
+                        <td>
+                            <h2 class="accordion-header" id="flush-heading@(counter)"></h2>
+
+                            <div class="accordion-button collapsed d-flex flex-column pb-0" data-bs-toggle="collapse"
+                                 data-bs-target="#flush-collapse@(counter)" aria-expanded="false"
+                                 aria-controls="flush-collapse@(counter)">
+
+                                <div class="w-100 ">
+                                    <input type="checkbox" name="Mark" class="checkbox fileCheckbox me-2" onchange="stopNotification(@item.Physicianid)" />
+                                    <span class="fw-bolder">
+                                        @item.providerName
+                                    </span>
+                                </div>
+                                <div class="w-100">
+                                    <div class="">
+                                        <span class="fw-bolder">On Call Status</span>: @item.callStatus
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </td>
+                        <td>
+                            <div id="flush-collapse@(counter)" class="accordion-collapse collapse"
+                                 aria-labelledby="flush-heading@(counter)" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body main-flex pt-0">
+                                    <div class="inner-flex pt-1">
+                                        <i class="fa-solid fa-user me-2"></i>
+                                        <span class="fw-bolder">Role</span>: @item.Role
+                                    </div>
+                                    <div class="inner-flex pb-2">
+                                        <i class="fa-solid fa-check me-2"></i>
+                                        <span class="fw-bolder">Status</span>: @GetStatusName(Convert.ToInt32(@item.Status))
+                                    </div>
+                                    <div class="inner-flex d-flex justify-content-end">
+                                        <button data-bs-toggle="modal"
+                                                data-bs-target="#contactProvider" type="submit" class="btn btn-outline-info " data-email="@item.Email" data-phyid="@item.Physicianid">
+                                            Contact
+                                        </button>
+                                        <button type="button" class="btn btn-outline-info ms-2" onclick="location.href='@Url.Action("editProvider","Admin",new{phyId=item.Physicianid,flag=1})'">
+                                            Edit
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <hr>
+                        </td>
+                    </tr>
+                    counter++;
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+
+
+

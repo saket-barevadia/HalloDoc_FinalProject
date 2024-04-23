@@ -1,0 +1,183 @@
+﻿@model Data_Layer.CustomModels.viewNotescm;
+
+<link href="~/css/Admin/adminDashboard.css" rel="stylesheet" type="text/css" />
+
+@* <partial name="notification" />
+ *@
+
+
+<div class="container" id="notess">
+
+    <div class="d-flex justify-content-between align-items-center mt-3">
+
+        <h3 class="">Notes</h3>
+
+
+        <a asp-action="ProviderDashboardMain" asp-controller="Provider">
+            <button type="button" class="btn btn-outline-info">
+                <i class="fa-solid fa-less-than size"></i>
+                <span class="size">Back</span>
+            </button>
+        </a>
+
+     
+
+    </div>
+
+
+
+
+    <form id="viewNotesForm" onsubmit="viewNotesPost(@Model.Requestid)" method="post">
+        <input type="text" asp-for="Requestid" hidden/>
+        <div class="m-3">
+            <div class="row mt-1">
+                
+                <div class="form-floating mb-3 col-12 col-sm-6 ">
+                    <div class=" border shadow rounded" style="height:95px">
+                        <div class="m-3 d-flex align-items-center">
+                            <i class="fa-solid fa-arrow-right-arrow-left pe-2"></i>
+                            <h6 class="mb-0"> Transfer Notes</h6>
+                        </div>
+
+                        <div class="mt-2 m-3">
+                            @if (Model.Status == 4)
+                            {
+                                <p>Patient Agreed</p>
+                            }
+                            <p> @Model.transfernotes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-floating mb-3 col-12 col-sm-6 ">
+                    <div class=" border shadow rounded" style="height:95px">
+                        <div class="m-3 d-flex align-items-center">
+                            <i class="fa-solid fa-user-nurse pe-2"></i>
+                            <h6 class="mb-0"> Physician Notes</h6>
+                        </div>
+
+                        <div class="mt-2 m-3">
+
+                            <p>@Model.Physiciannotes</p>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="form-floating mb-3 col-12 col-sm-6 ">
+                    <div class="border shadow rounded" style="height:95px">
+                        <div class="m-3 d-flex align-items-center">
+                            <i class="fa-solid fa-user-tie pe-2"></i>
+                            <h6 class="mb-0"> Admin notes</h6>
+                        </div>
+
+                        <div class="mt-2 m-3">
+                            <p>@Model.Adminnotes</p>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                @if (Model.Status == 3)
+                {
+                    <div class="form-floating mb-3 col-12 col-sm-6 ">
+                        <div class="border shadow rounded" style="height:95px">
+                            <div class="m-3 d-flex align-items-center">
+                                <i class="fa-solid fa-user-tie pe-2"></i>
+                                <h6 class="mb-0">Admin Cancellation Notes</h6>
+                            </div>
+
+                            <div class="mt-2 m-3">
+                                <p>@Model.cancellationNotes</p>
+
+
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @if (Model.Status == 7)
+                {
+                    <div class="form-floating mb-3 col-12 col-sm-6 ">
+                        <div class="border shadow rounded" style="height:95px">
+                            <div class="m-3 d-flex align-items-center">
+                                <i class="fa-solid fa-user-tie pe-2"></i>
+                                <h6 class="mb-0">Patient Cancellation Notes</h6>
+                            </div>
+
+                            <div class="mt-2 m-3">
+                                <p>@Model.cancellationNotes</p>
+
+
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+
+            <div class="border shadow rounded mt-3">
+                <div class="row m-3 mx-0 mx-sm-1">
+                    <div class=" col-12 form-floating mb-3 ">
+                        <textarea asp-for="Physiciannotes" class="form-control h-100 dclass" id="floatingInput" placeholder="Textarea" rows="5"></textarea>
+                       <label for="floatingInput" class="text-wrap ms-2">Physician Notes</label>
+                        <span asp-validation-for="Physiciannotes" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="d-grid gap-2 d-flex justify-content-center  justify-content-md-end m-4 pt-4 ">
+                    <button  type="submit" class="btn text-white btn-info">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+</div>
+
+
+
+
+<div>
+    <div class="footer" @* style="position:fixed;bottom:0" *@>
+        <p class="para">Terms of Conditions &nbsp; | &nbsp; Privacy Policy</p>
+    </div>
+</div>
+
+
+@section scripts{
+    @{
+    <partial name="_ValidationScriptsPartial" />
+    }
+            }
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.js" defer></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.js" defer></script>
+
+<script>
+    function viewNotesPost(id) {
+        event.preventDefault();
+         if ($('#viewNotesForm').valid()) {
+            $.ajax({
+                method: "POST",
+                url: "/Provider/viewNotes",
+                data: $("#viewNotesForm").serialize(),
+                success: function () {
+                   
+                    toastr.success("Data Updated Successfully");
+                    viewNotes(id)
+
+                },
+                error: function () {
+                    toastr.error("Something Went Wrong");
+                }
+            });
+         }
+    }
+</script>
+

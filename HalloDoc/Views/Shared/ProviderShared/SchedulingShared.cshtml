@@ -1,0 +1,497 @@
+﻿@model Data_Layer.CustomModels.SchedulingCm;
+
+
+<link href="~/css/Admin/adminDashboard.css" rel="stylesheet" type="text/css" />
+
+<div class="container" id="main" style="margin-bottom:100px">
+
+    <div class="row bgcolor1">
+
+        <div class=" col-12 col-sm-12 col-md-10 col-lg-8 mx-auto d-flex justify-content-between mt-4 mb-2 w-100">
+            <h4> Scheduling  </h4>
+            <a asp-action="ProviderDashboardMain" asp-controller="Provider">
+                <button type="button" class="btn btn-outline-info">
+                    <i class="fa-solid fa-less-than size"></i>
+                    <span class="size">Back</span>
+                </button>
+            </a>
+        </div>
+        <div class="d-grid gap-2 col-12 col-sm-12 col-md-10 col-lg-8 mx-auto d-flex flex-column rounded-3 bgcolor mt-4 w-100">
+
+          
+            <div class="my-2 fs-5 fw-bold" id="datediv">
+                Something is wrong
+            </div>
+
+            <div class="my-2 d-flex justify-content-end">
+                <div class="d-flex">
+                    <div class="rounded-3 mx-1" style="height:25px;width:50px;background-color:pink"></div>
+                    <div class="mx-1">Pending Shifts</div>
+                    <div class="rounded-3 mx-1" style="height:25px;width:50px;background-color:lightgreen"></div>
+                    <div class="mx-1">Approved Shifts</div>
+                </div>
+            </div>
+
+      
+
+            @*      <div class="my-2 d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+            <button class="mx-2 bg-info rounded-5 d-flex justify-content-center align-items-center" style="height:30px;width:30px;border:none;" onclick="previousCalendar()"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="upload-btn-wrapper bg-transparent fs-5 border-0" id="dayBtnid" onclick="showcalender(1)">
+            <i class="fa-solid fa-calendar-days"></i>
+            <div id="cal">
+            <input type="date" id="date-input" onchange="monthchange(1)" />
+            </div>
+            </button>
+            <button class="upload-btn-wrapper bg-transparent fs-5 border-0" id="weekBtnid" onclick="showcalender(2)">
+            <i class="fa-solid fa-calendar-days"></i>
+            <div id="cal">
+            <input type="week" id="week-input" onchange="monthchange(2)" />
+            </div>
+            </button>
+            <button class="upload-btn-wrapper bg-transparent fs-5 border-0" id="monthBtnid" onclick="showcalender(3)">
+            <i class="fa-solid fa-calendar-days"></i>
+            <div id="cal">
+            <input type="month" id="month-input" onchange="monthchange(3)" />
+            </div>
+            </button>
+            <button class="mx-2 bg-info rounded-5 d-flex justify-content-center align-items-center" style="height:30px;width:30px;border:none;" onclick="nextCalendar()"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+            <div class="d-flex">
+            <button class="btn btn-outline-info mx-1 scheduleBtn1" onclick="ShiftCalender('day');">Day</button>
+            <button class="btn btn-outline-info mx-1 scheduleBtn2" onclick="ShiftCalender('week');">Week</button>
+            <button class="btn btn-outline-info ms-1 scheduleBtn3" onclick="ShiftCalender('month');">Month</button>
+            </div>
+            </div> *@
+
+
+            <div class=" d-md-flex justify-content-between align-items-center text-center">
+                <div class="d-flex align-items-center justify-content-center mt-2 mb-3 text-center">
+                    <button class="mx-2 bg-info rounded-5 d-flex justify-content-center align-items-center" style="height:30px;width:30px;border:none;" onclick="previousCalendar()"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="upload-btn-wrapper bg-transparent fs-5 border-0" id="dayBtnid">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <div id="cal">
+                            <input type="date" id="date-input" onchange="monthchange(1)" />
+                            <div id="datepickerContainer" style="display:none;"></div>
+                        </div>
+                    </button>
+                    <button class="upload-btn-wrapper bg-transparent fs-5 border-0" id="weekBtnid">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <div id="cal">
+                            <input type="week" id="week-input" onchange="monthchange(2)" />
+                        </div>
+                    </button>
+                    <button class="upload-btn-wrapper bg-transparent fs-5 border-0" id="monthBtnid">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        <div id="cal">
+                            <input type="month" id="month-input" onchange="monthchange(3)" />
+                        </div>
+                    </button>
+                    <button class="mx-2 bg-info rounded-5 d-flex justify-content-center align-items-center" style="height:30px;width:30px;border:none;" onclick="nextCalendar()"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div class="d-md-flex my-2 text-center">
+                    @* <button class="btn btn-outline-info mx-1 scheduleBtn1" onclick="ShiftCalender('day');">Day</button>
+                    <button class="btn btn-outline-info mx-1 scheduleBtn2" onclick="ShiftCalender('week');">Week</button> *@
+                   @*  <button class="btn btn-outline-info ms-1 scheduleBtn3" onclick="ShiftCalender('month');">Month</button> *@
+                    <button type="button" class="btn btn-success text-light mobile-font2" onclick="CreateNewShift()">Add New Shift</button>
+                </div>
+            </div>
+
+            <div id="shiftTable"></div>
+
+
+
+        </div>
+
+
+    </div>
+</div>
+
+<div id="schedulingModals"></div>
+
+<script>
+    var date = new Date();
+
+    var diff = date.getDay() - 0;
+    var sunday = new Date(date.getTime() - diff * 24 * 60 * 60 * 1000);
+    var saturday = new Date(sunday.getTime() + 6 * 24 * 60 * 60 * 1000);
+
+    var regionid = 0;
+
+    var schedulingtype;
+
+    function filterPhysicianRegion(region) {
+        regionid = region;
+        switch (schedulingtype) {
+            case 'month':
+
+                ShiftCalender('month');
+                break;
+
+            case 'day':
+
+                ShiftCalender('day');
+                break;
+            case 'week':
+
+                ShiftCalender('week');
+                break;
+        }
+    }
+
+
+    ShiftCalender('month');
+
+
+    function ShiftCalender(shifttype) {
+        schedulingtype = shifttype;
+        var datehere;
+        var calendar = document.getElementById("cal");
+        calendar.innerHTML = '';
+
+        switch (schedulingtype) {
+            case 'month':
+                datehere = date.toLocaleDateString('en-US', { month: 'long' }) + ',' + date.getFullYear();
+                calendar.innerHTML = '<input type="month" id="month-input" onchange="monthchange()"/>';
+                $('.scheduleBtn3').addClass("btn-info text-white");
+                $('.scheduleBtn1').removeClass("btn-info text-white");
+                $('.scheduleBtn2').removeClass("btn-info text-white");
+                $('#dayBtnid').hide();
+                $('#weekBtnid').hide();
+                $('#monthBtnid').show();
+                break;
+            case 'day':
+                datehere = date.toLocaleDateString('en-US', { weekday: 'long' }) + ', ' + (date.toLocaleDateString('en-US', { month: 'long' })).substring(0, 3) + ' ' + date.getDate() + ', ' + date.getFullYear();
+                calendar.innerHTML = '<input type="date" id="month-input" onchange="monthchange()"/>';
+                $('.scheduleBtn1').addClass("btn-info text-white");
+                $('.scheduleBtn3').removeClass("btn-info text-white");
+                $('.scheduleBtn2').removeClass("btn-info text-white");
+                $('#dayBtnid').show();
+                $('#weekBtnid').hide();
+                $('#monthBtnid').hide();
+                break;
+            case 'week':
+                datehere = (sunday.toLocaleDateString('en-US', { month: 'long' })).substring(0, 3) + ' ' + sunday.getDate() + ' - ' + (saturday.toLocaleDateString('en-US', { month: 'long' })).substring(0, 3) + ' ' + saturday.getDate() + ' ' + saturday.getFullYear();
+                calendar.innerHTML = '<input type="date" id="month-input" onchange="monthchange()"/>';
+                $('.scheduleBtn2').addClass("btn-info text-white");
+                $('.scheduleBtn1').removeClass("btn-info text-white");
+                $('.scheduleBtn3').removeClass("btn-info text-white");
+                $('#dayBtnid').hide();
+                $('#weekBtnid').show();
+                $('#monthBtnid').hide();
+
+        }
+
+        $.ajax({
+            url: '/Provider/loadshift',
+            type: 'POST',
+            data: { datestring: date.toISOString(), sundaystring: sunday.toISOString(), saturdaystring: saturday.toISOString(), shifttype: shifttype, regionid: regionid },
+            success: function (data) {
+
+                $('#shiftTable').html(data);
+                $('#datediv').text(datehere);
+            },
+            error: function () {
+                console.error('Error loading partial view.');
+            }
+        });
+    }
+
+
+
+
+    // function showcalender(filter) {
+    //     if (filter == 1) {
+    //         document.getElementById("date-input").showPicker();
+
+    //     }
+    //     if (filter == 2) {
+    //         document.getElementById("week-input").showPicker();
+    //     }
+    //     if (filter == 3) {
+    //         document.getElementById("month-input").showPicker();
+    //     }
+    // }
+
+    function monthchange(filter) {
+        if (filter == 1) {
+            var selectmonth = document.getElementById("day-input").value;
+            var year = parseInt(selectmonth.split("-")[0]);
+            var month = parseInt(selectmonth.split("-")[1]);
+            date.setMonth(month - 1);
+            date.setFullYear(year);
+            ShiftCalender('day');
+        }
+        if (filter == 2) {
+            var selectmonth = document.getElementById("week-input").value;
+            var year = parseInt(selectmonth.split("-")[0]);
+            var month = parseInt(selectmonth.split("-")[1]);
+            date.setMonth(month - 1);
+            date.setFullYear(year);
+            ShiftCalender('week');
+        }
+        if (filter == 3) {
+            var selectmonth = document.getElementById("month-input").value;
+            var year = parseInt(selectmonth.split("-")[0]);
+            var month = parseInt(selectmonth.split("-")[1]);
+            date.setMonth(month - 1);
+            date.setFullYear(year);
+            ShiftCalender('month');
+        }
+    }
+
+    function nextCalendar() {
+        switch (schedulingtype) {
+            case 'month':
+                date.setMonth(date.getMonth() + 1);
+                ShiftCalender('month');
+                break;
+
+            case 'day':
+                date.setDate(date.getDate() + 1);
+                ShiftCalender('day');
+                break;
+            case 'week':
+                sunday.setDate(sunday.getDate() + 7);
+                saturday.setDate(saturday.getDate() + 7);
+                ShiftCalender('week');
+                break;
+        }
+
+    }
+
+    function previousCalendar() {
+        switch (schedulingtype) {
+            case 'month':
+                date.setMonth(date.getMonth() - 1);
+                ShiftCalender('month');
+                break;
+
+            case 'day':
+                date.setDate(date.getDate() - 1);
+                ShiftCalender('day');
+                break;
+            case 'week':
+                sunday.setDate(sunday.getDate() - 7);
+                saturday.setDate(saturday.getDate() - 7);
+                ShiftCalender('week');
+                break;
+        }
+
+    }
+
+    function OpenShiftModal(DataObject) {
+
+        DataObject.datestring = date.toISOString();
+        $.ajax({
+            url: '/Provider/OpenScheduledModal',
+            type: 'Post',
+            data: DataObject,
+            success: function (data) {
+                if (DataObject.actionType == "moreshifts") {
+                    $('#ViewScheduledModal').modal('hide');
+                    $('#schedulingModals').html(data);
+                    $('#ViewAllShiftModal').modal('show');
+                }
+                if (DataObject.actionType == "moreweekshifts") {
+                    $('#ViewScheduledModal').modal('hide');
+                    $('#schedulingModals').html(data);
+                    $('#ViewAllShiftModal').modal('show');
+                }
+                else {
+                    $('#ViewAllShiftModal').modal('hide');
+                    $('#schedulingModals').html(data);
+                    $('#ViewScheduledModal').modal('show');
+                }
+
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+    }
+
+    function OpenShiftModalWeek(shiftdate, physicianid) {
+
+        var datestring = date.toISOString();
+        $.ajax({
+            url: '/Provider/OpenScheduledModalWeek',
+            type: 'Post',
+            data: { sundaystring: sunday.toISOString(), saturdaystring: saturday.toISOString(), datestring: datestring, shiftdate: shiftdate, physicianid: physicianid },
+            success: function (data) {
+
+                $('#ViewScheduledModal').modal('hide');
+                $('#schedulingModals').html(data);
+                $('#ViewAllShiftModal').modal('show');
+
+            },
+            error: function (e) {
+                console.log(e);
+            }
+        });
+    }
+
+
+
+    function ReturnShift(status, shiftdetailid) {
+        event.preventDefault();
+
+        $.ajax({
+            method: "POST",
+            url: "/Provider/ReturnShift",
+            data: { status: status, shiftdetailid: shiftdetailid },
+
+            success: function (res) {
+                if (res.code == 401) {
+                    setTimeout(function () { location.reload(); }, 2000);
+                    toastr.error("Error Ocurred");
+                } else {
+
+                    $('#ViewScheduledModal').modal('hide');
+                    toastr.success("Shift Return Successfully");
+                    switch (schedulingtype) {
+                        case 'month':
+
+                            ShiftCalender('month');
+                            break;
+
+                        case 'day':
+
+                            ShiftCalender('day');
+                            break;
+                        case 'week':
+
+                            ShiftCalender('week');
+                            break;
+                    }
+                }
+            },
+
+            error: function () {
+                toastr.error("Something Went Wrong");
+            }
+        });
+
+    }
+
+    function deleteShift(shiftdetailid) {
+        event.preventDefault();
+
+        $.ajax({
+            method: "POST",
+            url: "/Provider/deleteShift",
+            data: { shiftdetailid: shiftdetailid },
+
+            success: function (res) {
+                if (res.code == 401) {
+                    setTimeout(function () { location.reload(); }, 2000);
+                    toastr.error("Error Occurred");
+                } else {
+
+                    $('#ViewScheduledModal').modal('hide');
+                    toastr.success("Shift Deleted Successfully");
+                    switch (schedulingtype) {
+                        case 'month':
+
+                            ShiftCalender('month');
+                            break;
+
+                        case 'day':
+
+                            ShiftCalender('day');
+                            break;
+                        case 'week':
+
+                            ShiftCalender('week');
+                            break;
+                    }
+                }
+            },
+
+            error: function () {
+                toastr.error("Something Went Wrong");
+            }
+        });
+    }
+
+    function EditShiftDetails() {
+        event.preventDefault();
+        var formdata = $('#EditshiftForm').serialize();
+        if ($('#EditshiftForm').valid()) {
+            $.ajax({
+                method: "POST",
+                url: "/Provider/EditShiftDetails",
+                data: formdata,
+
+                success: function (res) {
+                    if (res.code == 401) {
+                        setTimeout(function () { location.reload(); }, 2000);
+                        toastr.error("Error Occurred");
+                    } else {
+
+                        if (res) {
+
+                            $('#ViewScheduledModal').modal('hide');
+
+                            toastr.success("Shift Edited Successfully");
+                            switch (schedulingtype) {
+                                case 'month':
+
+                                    ShiftCalender('month');
+                                    break;
+
+                                case 'day':
+
+                                    ShiftCalender('day');
+                                    break;
+                                case 'week':
+
+                                    ShiftCalender('week');
+                                    break;
+                            }
+
+                        }
+                        else {
+                            toastr.error("Physician is busy on your selected Time!!!");
+
+                        }
+                    }
+                },
+
+                error: function () {
+                    toastr.error("Something Went Wrong");
+
+                }
+            });
+        }
+    }
+
+    function CreateNewShift() {
+        $.ajax({
+            method: "GET",
+            url: "/Provider/CreateNewShift",
+            success: function (res) {
+                if (res.code == 401) {
+                    setTimeout(function () { location.reload(); }, 2000);
+                    toastr.error("Error Occurred");
+                } else {
+                    $('#schedulingModals').html(res);
+                    $('#createShiftModal').modal('show');
+                }
+            },
+
+            error: function () {
+                toastr.success("Something Went Wrong");
+            }
+        });
+    }
+ 
+
+</script>
+
+
+@section Scripts{
+    @{
+        <Partial name="_ValidationScriptsPartial" />
+    }
+ }

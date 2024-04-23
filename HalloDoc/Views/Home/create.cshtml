@@ -1,0 +1,27 @@
+﻿@* @model HalloDoc.DataModels.Menu
+
+<form method="post">
+    <div style="margin-left:20px">
+        Create Menu
+    </div>
+    <div style="margin-left:20px;width:500px;margin-bottom:20px">
+        <label asp-for="Menuid"></label>
+        <input asp-for="Menuid" class="form-control" />
+    </div> <div style="margin-left:20px;width:500px;margin-bottom:20px">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+    </div> <div style="margin-left:20px;width:500px;margin-bottom:20px">
+        <label asp-for="Accounttype"></label>
+        <input asp-for="Accounttype" class="form-control" />
+    </div> <div style="margin-left:20px;width:500px;margin-bottom:20px">
+        <label asp-for="Sortorder"></label>
+        <input asp-for="Sortorder" class="form-control" />
+    </div>
+    <div style="margin-left:20px">
+       @* <button type="submit" class="btn-primary btn">Create</button> *@
+       @* <button type="submit" class="btn-primary btn">Update</button> *@
+     @*   <button type="submit" class="btn-danger btn">Delete</button>
+       <a asp-controller="Home" asp-action="privacy" class="btn btn-secondary">Back to privacy</a>
+    </div>
+
+</form>  *@

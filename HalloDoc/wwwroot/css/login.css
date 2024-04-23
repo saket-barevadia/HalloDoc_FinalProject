@@ -1,0 +1,200 @@
+﻿.button {
+    /* margin-top: 12px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn1 {
+    position: absolute;
+    right: 0;
+    border: 1px solid #43bcf9;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    margin-right: 8px;
+    float: right;
+}
+
+.toggler {
+    border: 1px solid white;
+    background-color: rgb(63, 62, 62) !important;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* margin-top: 50px; */
+    height: 100%;
+    justify-content: center;
+    /* background: url("./images/7768657_3763028.jpg"); */
+}
+
+.btn2 {
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    background-color: rgb(23, 200, 245);
+    width: 420px;
+}
+
+.flex {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.width {
+    width: 420px;
+    position: relative;
+}
+
+.footer {
+    margin-bottom: 80px;
+    color: grey;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.link {
+    text-decoration: none;
+    color: rgb(23, 200, 245);
+    margin-left: 20px;
+}
+
+.pass {
+    text-decoration: none;
+    color: rgb(23, 200, 245);
+}
+
+.opacity {
+    opacity: 0.2;
+    position: absolute;
+    /* left: 0; */
+    top: 0;
+    /* width: 100%; */
+    height: 100%;
+}
+
+.font {
+    font-size: 40px;
+    font-weight: 600;
+}
+
+.input {
+    position: relative;
+}
+
+.icon {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    color: grey
+}
+
+.transparent {
+    background: transparent;
+}
+
+#password:hover {
+    cursor: pointer;
+}
+
+#password {
+    display: block;
+}
+
+#password2 {
+    display: none;
+}
+
+    #password2:hover {
+        cursor: pointer;
+    }
+
+.toggled {
+    color: white;
+    background-color: black;
+}
+
+.white {
+    color: white;
+}
+
+.transparent::placeholder {
+    color: #43bcf9;
+}
+
+.transparent:focus {
+    background-color: transparent;
+}
+
+.inputText {
+    background-color: transparent;
+    color: white;
+}
+
+    .inputText:focus {
+        background-color: transparent;
+        color: white;
+    }
+
+.inactive {
+    display: none;
+}
+
+@media only screen and (max-width: 680px) {
+    .button img {
+        display: none;
+    }
+
+    .btn1 {
+        position: static;
+    }
+
+    .button {
+        justify-content: end;
+    }
+
+    .width {
+        width: 300px;
+    }
+
+    .btn2 {
+        width: 300px;
+    }
+
+    .font {
+        font-size: 25px;
+    }
+}
+
+@media only screen and (max-width: 345px) {
+    .width {
+        width: 250px;
+    }
+
+    .btn2 {
+        width: 250px;
+    }
+
+    .font {
+        font-size: 18px;
+    }
+
+    .size {
+        font-size: 13px;
+    }
+}

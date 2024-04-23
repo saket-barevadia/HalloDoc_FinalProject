@@ -1,0 +1,272 @@
+﻿@inject IHttpContextAccessor Accessor;
+@using Microsoft.AspNetCore.Http;
+@model Data_Layer.CustomModels.familyFriendReqcm;
+
+@{
+    ViewData["Title"] = "Submit Information Someone Else";
+}
+
+
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+@* <link rel="stylesheet" href="~/css/patientReq.css">
+ *@@* <script src="~/js/request.js" defer></script>
+ *@
+
+<script src="~/js/darkmode.js" defer></script>
+
+
+
+
+<!-- navbar -->
+<nav class="navbar  shadow z-3">
+    <div class="container-fluid ">
+        <div class="d-flex justify-content-center ">
+            <button class="navbar-toggler d-inline-block d-sm-none my-3 px-1" style="height:40px;width:40px" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="#">
+                <img src="/images/logo.png" alt="" class="img" style="height:100px;width:200px">
+            </a>
+        </div>
+        <div class="d-flex align-items-center">
+            <div class="mx-2 d-flex align-items-center d-none d-sm-inline-block">
+                <p class="text-secondary fs-6">
+                    <h5>
+                        Welcome
+                        <strong>
+                            @Accessor.HttpContext.Session.GetString("fname")
+                        </strong>
+                    </h5>
+                </p>
+            </div>
+            <div class="mx-2">
+                <button type="button" class="btn btn-outline-dark text-info shadow border-info py-2" onclick=" location.href = '@Url.Action("logout","Home")';">
+                    <span class="d-none d-sm-inline-block ">Logout</span>
+                    <span class="d-inline-block d-sm-none">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </span>
+                </button>
+            </div>
+            <div class="me-2">
+                <button onclick="toggleDarkTheme()" type="button" class="btn shadow border-info"
+                        style="border-radius: 10px; border-color: aqua" id="colorButton">
+                    @*   <i id="moon" class="bi bi-moon text-info fs-4"></i>
+                    <i id="sun" class="bi bi-sun text-info fs-4 d-none"></i> *@
+
+                    <i class="fas fa-light fa-moon" id="moon" style="color: #43bcf9;"></i>
+                    <i class="fa-regular fa-sun d-none" id="sun" style="color: white"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <hr class="w-100 m-0 p-0 d-none d-sm-block">
+
+
+    <div class="collapse w-100 mx-sm-1 show d-sm-block" id="navbarToggleExternalContent">
+        <div class="px-3">
+            <ul class="nav nav-underline" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active text-info TabItem" id="nav-tab1-tab" data-bs-toggle="tab" data-bs-target="#nav-tab1" type="button" role="tab" aria-controls="nav-tab1" aria-selected="true"><span class="text-secondary">Dashboard</span></button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a asp-action="patientProfile" asp-controller="Home" style="text-decoration:none">  <button class="nav-link TabItem text-info" id="nav-tab2-tab" data-bs-toggle="tab" data-bs-target="#nav-tab2" type="button" role="tab" aria-controls="nav-tab2" aria-selected="false"><span class="text-secondary">Profile</span></button> </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</nav>
+
+
+
+<div class="content" style="padding: 0 10px;">
+    <div class="content-header mb-4 mt-4" style="display:flex;justify-content:space-between;width:85%;margin:auto;align-items-center">
+
+        <h3 class="fontme">Submit Information</h3>
+        <a asp-controller="Home" asp-action="patientDashboard" asp-route-emaill="@Accessor.HttpContext.Session.GetString("email")" style="text-decoration:none; ">
+            <button class="btn btn-outline-info">
+                <span>
+                    <i class="fa-solid fa-less-than size"></i>
+                </span>
+
+                <span class="size">Back</span>
+            </button>
+        </a>
+    </div>
+    <div class="container shadow rounded border mb-3">
+        <h4 class="mt-3 font">Patient Information</h4>
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-floating mt-3">
+                <input asp-for="Symptons" type="text" class="form-control" style="height: 90px;" id="floatingInputGroup2"
+                       placeholder="Username" >
+                <label for="floatingInputGroup2" class="absolute">
+                    <span class="input">
+                        Enter Breif Details Of Symptoms
+                        <span class="optional">(Optional)</span>
+                    </span>
+                </label>
+               @*  <span asp-validation-for="Symptons" class="text-danger"></span> *@
+            </div>
+            <div class="row">
+                <div class="col-md-6 mt-3">
+                    <div class="form-floating">
+                        <input asp-for="FirstNameclient" type="text" class="form-control " id="floatingInputGroup2" placeholder="Username"
+                               required>
+                        <label for="floatingInputGroup2"><span class="input">First Name</span></label>
+                        <span asp-validation-for="FirstNameclient" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <div class="form-floating">
+                        <input asp-for="LastNameclient" type="text" class="form-control " id="floatingInputGroup2" placeholder="Username"
+                               required>
+                        <label for="floatingInputGroup2"><span class="input">Last Name</span></label>
+                        <span asp-validation-for="LastNameclient" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6 mt-3">
+                    <div class="form-floating">
+                        <input asp-for="Strmonth" type="date" class="form-control " id="DateOfBirth" placeholder="Username"
+                               required>
+                        <label for="floatingInputGroup2"><span class="input">Date Of Birth</span></label>
+                        <span asp-validation-for="Strmonth" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="mt-4 font">Patient Contact Information</h4>
+            <div class="row">
+                <div class="col-md-6 mt-3">
+                    <div class="form-floating">
+                        <input asp-for="Emailclient" onblur="checkEmailAvailibility()" type="email" class="form-control  fetchEmail" id="emailMain" placeholder="Username"
+                               required>
+                        <label for="floatingInputGroup2"><span class="input">Email</span></label>
+                        <span asp-validation-for="Emailclient" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="col-md-6 mt-3 d-flex flex-column">
+                    <input asp-for="Phoneclient" style="height:58px" id="phone" class="form-control country  " placeholder="" aria-label="Contact" type="tel">
+                    <span asp-validation-for="Phoneclient" class="text-danger"></span>
+                </div>
+            </div>
+
+            <h4 class="mt-4 font">Patient Location</h4>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-floating mt-3">
+                        <input asp-for="Street" type="text" class="form-control " id="floatingInputGroup2" placeholder="Username"
+                               required>
+                        <label for="floatingInputGroup2"><span class="input">Street</span></label>
+                        <span asp-validation-for="Street" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating mt-3">
+                        <input asp-for="City" type="text" class="form-control " id="floatingInputGroup2" placeholder="Username"
+                               required>
+                        <label for="floatingInputGroup2"><span class="input">City</span></label>
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating mt-3">
+                        <select asp-for="regionId" id="selectRegion" class="form-select  form-control mb-2" aria-label="Floating label select example">
+
+
+
+                            <option value="0" disabled selected>
+                                State
+                            </option>
+                            <option value="1">Bihar</option>
+                            <option value="2">Maharashtra</option>
+                            <option value="3">Gujarat</option>
+                            <option value="4">Assam</option>
+                            <option value="5">Karnataka</option>
+                            <option value="6">Andhra Pradesh</option>
+
+
+                        </select>
+                        <label for="selectRegion">Select State</label>
+                        <span asp-validation-for="regionId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating mt-3">
+                        <input asp-for="Zipcode" type="number" class="form-control " id="floatingInputGroup2" placeholder="Username"
+                               required>
+                        <label for="floatingInputGroup2"><span class="input">Zip Code</span></label>
+                        <span asp-validation-for="Zipcode" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-floating mt-3">
+                        <input type="text" class="form-control " id="floatingInputGroup2" placeholder="Username"
+                               >
+                        <label for="floatingInputGroup2"><span class="input">Room # / Suite (Optional)</span></label>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="mt-4 font">Relation</h4>
+            <div class=" mt-3">
+                <div class="form-floating">
+                    <input asp-for="Relationname" type="text" class="form-control " id="floatingInputGroup2"
+                           placeholder="Username" required>
+                    <label for="floatingInputGroup2"><span class="input">Relation With Patient</span></label>
+                    <span asp-validation-for="Relationname" class="text-danger"></span>
+                </div>
+            </div>
+
+            <h4 class="mt-4 font">(Optional) Upload Photo or Document</h4>
+            <div class="input-group mb-3">
+                <input asp-for="Upload" type="file" class="form-control" id="inputGroupFile02" >
+                <label class="input-group-text btn btn-outline-info" for="inputGroupFile02">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>&nbsp;<span class="remove">Upload</span>
+                </label>
+            </div>
+            @* <span asp-validation-for="Upload" class="text-danger"></span> *@
+          
+
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-info text-white mb-3">Submit</button>
+                <button type="button" class="btn btn-outline-info ms-2 mb-3">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+
+    const phoneInputField = document.querySelector("#phone");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+        utilsScript:
+            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+
+
+
+
+    // Date Validation
+
+    const currentDate = new Date().toISOString().split('T')[0];
+
+    document.getElementById('DateOfBirth').setAttribute('max', currentDate);
+</script>
+
+
+
+@section scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+            }

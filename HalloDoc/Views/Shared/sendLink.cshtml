@@ -1,0 +1,64 @@
+﻿@model Data_Layer.CustomModels.SendAgreement;
+
+<div class="modal fade " id="sendLinkModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header " style="background-color:#0dcaf0">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Send mail to patient for submitting request</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close" style="color:white"></button>
+            </div>
+            <form method="post" asp-action="sendLink" asp-controller="Admin">
+                <div class="modal-body ">
+
+                    <div class="form-floating mb-2">
+                        <input asp-for="FirstName" type="text" class="form-control" id="floatingInputGroup2" placeholder="Username"
+                               required>
+                        <label for="floatingInputGroup2"><span class="input">First Name</span></label>
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div> 
+                    
+                    <div class="form-floating mb-2">
+                        <input asp-for="Lastname" type="text" class="form-control" id="floatingInputGroup2" placeholder="Username"
+                               required>
+                        <label for="floatingInputGroup2"><span class="input">Last Name</span></label>
+                        <span asp-validation-for="Lastname" class="text-danger"></span>
+                    </div>
+                         
+
+                    <div class="form-floating mb-2">
+                        <input asp-for="Phonenumber" type="text" class="form-control" id="floatingInputGroup2" placeholder="Username"
+                               required>
+                        <label for="floatingInputGroup2"><span class="input">Phone Number</span></label>
+                        <span asp-validation-for="Phonenumber" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-floating mb-2">
+                        <input asp-for="Email" type="email" class="form-control" id="floatingInputGroup2" placeholder="Username"
+                               required>
+                        <label  for="floatingInputGroup2"><span class="input">Email</span></label>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+
+                    <button class="btn btn-info text-white" type="submit">Send</button>
+                    <button type="button" class="btn btn-outline-info"
+                            data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+        <partial name="_ValidationScriptsPartial" />
+    
+          

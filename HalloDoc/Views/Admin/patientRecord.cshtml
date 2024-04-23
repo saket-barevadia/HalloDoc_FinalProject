@@ -1,0 +1,283 @@
+﻿@model Data_Layer.CustomModels.patientRecordscm;
+
+@functions {
+    public string GetStatusName(int status)
+    {
+        switch (status)
+        {
+            case 1: return "Unassigned";
+            case 2: return "Accepted";
+            case 3: return "Cancelled";
+            case 4: return "Active";
+            case 5: return "Active";
+            case 6: return "Conclude";
+            case 7: return "Cancelled By Patient";
+            case 8: return "Closed";
+            case 9: return "Unpaid";
+            case 10: return "Clear";
+            default: return "-";
+        }
+    }
+}
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center">
+    <h4 class="mb-4 mt-3">Patient Record</h4>
+        <a asp-action="PatientHistory" asp-controller="Admin">
+        <button type="button" class="btn btn-outline-info">
+            <i class="fa-solid fa-less-than size"></i>
+            <span class="size">Back</span>
+        </button>
+    </a>
+    </div>
+    <div class="border rounded shadow mb-3 p-3" style="z-index:-50px;">
+
+    <div class="table-responsive container-fluid d-lg-block d-none">
+        <table class="table patientRecordTable">
+
+            <thead>
+                <tr>
+                    <th hidden>reqId</th>
+                    <th>Client/Member</th>
+                    <th>Created Date<span class="ms-2"><i class="fa-solid fa-arrow-down"></i></span></th>
+                    <th>Confirmation</th>
+                    <th>Provider Name</th>
+                    <th>Concluded Date</th>
+                    <th>Status</th>
+@*                     <th>Final Report</th>
+ *@                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                    @foreach(var item in Model.patientDetail)
+                    {
+                        
+                    
+                    <tr class="align-middle">
+                        <td hidden>@item.Requestid</td>
+                        <td style="color: #8f8383; font-weight: 500;">@item.patientName</td>
+                        <td style="color: #8f8383; font-weight: 500;">@item.Createddate</td>
+                        <td style="color: #8f8383; font-weight: 500;">@item.Confirmationnumber</td>
+                        <td style="color: #8f8383; font-weight: 500;">@item.physician</td>
+                        <td style="color: #8f8383; font-weight: 500;">@item.concludeDate</td>
+                        <td style="color: #8f8383; font-weight: 500;">@GetStatusName(item.Status)</td>
+                        
+                        @*  <td> *@
+
+                            @* <button class="btn btn-outline-info">
+                                View
+                            </button> *@
+                       @*  </td>  *@
+                        <td>
+                                
+                                    <button class="btn btn-outline-info dropdown"
+                                            id="chat_with_dropdown2" type="button" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                        <span>
+                                            Actions
+                                        </span>
+                                    </button>
+                                    <ul class="dropdown-menu table_dropdowns">
+                                        <li>
+                                        <button onclick="location.href='@Url.Action("viewCase","Admin",new{id=item.Requestid,flag=1})'" class="dropdown-item hover">
+                                               
+                                                View Case
+                                            </button>
+                                        </li>
+                                   @*      <li>
+                                            <button class="dropdown-item hover">
+                                                
+                                                Chat
+                                            </button>
+                                        </li> *@
+                                        <li>
+                                        <button onclick="location.href='@Url.Action("viewUploads","Admin",new{reqId=item.Requestid,flag=1})'" class="dropdown-item hover">
+
+                                           @item.count Documents
+                                            </button>
+                                        </li>
+                                        </ul>
+                                       
+                        </td>
+                    </tr>
+                
+                    }
+            </tbody>
+
+        </table>
+    </div>
+
+
+        <div class="border rounded shadow d-block d-lg-none">
+            <div class="accordion container-fluid p-0 " id="accordionPanelsStayOpenExample">
+                <table class="w-100 patientRecordTable">
+                    <thead>
+                        <tr>
+                            <th hidden>reqId</th>
+                            <th class="d-none">abc</th>
+                            <th class="d-none">xyz</th>
+                        </tr>
+                    </thead>
+                    @{
+                        var counter = 1;
+                    }
+                    <tbody>
+                        @foreach (var item in Model.patientDetail)
+                        {
+
+
+                            <tr class="d-flex flex-column">
+                                <td hidden>@item.Requestid</td>
+                                <td>
+                                    <h2 class="accordion-header" id="flush-heading@(counter)"></h2>
+
+                                    <div class="accordion-button collapsed d-flex flex-column pb-0" data-bs-toggle="collapse"
+                                         data-bs-target="#flush-collapse@(counter)" aria-expanded="false"
+                                         aria-controls="flush-collapse@(counter)">
+
+                                        <div class="w-100 ">
+                                            <span class="fw-bolder">
+                                                @item.patientName
+                                            </span>
+                                        </div>
+                                        <div class="w-100 ">
+                                            <span class="fw-bolder">
+                                                @item.Confirmationnumber
+                                            </span>
+                                        </div>
+
+
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <div id="flush-collapse@(counter)" class="accordion-collapse collapse"
+                                         aria-labelledby="flush-heading@(counter)" data-bs-parent="#accordionFlushExample">
+                                        <div class="accordion-body main-flex pt-2">
+
+                                            <div class="inner-flex">
+                                                <i class="fa-solid fa-calendar-days me-2"></i>
+                                                <span class="accordion-heading-inner">
+
+                                                    <b>Created Date:</b>
+                                                    <span class="accordion-value-inner">
+                                                        @item.Createddate
+                                                    </span>
+                                                </span>
+                                            </div>
+                                            <div class="inner-flex">
+
+                                                <span class="accordion-heading-inner">
+                                                    <i class="fa-solid fa-user-doctor me-2"></i>
+                                                    <b>Provider:</b>
+                                                    <span class="accordion-value-inner">
+                                                        @item.physician
+                                                    </span>
+                                                </span>
+                                            </div>
+                                            <div class="inner-flex">
+                                                <i class="fa-solid fa-calendar-days me-2"></i>
+                                                <span class="accordion-heading-inner">
+
+                                                    <b>Concluded Date:</b>
+                                                    <span class="accordion-value-inner">
+                                                        @item.concludeDate
+                                                    </span>
+                                                </span>
+                                            </div>
+                                            <div class="inner-flex">
+                                                <i class="fa-solid fa-check me-2"></i>
+                                                <span class="accordion-heading-inner">
+
+                                                    <b>Status:</b>
+                                                    <span class="accordion-value-inner">
+                                                        @GetStatusName(item.Status)
+                                                    </span>
+                                                </span>
+                                            </div>
+
+                                            <div class="mt-2 d-flex flex-column justify-content-center w-100">
+                                            <div >
+                                                    <button onclick="location.href='@Url.Action("viewCase","Admin",new{id=item.Requestid,flag=1})'" style="width:70%;margin-left:15%;" class="btn btn-outline-info">
+                                                    View Case
+                                                </button>
+
+                                            </div>
+                                                <div class=" mt-2">
+                                                    <button onclick="location.href='@Url.Action("viewUploads","Admin",new{reqId=item.Requestid,flag=1})'" style="width:70%;margin-left:15%;" class="btn btn-outline-info">
+                                                    (@item.count) Documents
+                                                </button>
+
+                                            </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <hr />
+                                </td>
+
+                            </tr>
+                            counter++;
+
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+
+
+
+<script>
+    $(document).ready(function () {
+
+        $('.patientRecordTable').DataTable({
+            "initComplete": function (settings, json) {
+
+                $('#my-search-input').val(settings.oPreviousSearch.sSearch);
+
+                $('#my-search-input').on('keyup', function () {
+                    var searchValue = $(this).val();
+                    settings.oPreviousSearch.sSearch = searchValue;
+                    settings.oApi._fnReDraw(settings);
+                });
+            },
+            "lengthMenu": [[5, 10, -1], [5, 10, "All"]],
+            "pageLength": 5,
+            "order": [[0, "desc"]],
+            language: {
+                oPaginate: {
+                    sNext: '<i class="fa-solid fa-forward text-info"></i>',
+                    sPrevious: '<i class="fa-solid fa-backward text-info"></i>'
+
+                }
+            }
+        });
+        // $('.dataTables_length').hide();
+        $('.dataTables_filter').hide();
+    });
+
+
+
+
+    var dash = document.getElementById("home-tab");
+    var providerLoc = document.getElementById("ProviderLocation-tab");
+    var profile = document.getElementById("Myprofile-tab");
+    var provider = document.getElementById("Providers-tab");
+    var partner = document.getElementById("Partners-tab");
+    var access = document.getElementById("Access-tab");
+    var records = document.getElementById("Records-tab");
+
+    dash.classList.remove("active");
+    providerLoc.classList.remove("active");
+    profile.classList.remove("active");
+    provider.classList.remove("active");
+    partner.classList.remove("active");
+    access.classList.remove("active");
+    records.classList.add("active");
+</script>
