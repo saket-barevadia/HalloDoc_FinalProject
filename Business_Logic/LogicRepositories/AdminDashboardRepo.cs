@@ -66,12 +66,7 @@ namespace Business_Logic.LogicRepositories
                             PhysicianId=r.Physicianid,
                         }) ;
 
-            //if (regionId.HasValue)
-            //{
-            //    query = query.Where(rw => rw.Regionid == regionId);
-
-
-            //}
+           
 
             if (reqTypeId > 0)
             {
@@ -303,8 +298,7 @@ namespace Business_Logic.LogicRepositories
 
 
 
-            //try
-            //{
+         
             string smtpServer = "outlook.office365.com";
             int port = 587; // Port number for SMTP (e.g., 587 for Gmail)
             string senderEmail = "tatva.dotnet.saketbarevadia@outlook.com";
@@ -341,11 +335,7 @@ namespace Business_Logic.LogicRepositories
             }
 
 
-            //}
-            //catch (Exception ex)
-            //{
-            //    ViewBag.Error = "An error occurred: " + ex.Message;
-            //}
+          
         }
 
 
@@ -707,7 +697,7 @@ namespace Business_Logic.LogicRepositories
                 _db.SaveChanges();
             }
 
-            //var requestStatusLog = _db.Requeststatuslogs.FirstOrDefault(x => x.Requestid == reqid);
+           
 
             Requeststatuslog requestStatusLog = new Requeststatuslog();
             requestStatusLog.Requestid = reqid;
@@ -823,8 +813,7 @@ namespace Business_Logic.LogicRepositories
         // Admin My Profile POST
         public void EditadminProfile(AdminProfilecm cm, List<int> adminRegions)
         {
-            var admin = _db.Admins.FirstOrDefault(x => x.Adminid == cm.Adminid);
-            //var user=_db.Users.FirstOrDefault(x=>x.Email == cm.Email);
+            var admin = _db.Admins.FirstOrDefault(x => x.Adminid == cm.Adminid);        
             var aspId = _db.Admins.FirstOrDefault(x => x.Adminid == cm.Adminid).Aspnetuserid;
             var aspnetuser = _db.Aspnetusers.FirstOrDefault(x => x.Id == aspId);
 
@@ -841,13 +830,7 @@ namespace Business_Logic.LogicRepositories
                     _db.Admins.Update(admin);
                     _db.SaveChanges();
 
-                    //user.Firstname = cm.Firstname;
-                    //user.Lastname = cm.Lastname;
-                    //user.Mobile = cm.Mobile;
-                    //user.Email=cm.Email;
-
-                    //_db.Users.Update(user);
-                    //_db.SaveChanges();
+                  
 
                     aspnetuser.Email = cm.Email;
                     aspnetuser.Username = cm.Firstname;
@@ -904,7 +887,7 @@ namespace Business_Logic.LogicRepositories
         public void editAdminAddress(AdminProfilecm cm)
         {
             var admin = _db.Admins.FirstOrDefault(x => x.Adminid == cm.Adminid);
-            //var user=_db.Users.FirstOrDefault(x=>x.Email== cm.Email);
+            
 
 
             if (admin != null)
@@ -919,10 +902,6 @@ namespace Business_Logic.LogicRepositories
                 _db.Admins.Update(admin);
                 _db.SaveChanges();
 
-                //user.Mobile = cm.Mobile;
-
-                //_db.Users.Update(user);
-                //_db.SaveChanges();
             }
 
         }
@@ -1144,7 +1123,7 @@ namespace Business_Logic.LogicRepositories
                 Isemailsent = new BitArray(1, true),          
                 Createdate = DateTime.Now,
                 Sentdate = DateTime.Now,
-                //Confirmationnumber = _db.Requestclients.FirstOrDefault(x => x.Requestid == requestId).Firstname.Substring(0, 2) + DateTime.Now.ToString().Substring(0, 19).Replace(" ", ""),
+                
                 Senttries = 1,
             };
 
@@ -1504,7 +1483,7 @@ namespace Business_Logic.LogicRepositories
 
                
 
-                //var regionp = regions.ToList();
+                
 
 
                 var regio = new SchedulingCm()
@@ -1783,31 +1762,6 @@ namespace Business_Logic.LogicRepositories
         public bool SetEditShift(ShiftDetailsmodal shiftDetailsmodal, int Aspid)
         {
 
-            //if (_context.Shifts.Where(x => x.Physicianid == shiftDetailsmodal.Physicianid).Count() > 1)
-            //{
-            //    var shiftData = _context.Shifts.Where(i => i.Physicianid == shiftDetailsmodal.Physicianid).ToList();
-            //    var shiftDetailData = new List<Shiftdetail>();
-
-            //    foreach (var obj in shiftData)
-            //    {
-            //        var details = _context.Shiftdetails.Where(x => x.Shiftid == obj.Shiftid).ToList();
-            //        shiftDetailData.AddRange(details);
-            //    }
-
-
-            //    foreach (var obj in shiftDetailData)
-            //    {
-            //        var shiftDate = new DateTime(shiftDetailsmodal.Shiftdate.Year, shiftDetailsmodal.Shiftdate.Month, shiftDetailsmodal.Shiftdate.Day);
-
-            //        if (obj.Shiftdate.Date == shiftDate.Date)
-            //        {
-            //            if ((obj.Starttime <= shiftDetailsmodal.Starttime && obj.Endtime >= shiftDetailsmodal.Starttime) || (obj.Starttime <= shiftDetailsmodal.Endtime && obj.Endtime >= shiftDetailsmodal.Endtime) || (obj.Starttime >= shiftDetailsmodal.Starttime && obj.Endtime <= shiftDetailsmodal.Endtime))
-            //            {
-            //                return false;
-            //            }
-            //        }
-            //    }
-            //}
             var shiftdetails = _db.Shiftdetails.FirstOrDefault(s => s.Shiftdetailid == shiftDetailsmodal.Shiftdetailid);
 
             if (shiftdetails != null)
@@ -1963,16 +1917,14 @@ namespace Business_Logic.LogicRepositories
                             Requestid= r.Requestid,
                             Requestclientid= rw.Requestclientid,
                             patientName=rw.Firstname,
-                            Status=r.Status,
-                            //Createddate=r.Createddate,
+                            Status=r.Status,                         
                             Email=rw.Email,
                             Phonenumber=rw.Phonenumber,
                             Zip=rw.Zipcode,
                             PatientNote=rw.Notes,
                             PhysicianNote = _db.Requestnotes.FirstOrDefault(x => x.Requestid == r.Requestid).Physiciannotes,
                             AdminNote = _db.Requestnotes.FirstOrDefault(x => x.Requestid == r.Requestid).Adminnotes,
-                            physician = _db.Physicians.FirstOrDefault(x => x.Physicianid == r.Physicianid).Firstname,
-                            //closeCaseDate = _db.Requeststatuslogs.Where(x => x.Status == 9).FirstOrDefault(x => x.Requestid == r.Requestid).Createddate,
+                            physician = _db.Physicians.FirstOrDefault(x => x.Physicianid == r.Physicianid).Firstname,                          
                             RequestTypeid =r.Requesttypeid,
                             Address=rw.Address,
                             CancelledNote=_db.Requeststatuslogs.FirstOrDefault(x=>x.Requestid==r.Requestid && x.Status==3).Notes,

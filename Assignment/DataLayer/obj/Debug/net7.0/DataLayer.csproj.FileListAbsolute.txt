@@ -1,0 +1,14 @@
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Assignment\DataLayer\bin\Debug\net7.0\DataLayer.deps.json
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Assignment\DataLayer\bin\Debug\net7.0\DataLayer.runtimeconfig.json
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Assignment\DataLayer\bin\Debug\net7.0\DataLayer.dll
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Assignment\DataLayer\bin\Debug\net7.0\DataLayer.pdb
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Assignment\DataLayer\obj\Debug\net7.0\DataLayer.csproj.AssemblyReference.cache
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Assignment\DataLayer\obj\Debug\net7.0\DataLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Assignment\DataLayer\obj\Debug\net7.0\DataLayer.AssemblyInfoInputs.cache
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Assignment\DataLayer\obj\Debug\net7.0\DataLayer.AssemblyInfo.cs
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Assignment\DataLayer\obj\Debug\net7.0\DataLayer.csproj.CoreCompileInputs.cache
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Assignment\DataLayer\obj\Debug\net7.0\DataLayer.dll
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Assignment\DataLayer\obj\Debug\net7.0\refint\DataLayer.dll
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Assignment\DataLayer\obj\Debug\net7.0\DataLayer.pdb
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Assignment\DataLayer\obj\Debug\net7.0\DataLayer.genruntimeconfig.cache
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\Assignment\DataLayer\obj\Debug\net7.0\ref\DataLayer.dll

@@ -1,0 +1,92 @@
+﻿@model DataLayer.CustomModels.Recordscm;
+
+<div class="modal fade" id="AddBookModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header " style="background-color:#486b8d;">
+                <div class="modal-title text-light" id="exampleModalLongTitle">Book Form</div>
+                
+            </div>
+            <div class="modal-body p-5">
+                <form method="post" id="AddBookForm" onsubmit="saveInfo()">
+                    <input type="text" asp-for="BorrowerId" hidden/>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-6 mb-2">
+                                <div class="form-floating"> 
+                                    <input asp-for="BookName" type="text" class="form-control shadow-none" id="BookName" placeholder="BookName"
+                                           required>
+                                    <label for="floatingInputGroup1">Book Name</label>
+                                    <span asp-validation-for="BookName" class="text-danger"></span>
+                                </div>
+                            </div> 
+                            <div class="col-6 mb-2">
+                                <div class="form-floating">
+                                    <input asp-for="Author" type="text" class="form-control shadow-none" id="Author" placeholder="Author"
+                                           required>
+                                    <label for="floatingInputGroup1">Author</label>
+                                    <span asp-validation-for="BookName" class="text-danger"></span>
+                                </div>
+                            </div> 
+                            <div class="col-6 mb-2">
+                                <div class="form-floating">
+                                    <input asp-for="BorrowerName" type="text" class="form-control shadow-none" id="BorrowerName" placeholder="BorrowerName"
+                                           required>
+                                    <label for="floatingInputGroup1">Borrower Name</label>
+                                    <span asp-validation-for="BorrowerName" class="text-danger"></span>
+                                </div>
+                            </div> 
+                            <div class="col-6 mb-2">
+                                <div class="form-floating">
+                                    <input asp-for="DateOfIssue" id="DateOfIssue" type="date" class="form-control shadow-none" id="Date" placeholder="Date"
+                                           required>
+                                    <label for="floatingInputGroup1">Date Of Issue</label>
+                                    <span asp-validation-for="DateOfIssue" class="text-danger"></span>
+                                </div>
+                            </div> 
+                            <div class="col-6 mb-2">
+                                <div class="form-floating">
+                                    <select asp-for="Genre" class="p-2 px-2 form-select w-100 shadow-none" id="selectregion">
+                                        <option value="Genere" selected disabled>Genere</option>
+                                        <option value="Mystery">Mystery</option>
+                                        <option value="Thriller">Thriller</option>
+                                        <option value="Fantasy">Fantasy</option>
+                                        <option value="Romance">Romance</option>
+                                        <option value="Science Fiction" >Science Fiction</option>
+                                        <option value="Historic Fiction">Historic Fiction</option>
+                                    
+                                </select>
+                               
+                                </div>
+                                <span asp-validation-for="Genre" class="text-danger"></span>
+                            </div> 
+                            <div class="col-6 mb-2">
+                                <div class="form-floating">
+                                    <input asp-for="City" type="text" class="form-control shadow-none" id="City" placeholder="City"
+                                           required>
+                                    <label for="floatingInputGroup1">City</label>
+                                    
+                                    <span asp-validation-for="City" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 d-flex justify-content-center">
+                        <button type="button" class="btn btn-danger shadow-none w-100" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn text-white mx-2 shadow-none w-100" style="background-color:#4a52ff;">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_ValidationScriptsPartial" />
+
+
+<script>
+    const currentDate = new Date().toISOString().split('T')[0];
+
+    document.getElementById('DateOfIssue').setAttribute('max', currentDate);
+</script>

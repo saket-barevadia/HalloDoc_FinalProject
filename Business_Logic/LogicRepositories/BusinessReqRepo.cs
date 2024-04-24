@@ -107,8 +107,7 @@ namespace Business_Logic.LogicRepositories
                 Request _request = new Request();
 
                 _request.Requesttypeid = 4;
-                _request.Userid = _db.Users.FirstOrDefault(x => x.Email == cm.Emailclient).Userid;
-                //_request.Status = 2;
+                _request.Userid = _db.Users.FirstOrDefault(x => x.Email == cm.Emailclient).Userid;              
                 _request.Firstname = cm.firstnamebusiness;
                 _request.Lastname = cm.lastnamebusiness;
                 _request.Phonenumber = cm.mobilebusiness;
@@ -230,9 +229,7 @@ namespace Business_Logic.LogicRepositories
                 _db.SaveChanges();
 
 
-                //Requestconcierge _reqCon= new Requestconcierge();
-                //_reqCon.Requestid = _db.Requests.FirstOrDefault(x => x.Email == cm.emailconcierge).Requestid;
-                //_reqCon.Conciergeid=_db.Concierges.FirstOrDefault(x=>x.)
+               
 
 
             }

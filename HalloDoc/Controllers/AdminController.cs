@@ -38,15 +38,6 @@ namespace HalloDoc.Controllers
         }
 
 
-        //public IActionResult adminDashboard()
-        //{
-        //    var roleMain = HttpContext.Session.GetInt32("roleId");
-        //    List<string> roleMenu = _dashboard.GetListOfRoleMenu((int)roleMain);
-        //    ViewBag.Menu = roleMenu;
-
-        //    return View();
-        //}
-
         [CustomAuthorize("Admin", "Dashboard")]
 
         public IActionResult dashboard(int reqTypeId, int regionID)
@@ -130,7 +121,7 @@ namespace HalloDoc.Controllers
         {
             _viewNotes.viewNote(cm, id);
 
-            //return RedirectToAction("viewNotes", new { id = id });
+           
 
             TempData["success"] = "Data Updated Successfully";
             return RedirectToAction("viewNotes", new { id = id ,flag=flag });

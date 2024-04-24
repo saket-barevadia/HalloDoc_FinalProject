@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "n+3xk8lixNzpOg3UQzQgtytn8t/b3qwfIRxTOAnu/Og=",
+  "Hash": "ydeqXc3Ta3yyFinP42GPLxuZbyBNWzRfAq7cmHHwaMg=",
   "Source": "HalloDoc",
   "BasePath": "_content/HalloDoc",
   "Mode": "Default",
@@ -1188,6 +1188,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Documents\\Fig24. Provider Menu.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\pca21\\Desktop\\HalloDocMain\\HalloDoc (2)-1\\HalloDoc\\HalloDoc\\wwwroot\\Documents\\Fig25. Contact your Provider (1) (2).jpg",
+      "SourceId": "HalloDoc",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pca21\\Desktop\\HalloDocMain\\HalloDoc (2)-1\\HalloDoc\\HalloDoc\\wwwroot\\",
+      "BasePath": "_content/HalloDoc",
+      "RelativePath": "Documents/Fig25. Contact your Provider (1) (2).jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Documents\\Fig25. Contact your Provider (1) (2).jpg"
     },
     {
       "Identity": "C:\\Users\\pca21\\Desktop\\HalloDocMain\\HalloDoc (2)-1\\HalloDoc\\HalloDoc\\wwwroot\\Documents\\Fig25. Contact your Provider (1).jpg",
