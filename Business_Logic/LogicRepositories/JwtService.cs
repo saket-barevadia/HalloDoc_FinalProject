@@ -65,7 +65,6 @@ namespace HelloDocMvc.Repository.Repositories
 
                 }, out SecurityToken validatedToken);
 
-                // Corrected access to the validatedToken
                 jwtSecurityToken = (JwtSecurityToken)validatedToken;
 
                 if (jwtSecurityToken != null)

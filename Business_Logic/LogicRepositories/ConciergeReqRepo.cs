@@ -249,13 +249,6 @@ namespace Business_Logic.LogicRepositories
 
                 _db.Requestconcierges.Add(_reqConcierge);
                 _db.SaveChanges();
-
-
-                //Requestconcierge _reqCon= new Requestconcierge();
-                //_reqCon.Requestid = _db.Requests.FirstOrDefault(x => x.Email == cm.emailconcierge).Requestid;
-                //_reqCon.Conciergeid=_db.Concierges.FirstOrDefault(x=>x.)
-
-
             }
 
         }

@@ -3,14 +3,9 @@ using Business_Logic.Interface;
 using Data_Layer.DataContext;
 using Data_Layer.DataModels;
 using Data_Layer.CustomModels;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Security.Cryptography.X509Certificates;
 using static HelloDocMvc.Repository.Repositories.AuthManager;
 using System.Text;
 using static Data_Layer.CustomModels.ProviderMenucm;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Components.Forms;
-using System.Drawing;
 
 namespace HalloDoc.Controllers
 {
@@ -25,7 +20,6 @@ namespace HalloDoc.Controllers
         private readonly IcancelCase _cancelCase;
         private readonly IProviderMenu _providerMenu;
 
-
         public AdminController(ILogger<AdminController> logger,IAdminDashboard dashboard, IviewCase viewCase, IviewNotes viewNotes, ApplicationDbContext context, IcancelCase cancelCase, IProviderMenu providerMenu)
         {
             _dashboard = dashboard;
@@ -36,7 +30,6 @@ namespace HalloDoc.Controllers
             _providerMenu = providerMenu;
             _logger = logger;
         }
-
 
         [CustomAuthorize("Admin", "Dashboard")]
 
@@ -53,7 +46,6 @@ namespace HalloDoc.Controllers
             HttpContext.Session.SetInt32("count", count);
             return View(query);
         }
-
 
         public IActionResult viewCase(int id, int flag)
          {
@@ -77,13 +69,8 @@ namespace HalloDoc.Controllers
             else
             {
                 return View(data);
-            }
-               
-            
-            
-
+            }                                  
         }
-
 
         [HttpPost]
         public IActionResult viewCase(viewCaseCm cm)
@@ -91,7 +78,6 @@ namespace HalloDoc.Controllers
             _viewCase.viewCaseUpdate(cm);
             return RedirectToAction("viewCase", new { id = cm.Requestid });
         }
-
 
         public IActionResult viewNotes(int id,int flag)
         {
@@ -115,27 +101,20 @@ namespace HalloDoc.Controllers
             return View();
         }
 
-
         [HttpPost]
         public IActionResult viewNotes(Requestnote cm, int id,int flag)
         {
-            _viewNotes.viewNote(cm, id);
-
-           
+            _viewNotes.viewNote(cm, id);       
 
             TempData["success"] = "Data Updated Successfully";
             return RedirectToAction("viewNotes", new { id = id ,flag=flag });
-
         }
-
-
 
         public IActionResult cancelCase()
         {
             var data = _cancelCase.caseTag();
 
             return Json(data.ToList());
-
         }
 
         [HttpPost]
@@ -144,18 +123,14 @@ namespace HalloDoc.Controllers
             _cancelCase.cancelCase(id, reason, note);
             TempData["success"] = "Case Cancelled Successfully";
             return View();
-
         }
-
 
         [HttpPost]
         public void blockCase(int requestId, string reasonNote)
         {
             _dashboard.blockCase(requestId, reasonNote);
             TempData["success"] = "Patient Blocked Successfully";
-
         }
-
 
         public IActionResult assignCase(int requestId)
         {
@@ -164,14 +139,12 @@ namespace HalloDoc.Controllers
             return PartialView(data);
         }
 
-
         public IActionResult getPhysician(int id)
         {
             var data = _dashboard.getPhysicianName(id);
 
             return Json(data);
         }
-
 
         [HttpPost]
         public void assignCase(int regionId, int physicianId, string description)
@@ -180,25 +153,17 @@ namespace HalloDoc.Controllers
             {
                 int reqId = Convert.ToInt32(HttpContext.Session.GetInt32("reqId"));
 
-                
-
-
                 _dashboard.assignCasePost(reqId, regionId, physicianId, description);
                 TempData["success"] = "Case Assigned Successfully";
             }
             catch
             {
                 TempData["error"] = "Error Ocurred"; ;
-            }
-            
-
+            }         
         }
 
-
-
         public IActionResult viewUploads(int reqId,int flag)
-        {
-            
+        {      
                 @ViewBag.Admin = 2;
                 var roleMain = HttpContext.Session.GetInt32("roleId");
                 List<string> roleMenu = _dashboard.GetListOfRoleMenu((int)roleMain);
@@ -217,10 +182,8 @@ namespace HalloDoc.Controllers
             else
             {
                 return View(data);
-            }
-         
+            }       
         }
-
 
         [HttpPost]
         public IActionResult viewUploads(ViewUploads cm)
@@ -230,13 +193,11 @@ namespace HalloDoc.Controllers
             return RedirectToAction("viewUploads", new { reqId = cm.Requestid,flag=cm.flag});
         }
 
-
         public IActionResult delete(int id, int reqId,int flag)
         {
             _dashboard.deleteUploads(id);
             return RedirectToAction("viewUploads", new { reqId = reqId,flag=flag });
         }
-
 
         public IActionResult orders(int id)
         {
@@ -269,7 +230,6 @@ namespace HalloDoc.Controllers
             return Json(vendorDetails);
         }
 
-
         [HttpPost]
         public IActionResult orders(Orders cm)
         {
@@ -288,7 +248,6 @@ namespace HalloDoc.Controllers
             }
            
         }
-
 
         public IActionResult transferRequest(int id)
         {
@@ -314,7 +273,6 @@ namespace HalloDoc.Controllers
             }
         }
 
-
         [HttpPost]
         public IActionResult sendEmail(ViewUploads cm)
         {
@@ -322,7 +280,6 @@ namespace HalloDoc.Controllers
             TempData["success"] = "Email Sent Successfully";
             return RedirectToAction("viewUploads", new { reqId = cm.Requestid,flag=cm.flag });
         }
-
 
         public IActionResult clearcase(int id)
         {
@@ -349,8 +306,6 @@ namespace HalloDoc.Controllers
             
         }
 
-
-
         public IActionResult sendAgreement(int Requestid)
         {
 
@@ -363,11 +318,8 @@ namespace HalloDoc.Controllers
             else
             {
                 return View(data);
-            }
-           
-            
+            }             
         }
-
 
         [HttpPost]
         public IActionResult sendAgreement(SendAgreement cm)
@@ -385,10 +337,8 @@ namespace HalloDoc.Controllers
             }
         }
 
-
         public IActionResult closeCase(int requestid)
-        {
-           
+        {       
                 @ViewBag.Admin = 2;
                 var roleMain = HttpContext.Session.GetInt32("roleId");
                 List<string> roleMenu = _dashboard.GetListOfRoleMenu((int)roleMain);
@@ -408,11 +358,8 @@ namespace HalloDoc.Controllers
             else
             {
                 return View(patientDetails);
-            }
-                
-           
+            }                   
         }
-
 
         [HttpPost]
         public IActionResult closeCase(CloseCase cm)
@@ -427,7 +374,6 @@ namespace HalloDoc.Controllers
         {
             _dashboard.close(reqId);
         }
-
 
         [CustomAuthorize("Admin", "My Profile")]
         public IActionResult adminMyProfile(int flag,int aspnetuserId)
@@ -448,10 +394,8 @@ namespace HalloDoc.Controllers
                 var admionDetails = _dashboard.adminData(email,flag);
                 return View(admionDetails);
             }
-            return null;
-           
+            return null;         
         }
-
 
         [HttpPost]
         public IActionResult adminMyProfile(AdminProfilecm cm,List<int> adminRegions)
@@ -476,7 +420,6 @@ namespace HalloDoc.Controllers
             return RedirectToAction("adminMyProfile", new { flag =cm.back, aspnetuserId =cm.AspnetUserId});
         }
 
-
         public IActionResult encounter(int reqId)
         {
             try
@@ -500,7 +443,6 @@ namespace HalloDoc.Controllers
             }
         }
 
-
         [HttpPost]
         public IActionResult encounter(Encounter cm)
         {
@@ -515,10 +457,8 @@ namespace HalloDoc.Controllers
                 _dashboard.encounterFormPost(cm);
                 TempData["success"] = "Data Updated Successfully";
                 return RedirectToAction("encounter", new { reqId = cm.Requestid });
-            }
-           
+            }        
         }
-
 
         public IActionResult sendLink()
         {
@@ -541,10 +481,8 @@ namespace HalloDoc.Controllers
             }
         }
 
-
         public IActionResult createRequest()
-        {
-            
+        {          
                 @ViewBag.Admin = 2;
                 var roleMain = HttpContext.Session.GetInt32("roleId");            
                 List<string> roleMenu = _dashboard.GetListOfRoleMenu((int)roleMain);
@@ -554,28 +492,17 @@ namespace HalloDoc.Controllers
                     regions = _dashboard.getRegions(),                 
                 };
 
-
                 return View(regions);
             }
-           
-
-              
-                  
-
 
         [HttpPost]
         public IActionResult createRequest(AdminCreateReq cm)
-        {
-            
+        {           
                 string email = HttpContext.Session.GetString("email");
                 _dashboard.adminCreateReq(cm, email);
                 TempData["success"] = "Request Created Successfully";
-                return RedirectToAction("createRequest");
-           
+                return RedirectToAction("createRequest");       
         }
-
-      
-
 
         public IActionResult Export(string GridHtml)
         {
@@ -658,10 +585,7 @@ namespace HalloDoc.Controllers
         }
 
 
-
-
         // Providers
-
         [CustomAuthorize("Admin", "Providers")]
         public IActionResult providerMenu(int regionId)
         {
@@ -732,7 +656,6 @@ namespace HalloDoc.Controllers
 
 
         [HttpPost]
-
         public void resetPass(ProviderMenucm.ProviderProfile cm)
         {
             _providerMenu.resetPassword(cm);  
@@ -746,17 +669,12 @@ namespace HalloDoc.Controllers
             {
                 string emaill = HttpContext.Session.GetString("email");
                 _providerMenu.sendMail(cm, emaill);
-               // return View();
-        }
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while downloading files.");
-                //return StatusCode(405, "An error occurred while downloading files.");
             }
-
-
         }
-
 
         [HttpPost]
         public IActionResult stopNotification(int phyId)
@@ -770,9 +688,7 @@ namespace HalloDoc.Controllers
             catch
             {
                 return NotFound();
-            }
-           
-
+            }       
         }
 
 
@@ -785,10 +701,7 @@ namespace HalloDoc.Controllers
                 ViewBag.Menu = roleMenu;
                 var data = _providerMenu.getRegions(flag, filterRole);
 
-                return View(data);
-            
-            
-
+                return View(data);            
         }
 
         [HttpPost]
@@ -811,11 +724,8 @@ namespace HalloDoc.Controllers
             {
                 return RedirectToAction("userAccess");
             }
-            return null;
-            
+            return null;            
         }
-
-
 
 
         //Account Access
@@ -842,8 +752,6 @@ namespace HalloDoc.Controllers
             var createAccData = _providerMenu.createAccount();
             return View(createAccData);
         }
-
-
      
         public IActionResult filterRoles(int accountTypeId)
         {
@@ -1213,19 +1121,6 @@ namespace HalloDoc.Controllers
             var MdsCallModal = _dashboard.GetOnCallDetails(regionid);
             return View(MdsCallModal);
         }
-
-        //public IActionResult FilterAssignCase(int regionid)
-        //{
-
-        //    var physicians = _dashboard.GetPhysicians(regionid);
-
-
-
-        //    return Json(physicians);
-        //}
-
-
-
 
         //Vendors
 

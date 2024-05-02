@@ -138,22 +138,6 @@
     });
 
 
-    // $("#SMS").click(function () {
-    //     document.getElementById("smsMsg").style.display = "block";
-    //     document.getElementById("emaill").style.display = "none";      
-    // });
-
-    // $("#Email").click(function () {
-    //     document.getElementById("emaill").style.display = "block";
-    //     document.getElementById("smsMsg").style.display = "none";
-       
-    // });
-
-    // $("#Both").click(function () {
-    //     document.getElementById("emaill").style.display = "block";
-    //     document.getElementById("smsMsg").style.display = "block";
-    // });
-
 
     
     //POST
@@ -164,13 +148,6 @@
       
         $('#Radio').val(contactType);
 
-        // var mail = document.querySelector("#emaill").value;
-        // var note = document.querySelector("#note").value;
-        // var id = document.querySelector("#phy").value;
-        
-
-       
-        // if ($("#ContactProviderForm").valid()) {
         $.ajax({
             method: "POST",
             url: "/Admin/contactProvider",
@@ -183,7 +160,6 @@
             location.reload();
             
         });
-        // }
 
     }
 

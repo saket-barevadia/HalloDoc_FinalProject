@@ -36,6 +36,13 @@ namespace Business_Logic.LogicRepositories
                     roleIdMain = _db.Admins.Where(r => r.Email == obj.Email).Select(x => (int)x.Roleid).First();
                 }
 
+                var phyRoleId=_db.Physicians.FirstOrDefault(r=>r.Email==obj.Email);
+
+                if(phyRoleId != null)
+                {
+                    roleIdMain=_db.Physicians.Where(r=>r.Email==obj.Email).Select(x=> (int)x.Roleid).First();
+                }
+
                 var physician = _db.Physicians.FirstOrDefault(x => x.Aspnetuserid == _db.Aspnetusers.FirstOrDefault(x => x.Email == obj.Email).Id);
 
                 if (physician != null)
@@ -45,7 +52,6 @@ namespace Business_Logic.LogicRepositories
                     {
                         Email = r.Email,
                         Password = r.Passwordhash,
-                        //Role = _db.Aspnetroles.Where(y =>y.Id == _db.Aspnetuserroles.Where(x =>x.Userid ==_db.Users.FirstOrDefault(x=>x.Aspnetuserid==r.Id).Userid).Select(x => x.Roleid).First()).Select(y => y.Name).First(),
                         Role = _db.Aspnetroles.Where(y => y.Id == _db.Aspnetuserroles.Where(x => x.Userid == r.Id).Select(x => x.Roleid).First()).Select(y => y.Name).First(),
                         id = r.Id,
                         Username = r.Username,
@@ -56,14 +62,10 @@ namespace Business_Logic.LogicRepositories
                     return user1;
                 }
 
-
-
-
                 var user = _db.Aspnetusers.Where(x => x.Email == obj.Email && x.Passwordhash == obj.Password).Select(r => new patientLogincm()
                 {
                     Email = r.Email,
                     Password = r.Passwordhash,
-                    //Role = _db.Aspnetroles.Where(y =>y.Id == _db.Aspnetuserroles.Where(x =>x.Userid ==_db.Users.FirstOrDefault(x=>x.Aspnetuserid==r.Id).Userid).Select(x => x.Roleid).First()).Select(y => y.Name).First(),
                     Role = _db.Aspnetroles.Where(y => y.Id == _db.Aspnetuserroles.Where(x => x.Userid == r.Id).Select(x => x.Roleid).First()).Select(y => y.Name).First(),
                     id = r.Id,
                     Username = r.Username,
@@ -71,16 +73,17 @@ namespace Business_Logic.LogicRepositories
 
                 }).ToList().FirstOrDefault();
 
+                if (checkRoleId != null)
+                {
+                    user.AdminId = _db.Admins.FirstOrDefault(x => x.Email == obj.Email).Adminid;
+                }
+
                 return user;
-
-
             }
             else
             {
                 return null;
             }
-
-
         }
 
     }

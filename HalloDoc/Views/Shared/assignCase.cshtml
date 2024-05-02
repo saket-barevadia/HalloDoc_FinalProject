@@ -101,7 +101,6 @@
         let regionId = document.querySelector("#region").value;
         let physicianId = document.querySelector("#selectPhysician").value;
         let note = document.querySelector(".description").value;
-         // if ($("#cancelcaseform").valid()) {
             $.ajax({
                 url: "/Admin/assignCase",
                 type: "POST",
@@ -113,7 +112,6 @@
             }).done(function (html) {
                 location.reload();
             });
-         // }
     })
 
 

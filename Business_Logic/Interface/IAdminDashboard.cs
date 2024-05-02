@@ -83,7 +83,6 @@ namespace Business_Logic.Interface
 
         public List<ShiftDetailsmodal> ShiftDetailsmodal(DateTime date, DateTime sunday, DateTime saturday, string type);
 
-        //ShiftDetailsmodal GetShift(int shiftdetailsid);
         public bool createShift(ScheduleModel scheduleModel, string email);
 
         ShiftDetailsmodal GetShift(int shiftdetailsid);

@@ -17,7 +17,6 @@ namespace Data_Layer.CustomModels
         [Column("Userid")]
         public string Userid { get; set; }
 
-        //[Required(ErrorMessage = "Please Enter Symptoms")]
         public String? symptoms { get; set; }
 
         [Required(ErrorMessage ="Please Enter Your FirstName")]
@@ -51,7 +50,6 @@ namespace Data_Layer.CustomModels
         [Required(ErrorMessage = "Please Enter Your Room")]
         public string Room { get; set; }
 
-        //[Required(ErrorMessage = "Please Upload Your Documents")]
         public IFormFile? Uploadd { get; set; }
 
         [Required(ErrorMessage = "Password is required")]

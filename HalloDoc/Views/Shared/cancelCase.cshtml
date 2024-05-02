@@ -52,13 +52,9 @@
 
 
     document.getElementById("cancelCase").addEventListener("click", (e) => {
-        // e.preventDefault();
         let id = document.getElementById("id").value;
         let reason = document.querySelector(".cancel-options").value;
         let note = document.getElementById("note").value;
-
-        // console.log(id, reason, note);
-        // console.log(document.querySelector(".cancel-options"))
 
         $.ajax({
             url: "/Admin/cancelCase",

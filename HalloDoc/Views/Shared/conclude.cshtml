@@ -335,11 +335,9 @@
 
 <script>
     function exportBtnNew() {
-        // Get the HTML content of the table
         var htmlContent = $("#tableParentDiv4").html();
         console.log(htmlContent)
 
-        // Set the modified HTML content to the input value
         $("input[name='GridHtml']").val(htmlContent);
     }
 
@@ -465,7 +463,6 @@
                 }
             }
         });
-        // $('.dataTables_length').hide();
         $('.dataTables_filter').hide();
     });
     document.getElementById('my-search-input').addEventListener('keydown', function (event) {

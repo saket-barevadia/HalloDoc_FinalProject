@@ -10,23 +10,23 @@ namespace Business_Logic.Interface
 {
     public interface IProviderDashboard
     {
-        public ProviderDashboardcm GetPatientDetails(int status, int reqTypeId, int Phyid, int flag);
+        public ProviderDashboardcm GetPatientDetails(int status, int reqTypeId, int phyid, int flag);
 
-        public void PostTransferRequest(ProviderDashboardcm cm, int PhyId);
+        public void PostTransferRequest(ProviderDashboardcm cm, int phyId);
 
-        public void AcceptRequest(int Requestid, int physicianid);
+        public void AcceptRequest(int requestid, int physicianid);
 
+        public void PostEncounterCare(Encounter encounterFormData, int requestid);
 
-        public void PostEncounterCare(Encounter encounterFormData, int Requestid);
+        public void ConcludeReq(int requestId);
 
-        public void concludeReq(int requestId);
+        public void FinalizeForm(int requestId);
 
-        public void finalizeForm(int requestId);
+        public void AddNote(ViewUploads cm);
 
-        public void addNote(ViewUploads cm);
+        public void ReqToAdmin(AdminDashboardcm cm,string email);
 
-
-        public void reqToAdmin(AdminDashboardcm cm,string email);
+        public List<DateViewModel> GetDates();
 
     }
 }

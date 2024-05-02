@@ -107,8 +107,6 @@ namespace Business_Logic.LogicRepositories
                 request.Createddate = DateTime.Now;
                 request.Confirmationnumber = obj.FirstName.Substring(0, 2) + DateTime.Now.ToString().Substring(0, 19).Replace(" ", "");
 
-
-                //request.Ip = obj.Ip;
                 _db.Requests.Add(request);
                 _db.SaveChanges();
 
@@ -128,7 +126,6 @@ namespace Business_Logic.LogicRepositories
                 requestclient.Intyear = Convert.ToInt16(obj.Strmonth.Substring(0, 4));
                 requestclient.Notes = obj.symptoms;
                 requestclient.Regionid = Convert.ToInt16(obj.regionId);
-                //requestclient.Ip = obj.Ip;
                 _db.Requestclients.Add(requestclient);
                 _db.SaveChanges();
 
@@ -143,9 +140,6 @@ namespace Business_Logic.LogicRepositories
                     {
                         file.CopyTo(fileStream);
                     }
-
-                    // Request? req = _db.Requests.FirstOrDefault(i => i.Email == obj.Email);
-                    // int ReqId = req.Requestid;
 
                     var data3 = new Requestwisefile()
                     {
@@ -193,9 +187,7 @@ namespace Business_Logic.LogicRepositories
                 request.Email = obj.Email;
                 request.Createddate = DateTime.Now;
                 request.Confirmationnumber = obj.FirstName.Substring(0, 2) + DateTime.Now.ToString().Substring(0, 19).Replace(" ", "");
-                
-             
-                //request.Ip = obj.Ip;
+
                 _db.Requests.Add(request);
                 _db.SaveChanges();
 
@@ -215,7 +207,6 @@ namespace Business_Logic.LogicRepositories
                 requestclient.Intyear = Convert.ToInt16(obj.Strmonth.Substring(0, 4));
                 requestclient.Notes = obj.symptoms;
                 requestclient.Regionid = Convert.ToInt16(obj.regionId);
-                //requestclient.Ip = obj.Ip;
                 _db.Requestclients.Add(requestclient);
                 _db.SaveChanges();
 
@@ -229,9 +220,6 @@ namespace Business_Logic.LogicRepositories
                     {
                         file.CopyTo(fileStream);
                     }
-
-                    // Request? req = _db.Requests.FirstOrDefault(i => i.Email == obj.Email);
-                    // int ReqId = req.Requestid;
 
                     var data3 = new Requestwisefile()
                     {

@@ -126,8 +126,8 @@
                                     @{
                                         if (obj.Requesttypeid > 1)
                                         {
-                                                                            <button class="btn btn-outline-light d-flex  align-items-center" style="background-color:transparent;color:white"><i class="fa-solid fa-phone pe-2"></i> @obj.Phonenumber</button>
-                                                                            <span style="background-color:transparent;color:white">(@type)</span>
+                                          <button class="btn btn-outline-light d-flex  align-items-center" style="background-color:transparent;color:white"><i class="fa-solid fa-phone pe-2"></i> @obj.Phonenumber</button>
+                                          <span style="background-color:transparent;color:white">(@type)</span>
                                         }
                                     }
                                 </td>
@@ -345,11 +345,9 @@
  <script>
 
     function exportBtnNew() {
-        // Get the HTML content of the table
         var htmlContent = $("#tableParentDiv").html();
         console.log(htmlContent)
 
-        // Set the modified HTML content to the input value
         $("input[name='GridHtml']").val(htmlContent);
     }
 
@@ -404,7 +402,6 @@
             },
         });
 
-
     });
 
     // Block Case
@@ -415,20 +412,6 @@
 
     });
 
-    // filter by regions
-    // function filterbyregion(){
-    //      var regionid = $('#selectregion').val()
-
-    //     $.ajax({
-    //          url: "/admin/filterByRegion",
-    //          data: { regionid: regionid }
-    //          success:function(data){
-    //              $('#mytabcontent1').html(data);
-
-    //          }
-    //     })
-
-    // }
 
      function patient(id) {
         $.ajax({
@@ -500,9 +483,6 @@
              success: function (data) {
                
                  $('#tabsContent').html(data);
-                 // $("#selectRegion").val(id);
-                 // console.log(id);
-                 // document.getElementById("selectRegion").textContent=id
              }
          })
 

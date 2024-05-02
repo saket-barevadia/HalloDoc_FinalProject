@@ -316,6 +316,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXFByb3ZpZGVyU2hhcmVkXEFjY2VwdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/pca21/Desktop/HalloDocMain/HalloDoc (2)-1/HalloDoc/HalloDoc/Views/Shared/ProviderShared/BiWeeklyTimesheet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXFByb3ZpZGVyU2hhcmVkXEJpV2Vla2x5VGltZXNoZWV0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/pca21/Desktop/HalloDocMain/HalloDoc (2)-1/HalloDoc/HalloDoc/Views/Shared/ProviderShared/ConcludeCare.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXFByb3ZpZGVyU2hhcmVkXENvbmNsdWRlQ2FyZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -338,6 +342,14 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/pca21/Desktop/HalloDocMain/HalloDoc (2)-1/HalloDoc/HalloDoc/Views/Shared/ProviderShared/EncounterDownload.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXFByb3ZpZGVyU2hhcmVkXEVuY291bnRlckRvd25sb2FkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pca21/Desktop/HalloDocMain/HalloDoc (2)-1/HalloDoc/HalloDoc/Views/Shared/ProviderShared/InvoicingPartialView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXFByb3ZpZGVyU2hhcmVkXEludm9pY2luZ1BhcnRpYWxWaWV3LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pca21/Desktop/HalloDocMain/HalloDoc (2)-1/HalloDoc/HalloDoc/Views/Shared/ProviderShared/InvoicingShared.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXFByb3ZpZGVyU2hhcmVkXEludm9pY2luZ1NoYXJlZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/pca21/Desktop/HalloDocMain/HalloDoc (2)-1/HalloDoc/HalloDoc/Views/Shared/ProviderShared/MonthWise.cshtml]
@@ -370,6 +382,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/pca21/Desktop/HalloDocMain/HalloDoc (2)-1/HalloDoc/HalloDoc/Views/Shared/ProviderShared/SendLink.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXFByb3ZpZGVyU2hhcmVkXFNlbmRMaW5rLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pca21/Desktop/HalloDocMain/HalloDoc (2)-1/HalloDoc/HalloDoc/Views/Shared/ProviderShared/TimeSheetReiembursementPartialView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXFByb3ZpZGVyU2hhcmVkXFRpbWVTaGVldFJlaWVtYnVyc2VtZW50UGFydGlhbFZpZXcuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/pca21/Desktop/HalloDocMain/HalloDoc (2)-1/HalloDoc/HalloDoc/Views/Shared/ProviderShared/TransferRequest.cshtml]

@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using HelloDocMvc.Repository.Repositories;
 using Rotativa.AspNetCore;
+using Data_Layer.DataModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseNpgsql(builder.Configuration.GetConnectionString("ApplicationDbContext")));
+
 
 builder.Services.AddScoped<ILogin,ILogicRepositories>();
 builder.Services.AddScoped<IPatientReq,patientReqRepo>();
@@ -34,8 +36,13 @@ builder.Services.AddScoped<IcancelCase,cancelCaseRepo>();
 builder.Services.AddScoped<IjwtService, JwtService>();
 builder.Services.AddScoped<IProviderMenu, providerMenuRepo>();
 builder.Services.AddScoped<IProviderDashboard, ProviderDashboardRepo>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IGenericRepository<WeeklyTimeSheet>, GenericRepository<WeeklyTimeSheet>>();
+builder.Services.AddScoped<IGeneralService,GeneralService>();
+
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession();//For Session
+
 
 
 

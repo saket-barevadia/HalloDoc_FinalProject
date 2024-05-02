@@ -183,7 +183,7 @@
         }
 
         $.ajax({
-            url: '/Provider/loadshift',
+            url: '/Provider/Loadshift',
             type: 'POST',
             data: { datestring: date.toISOString(), sundaystring: sunday.toISOString(), saturdaystring: saturday.toISOString(), shifttype: shifttype, regionid: regionid },
             success: function (data) {
@@ -196,22 +196,6 @@
             }
         });
     }
-
-
-
-
-    // function showcalender(filter) {
-    //     if (filter == 1) {
-    //         document.getElementById("date-input").showPicker();
-
-    //     }
-    //     if (filter == 2) {
-    //         document.getElementById("week-input").showPicker();
-    //     }
-    //     if (filter == 3) {
-    //         document.getElementById("month-input").showPicker();
-    //     }
-    // }
 
     function monthchange(filter) {
         if (filter == 1) {
@@ -379,7 +363,7 @@
 
         $.ajax({
             method: "POST",
-            url: "/Provider/deleteShift",
+            url: "/Provider/DeleteShift",
             data: { shiftdetailid: shiftdetailid },
 
             success: function (res) {

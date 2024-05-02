@@ -1,27 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Business_Logic.Interface;
+﻿using Business_Logic.Interface;
 using Data_Layer.DataContext;
 using Data_Layer.DataModels;
 using Data_Layer.CustomModels;
 using static Data_Layer.CustomModels.ProviderMenucm;
-using Microsoft.AspNetCore.Components.Forms;
 using System.Net.Mail;
 using System.Net;
 using System.Collections;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System.IO;
-using System.Security.Cryptography.Xml;
-using System.Drawing;
 using System.Data;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
-using Twilio.TwiML.Messaging;
 
 namespace Business_Logic.LogicRepositories
 {
@@ -34,7 +24,6 @@ namespace Business_Logic.LogicRepositories
             _context = context;
         }
 
-
         public ProviderMenucm providerDetails(int regionId)
         {
             var regions = from r in _context.Regions
@@ -43,10 +32,6 @@ namespace Business_Logic.LogicRepositories
                               region = r.Name,
                               Regionid = r.Regionid
                           });
-
-
-
-
 
             var physicianData = from r in _context.Physicians
                                 where r.Isdeleted == null
@@ -57,10 +42,8 @@ namespace Business_Logic.LogicRepositories
                                     Email = r.Email,
                                     Mobile = r.Mobile,
                                     Status = r.Status,
-
                                     Role = _context.Roles.FirstOrDefault(i => i.Roleid.ToString() == r.Roleid.ToString()).Name,
                                     Regionid = r.Regionid,
-
                                 }) ;
 
             if (regionId >0)
@@ -75,15 +58,11 @@ namespace Business_Logic.LogicRepositories
             };
 
             return providerDetails;
-
         }
-
-
 
         //contact POST
         public void sendMail(ProviderMenucm cm,string adminEmail)
         {
-
             var physician = _context.Physicians.FirstOrDefault(x => x.Physicianid == cm.Physicianid);
 
             var admin = _context.Admins.FirstOrDefault(x => x.Email == adminEmail);
@@ -93,7 +72,6 @@ namespace Business_Logic.LogicRepositories
                 var accountSid = "ACac576656eeaa15707ed2ef4464209e55";
                 var authToken = "e8f9007b647d13348dbae276bd226d75";
                 var twilionumber = "+16562189333";
-
                 var messageBody = $"Hello {physician.Firstname} {physician.Lastname},\n {cm.notes} \n\n\nRegards,\n{admin.Firstname},\n(HelloDoc Admin)";
 
                 TwilioClient.Init(accountSid, authToken);
@@ -103,7 +81,6 @@ namespace Business_Logic.LogicRepositories
                 body: messageBody,
                 to: new Twilio.Types.PhoneNumber("+91" + physician.Mobile)
                 );
-
 
                 Smslog smslog = new Smslog()
                 {
@@ -117,12 +94,10 @@ namespace Business_Logic.LogicRepositories
                     Sentdate = DateTime.Now,
                     Issmssent = new BitArray(1, true),
                     Senttries = 1,
-
                 };
 
                 _context.Smslogs.Add(smslog);
                 _context.SaveChanges();
-
             }
 
             if (cm.Radio == 2)
@@ -145,7 +120,6 @@ namespace Business_Logic.LogicRepositories
                         client.Send(message);
                     }
                 }
-
 
                 Emaillog emaillog = new Emaillog()
                 {
@@ -182,7 +156,6 @@ namespace Business_Logic.LogicRepositories
                 to: new Twilio.Types.PhoneNumber("+91" + physician.Mobile)
                 );
 
-
                 Smslog smslog = new Smslog()
                 {
                     Smstemplate = "Sender : " + adminEmail,
@@ -195,12 +168,10 @@ namespace Business_Logic.LogicRepositories
                     Sentdate = DateTime.Now,
                     Issmssent = new BitArray(1, true),
                     Senttries = 1,
-
                 };
 
                 _context.Smslogs.Add(smslog);
                 _context.SaveChanges();
-
 
                 string smtpServer = "outlook.office365.com";
                 int port = 587; // Port number for SMTP (e.g., 587 for Gmail)
@@ -221,7 +192,6 @@ namespace Business_Logic.LogicRepositories
                     }
                 }
 
-
                 Emaillog emaillog = new Emaillog()
                 {
                     Subjectname = subject,
@@ -239,16 +209,8 @@ namespace Business_Logic.LogicRepositories
 
                 _context.Emaillogs.Add(emaillog);
                 _context.SaveChanges();
-            }
-
-               
-            
-           
-
+            }                           
         }
-
-
-
 
         public ProviderMenucm stopNotification(int phyId)
         {
@@ -267,8 +229,6 @@ namespace Business_Logic.LogicRepositories
 
                 menucm.indicate = true;
                 return menucm;
-
-
             }
             else
             {
@@ -280,8 +240,6 @@ namespace Business_Logic.LogicRepositories
                 return menucm;
             }
         }
-
-
 
         public ProviderProfile providerProfile(int phyId, int flag)
         {
@@ -308,7 +266,6 @@ namespace Business_Logic.LogicRepositories
                     Name = r1.Name,
                     ExistsInTable = phyRegion.Any(r2 => r2.Physicianid == phyId && r2.Regionid == r1.Regionid),
                 }).ToList();
-
 
                 ProviderProfile providerProfileData = new ProviderProfile()
                 {
@@ -341,15 +298,11 @@ namespace Business_Logic.LogicRepositories
                     Flag=flag,
                 };
 
-
                 return providerProfileData;
             }
 
             return null;
-
-
         }
-
 
         //POST
         public void editProvider(ProviderProfile cm)
@@ -358,14 +311,11 @@ namespace Business_Logic.LogicRepositories
 
             var aspnetuser = _context.Aspnetusers.FirstOrDefault(x => x.Id == physician.Aspnetuserid);
 
-
             aspnetuser.Username = cm.Username;
             aspnetuser.Modifieddate = DateTime.Now;
 
             _context.Aspnetusers.Update(aspnetuser);
             _context.SaveChanges();
-
-
 
             physician.Status = cm.Status;
             physician.Roleid = cm.Roleid;
@@ -373,11 +323,7 @@ namespace Business_Logic.LogicRepositories
 
             _context.Physicians.Update(physician);
             _context.SaveChanges();
-
-
         }
-
-
 
         //POST
         public void editphysicianInfo(ProviderProfile cm, List<int> physicianRegions)
@@ -386,7 +332,6 @@ namespace Business_Logic.LogicRepositories
 
             if (physician != null)
             {
-
                 physician.Firstname = cm.Firstname;
                 physician.Lastname = cm.Lastname;
                 physician.Email = cm.Email;
@@ -416,12 +361,8 @@ namespace Business_Logic.LogicRepositories
                     _context.SaveChanges();
                 }
                 _context.SaveChanges();
-
-            }
-            
-
+            }          
         }
-
 
         //Reset
         public void resetPassword(ProviderProfile cm)
@@ -435,15 +376,12 @@ namespace Business_Logic.LogicRepositories
             _context.SaveChanges();
         }
 
-
-
         public void editMailingForm(ProviderProfile cm)
         {
             var physician = _context.Physicians.FirstOrDefault(x => x.Physicianid == cm.Physicianid);
 
             if (physician != null)
             {
-
                 physician.Address1 = cm.Address1;
                 physician.Address2 = cm.Address2;
                 physician.City = cm.City;
@@ -467,15 +405,9 @@ namespace Business_Logic.LogicRepositories
                     physicainLocation.Createddate = physician.Createddate;
 
                     _context.SaveChanges();
-                }
-                
-
-
+                }             
             }
-
         }
-
-
 
         //POST editproviderInfo
         public void editproviderInfo(ProviderProfile cm)
@@ -489,7 +421,6 @@ namespace Business_Logic.LogicRepositories
 
             _context.Physicians.Update(physician);
             _context.SaveChanges();
-
 
             if (cm.Photo != null)
             {
@@ -521,11 +452,7 @@ namespace Business_Logic.LogicRepositories
                 physician.Signature = cm.Signature.FileName;
                 _context.SaveChanges();
             }
-
-
-
         }
-
 
         public void removePhysician(ProviderProfile cm)
         {
@@ -538,9 +465,6 @@ namespace Business_Logic.LogicRepositories
                 _context.SaveChanges();
             }
         }
-
-
-
 
         public void EditOnBoardingData(ProviderProfile providerProfileCm)
         {
@@ -642,8 +566,6 @@ namespace Business_Logic.LogicRepositories
 
         }
 
-
-
         public ProviderProfile getRegions(int flag, int filterRole)
         {
             var regionss = from r in _context.Regions
@@ -676,19 +598,15 @@ namespace Business_Logic.LogicRepositories
             };
 
             return regions;
-
         }
 
-
-
-        // Create Provider Account POST
+       // Create Provider Account POST
         public bool createProviderAcc(ProviderProfile cm, List<int> physicianRegions)
         {
             var aspnetuser=_context.Aspnetusers.FirstOrDefault(x=>x.Email==cm.Email);
 
             if(aspnetuser==null)
             {
-
                 var aspUser = new Aspnetuser()
                 {
                   Username = cm.Username,
@@ -770,18 +688,12 @@ namespace Business_Logic.LogicRepositories
                 _context.Physicianlocations.Add(physicainLocation);
                 _context.SaveChanges();
 
-            
-
-
-
                 AddProviderDocuments(physician.Physicianid, cm.Photo, cm.ContractorAgreement, cm.BackgroundCheck, cm.HIPAA, cm.NonDisclosure);
                 return false;
             }
 
             return true;
         }
-
-
 
         public void AddProviderDocuments(int Physicianid, IFormFile Photo, IFormFile ContractorAgreement, IFormFile BackgroundCheck, IFormFile HIPAA, IFormFile NonDisclosure)
         {
@@ -797,7 +709,6 @@ namespace Business_Logic.LogicRepositories
             if (Photo != null)
             {
                 string path = Path.Combine(directory, "Profile" + Path.GetExtension(Photo.FileName));
-                //string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "content", Photo.FileName);
 
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
@@ -806,7 +717,6 @@ namespace Business_Logic.LogicRepositories
 
                 physicianData.Photo = Photo.FileName;
             }
-
 
             if (ContractorAgreement != null)
             {
@@ -859,11 +769,6 @@ namespace Business_Logic.LogicRepositories
             _context.SaveChanges();
         }
 
-
-
-
-
-
         //Account Access
         public ProviderMenucm accountAccessData()
         {
@@ -881,10 +786,8 @@ namespace Business_Logic.LogicRepositories
                 accountAccess = accountData.ToList(),
             };
 
-            return data;
-            
+            return data;          
         }
-
 
         public ProviderMenucm createAccount()
         {
@@ -898,7 +801,6 @@ namespace Business_Logic.LogicRepositories
             };
 
             return createAcc;
-
         }
 
         public ProviderMenucm getMenu(int accountTypeId)
@@ -912,7 +814,6 @@ namespace Business_Logic.LogicRepositories
 
             return menu;
         }
-
 
         //POST
         public void accountAccessPost(ProviderMenucm cm, List<int> AccountMenu)
@@ -938,18 +839,12 @@ namespace Business_Logic.LogicRepositories
 
                 _context.Rolemenus.Add(roleMenu);
                 _context.SaveChanges();
-            }
-           
+            }          
         }
-
-
 
         public ProviderMenucm getEditAccAccess(int accTypeId, int roleId)
         {
-            var role=_context.Roles.FirstOrDefault(x=>x.Roleid==roleId);
-
-           
-
+            var role=_context.Roles.FirstOrDefault(x=>x.Roleid==roleId);        
 
             if (role!=null)
             {
@@ -984,19 +879,14 @@ namespace Business_Logic.LogicRepositories
 
                 };
                 return data;
-
             }
 
             return null;
         }
 
-
-
         public ProviderMenucm GetAccountMenu(int accounttype, int roleid)
         {
-
             var menu = _context.Menus.Where(r => r.Accounttype == accounttype).ToList();
-
 
             var rolemenu = _context.Rolemenus.ToList();
 
@@ -1014,10 +904,7 @@ namespace Business_Logic.LogicRepositories
             };
 
             return data;
-
         }
-
-
 
         //Edit Access Account POST
         public void editAccAccessPost(ProviderMenucm cm, List<int> AccountMenu)
@@ -1025,10 +912,8 @@ namespace Business_Logic.LogicRepositories
             var role = _context.Roles.FirstOrDefault(x => x.Roleid == cm.CreateAccountAccess.Roleid);
             if (role != null)
             {
-
                 role.Name =cm.CreateAccountAccess.Name;
                 role.Accounttype = cm.CreateAccountAccess.AccounttypeId;
-                //role.Createdby = 1;
                 role.Modifieddate = DateTime.Now;
 
                 _context.SaveChanges();
@@ -1050,12 +935,9 @@ namespace Business_Logic.LogicRepositories
                         });
                     }
                     _context.SaveChanges();
-
                 }
             }
         }
-
-
         public void DeleteAccountAccess(int roleid)
         {
             var role = _context.Roles.FirstOrDefault(x => x.Roleid == roleid);
@@ -1065,16 +947,12 @@ namespace Business_Logic.LogicRepositories
                 _context.SaveChanges();
             }
 
-
             var rolemenu = _context.Rolemenus.Where(i => i.Roleid == roleid).ToList();
             if (rolemenu != null)
             {
                 _context.Rolemenus.RemoveRange(rolemenu);
             }
         }
-
-
-
 
         //User Access
         public ProviderMenucm userAccess(int accountTypeId)
@@ -1083,8 +961,7 @@ namespace Business_Logic.LogicRepositories
            
             var Providerdata =from r in _context.Physicians where r.Isdeleted==null select r;
 
-            var Adrequest = _context.Requests.Where(i => i.Status != 10 || i.Status != 11).Count();
-            
+            var Adrequest = _context.Requests.Where(i => i.Status != 10 || i.Status != 11).Count();            
 
             var role=from r in _context.Aspnetroles where r.Id!=1 select r;
 
@@ -1138,7 +1015,6 @@ namespace Business_Logic.LogicRepositories
 
             var Addata = Admindata.Select(r => new UserAccess()
             {
-
                 aspnetid = r.Aspnetuserid,
                 Accounttype = "Admin",
                 accountname = r.Firstname + ", " + r.Lastname,
@@ -1169,19 +1045,13 @@ namespace Business_Logic.LogicRepositories
                 Flag = 0,
             };
 
-            return userAccessData;
-
-           
+            return userAccessData;        
         }
-
-
 
         //Create Admin Account POST
         public bool createAdminAccount(ProviderProfile cm, List<int> physicianRegions)
         {
-            var aspnetuser = _context.Aspnetusers.FirstOrDefault(x => x.Email == cm.Email);
-
-            
+            var aspnetuser = _context.Aspnetusers.FirstOrDefault(x => x.Email == cm.Email);     
 
                 if (aspnetuser == null)
                 {
@@ -1242,16 +1112,11 @@ namespace Business_Logic.LogicRepositories
                         _context.SaveChanges();
                     }
                     return false;
-                }            
-                   
-                }
-            
-
+                }                    
+                }    
             return true;
 
             }
-
-
 
         //Provider Location
         public List<Physicianlocation> GetPhysicianlocations()
@@ -1259,7 +1124,6 @@ namespace Business_Logic.LogicRepositories
             var phyLocation = _context.Physicianlocations.ToList();
             return phyLocation;
         }
-
 
         //vendors
         public Vendor GetVendors(int professionId, Vendor cm)
@@ -1303,13 +1167,10 @@ namespace Business_Logic.LogicRepositories
             };
 
             return vendor;
-
         }
-
 
         public Vendor getHealthProfessionals()
         {
-
             var professions = new Vendor()
             {
                 healthprofessionaltypes = _context.Healthprofessionaltypes.ToList(),
@@ -1318,7 +1179,6 @@ namespace Business_Logic.LogicRepositories
 
             return professions;
         }
-
 
         //add business POST
         public void addBusiness(Vendor cm)
@@ -1343,7 +1203,6 @@ namespace Business_Logic.LogicRepositories
             _context.SaveChanges(); 
         }
 
-
         //delete business POST
         public void deleteBusiness(int vendorId)
         {
@@ -1357,8 +1216,6 @@ namespace Business_Logic.LogicRepositories
                 _context.SaveChanges();
             }
         }
-
-
 
         //edit business GET
         public Vendor getVendorDetails(int vendorId)
@@ -1383,18 +1240,14 @@ namespace Business_Logic.LogicRepositories
                     Zip = vendor.Zip,
                     regions=_context.Regions.ToList(),
                     healthprofessionaltypes=_context.Healthprofessionaltypes.ToList(),
-                    Healthprofessionalid=vendor.Profession,
-                    
+                    Healthprofessionalid=vendor.Profession,                
                 };
 
                 return details;
-
-
             }
 
             return null;
         }
-
 
         ///Edit vendor POST
         public bool editBusiness(Vendor cm)
@@ -1422,18 +1275,9 @@ namespace Business_Logic.LogicRepositories
             }
 
             return false;
-        }
-
-
-
-
-
-
-        
-
+        }      
 
 
     }
 
 }
-

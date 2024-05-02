@@ -147,7 +147,7 @@ namespace BusinessLayer.Repositories
             {
 
                 _context.Books.Remove(book);
-                _context.SaveChanges();
+               // _context.SaveChanges();
 
                 _context.Borrowers.Remove(borrower);
                 _context.SaveChanges();

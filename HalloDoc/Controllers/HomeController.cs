@@ -6,37 +6,22 @@ using HalloDoc.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
-
-using System.Collections.Generic;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using Business_Logic.LogicRepositories;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Configuration.EnvironmentVariables;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using HelloDocMvc.Repository.Repositories;
 using static HelloDocMvc.Repository.Repositories.AuthManager;
-using System.Net;
-//using AspNetCore;
 
 namespace HalloDoc.Controllers
 {
-
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        
+        private readonly ILogger<HomeController> _logger;      
         private readonly ILogin _login;
         private readonly IPatientReq _patient;
         private readonly IConciergeReq _concierge;
         private readonly IFamilyFriendReq _familyFriend;
         private readonly IBusinessReq _business;
         private readonly ApplicationDbContext _context;
-        //private readonly patientDashboard _db;
         private readonly IsubmitInfoMe _submitInfoMe;
         private readonly IpatientProfile _profile;
         private readonly IsomeoneElse _someelse;
@@ -45,11 +30,6 @@ namespace HalloDoc.Controllers
         private readonly IpatientDashboard _dash;
         private readonly IAdminDashboard _dashboard;
 
-        //public object SessionUtils { get; private set; }
-
-
-
-        //private readonly ApplicationDbContext _db;
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -73,13 +53,11 @@ namespace HalloDoc.Controllers
             _dashboard = dashboard;
         }
 
-
         public IActionResult Index()
         {
             @ViewBag.Admin = 1;
             return View();
         }
-
 
         public IActionResult patientLogin()
         {
@@ -87,9 +65,6 @@ namespace HalloDoc.Controllers
             return View();
         }
 
-
-
-   
     [AllowAnonymous]
     [HttpPost]
     public IActionResult patientLogin(patientLogincm logincm)
@@ -98,55 +73,38 @@ namespace HalloDoc.Controllers
 
             if (check != null) { 
 
-
                 int id = _context.Aspnetusers.FirstOrDefault(x => x.Email == logincm.Email).Id;
            
-
                 var firstname = _context.Aspnetusers.FirstOrDefault(x => x.Email == logincm.Email).Username;
 
                 HttpContext.Session.SetString("fname", firstname);
-
                 HttpContext.Session.SetString("email", logincm.Email);
-
                 HttpContext.Session.SetInt32("reqId", id);
-
-
-
-
 
                 var user = _login.login(logincm);
 
                 if (user != null)
                 {
-
                     HttpContext.Session.SetInt32("roleId", user.roleId);
-
                     HttpContext.Session.SetInt32("physicianId", Convert.ToInt32(user.Physicianid));
+                    if (user.AdminId != 0)
+                    {
+                        HttpContext.Session.SetInt32("AdminId", Convert.ToInt32(user.AdminId));
+                    }
 
                     IActionResult response = Unauthorized();
 
-
-
                     if (user != null)
                     {
-
                         var jwtToken = _jwtService.GenerateJwtToken(user);
                         Response.Cookies.Append("jwt", jwtToken);
-
-
-
-
-
                         HttpContext.Session.SetString("user", user.Role);
-
-
                         TempData["name"] = user.Username;
 
                         if (user.Role == "User")
                         {
                             TempData["success"] = "Login Successfully!";
                             return RedirectToAction("patientDashboard", new { emaill = logincm.Email });
-
                         }
                         if (user.Role == "Admin")
                         {
@@ -161,12 +119,9 @@ namespace HalloDoc.Controllers
                     }
                     else
                     {
-
                         ViewBag.AuthFailedMessege = "Please Enter Correct Username And Password!";
-
                     }
                     return View();
-
                 }
                 else
                 {
@@ -177,10 +132,7 @@ namespace HalloDoc.Controllers
             {
                 return NotFound();
             }
-
         }
-
-
 
         public IActionResult logout()
         {
@@ -191,8 +143,6 @@ namespace HalloDoc.Controllers
             return RedirectToAction("patientLogin");
         }
 
-
-        //[CustomAuthorize("User")]
         public IActionResult forgotPass(string msg)
         {
             @ViewBag.Admin = 1;
@@ -211,21 +161,18 @@ namespace HalloDoc.Controllers
             return RedirectToAction("forgotPass", new {msg= "Email Sent To Your EmailId" });
         }
 
-        //[CustomAuthorize("User")]
         public IActionResult submitReq()
         {
             @ViewBag.Admin = 1;
             return View();
         }
 
-        //[CustomAuthorize("User")]
         public IActionResult patientReq()
         {
             @ViewBag.Admin = 1;        
             return View();
         }
 
-        //[CustomAuthorize("User")]
         [HttpPost]
         public IActionResult patientReq(PatientRequestCm obj)
         {
@@ -235,7 +182,6 @@ namespace HalloDoc.Controllers
 
         }
 
-        //[CustomAuthorize("User")]
         public IActionResult checkEmailAvailibility(string email) //action
         {
             
@@ -250,16 +196,12 @@ namespace HalloDoc.Controllers
             return Json(new { code = 402 });
         }
 
-
-
-        //[CustomAuthorize("User")]
         public IActionResult familyFriendReq()
         {
             @ViewBag.Admin = 1;
             return View();
         }
 
-        //[CustomAuthorize("User")]
         [HttpPost]
         public IActionResult familyFriendReq(familyFriendReqcm obj)
         {
@@ -272,8 +214,7 @@ namespace HalloDoc.Controllers
             @ViewBag.Admin = 1;
             return View();
         }
-
-        //[CustomAuthorize("User")]
+  
         [HttpPost]
         public IActionResult concierge(ConciergeRequestCm cm)
         {
@@ -281,41 +222,31 @@ namespace HalloDoc.Controllers
             return RedirectToAction("submitReq");
         }
 
-
-        //[CustomAuthorize("User")]
         public IActionResult business()
         {
             @ViewBag.Admin = 1;
             return View();
         }
 
-
-        //[CustomAuthorize("User")]
         [HttpPost]
         public IActionResult business(businessReqcm cm)
         {
             _business.businessReq(cm);
             return RedirectToAction("submitReq");
         }
-
-     
+        
         public IActionResult patientSite()
         {
             @ViewBag.Admin = 1;
             return View();
         }
 
-
-       
-
         [CustomAuthorize("User")]
         public IActionResult patientDashboard(string emaill)
         {
-
             @ViewBag.Admin = 1;
             var uid = _context.Users.Where(r => r.Email == emaill).Select(x => x.Userid).First();
             var request = _context.Requests.Where(r => r.Userid == uid).AsNoTracking();
-            //var request = _context.Requests.Where(r => r.Email == emaill).AsNoTracking();
             var RequestList = request.Select(r => new patientDashboard()
             {
                 Createddate = r.Createddate,
@@ -326,10 +257,7 @@ namespace HalloDoc.Controllers
 
             }).ToList();
 
-
             return View(RequestList);
-
-
         }
 
         public IActionResult AccessDenied()
@@ -338,9 +266,6 @@ namespace HalloDoc.Controllers
             return View();
         }
 
-
-
-        //[CustomAuthorize("User")]
         public IActionResult submitInfoMe()
         {
             @ViewBag.Admin = 1;
@@ -349,7 +274,6 @@ namespace HalloDoc.Controllers
             return View(mailId);
         }
 
-        //[CustomAuthorize("User")]
         [HttpPost]
         public IActionResult submitInfoMe(submitReqMe obj)
         {
@@ -357,29 +281,24 @@ namespace HalloDoc.Controllers
             return RedirectToAction("patientDashboard", new {emaill=obj.Email});
         }
 
-        //[CustomAuthorize("User")]
         public IActionResult submitReqSomeElse()
         {
             @ViewBag.Admin = 1;
             return View();
         }
 
-
         [CustomAuthorize("User")]
         [HttpPost]
         public IActionResult submitReqSomeElse(familyFriendReqcm cm)
         {
-
             string emaill = HttpContext.Session.GetString("email");
             _someelse.someElse(cm, emaill);
             return RedirectToAction("patientDashboard", new {emaill=emaill});
         }
 
-
         [CustomAuthorize("User")]
         public IActionResult viewDocuments(int data)
         {
-
             @ViewBag.Admin = 1;
             var query = from rw in _context.Requestwisefiles
                         join r in _context.Requestclients on rw.Requestid equals r.Requestid
@@ -405,7 +324,6 @@ namespace HalloDoc.Controllers
             return View(Request);
         }
 
-
         [CustomAuthorize("User")]
         [HttpPost]
         public IActionResult viewDocuments(viewDocument obj)
@@ -419,9 +337,6 @@ namespace HalloDoc.Controllers
                 file.CopyTo(fileStream);
             }
 
-           
-
-
             var data3 = new Requestwisefile()
             {
                 Requestid = obj.Requestid,
@@ -431,12 +346,9 @@ namespace HalloDoc.Controllers
             _context.Requestwisefiles.Add(data3);
             _context.SaveChanges();
 
-
             return RedirectToAction("viewDocuments", new {data=obj.Requestid});
         }
 
-
-        //[CustomAuthorize("User")]
         public IActionResult patientProfile()
         {
             @ViewBag.Admin = 1;
@@ -447,23 +359,18 @@ namespace HalloDoc.Controllers
             return View(result);
         }
 
-        
-        //[CustomAuthorize("User")]
         [HttpPost]
         public IActionResult patientProfile(User cm)
         {
             _profile.update(cm);
             return RedirectToAction("PatientDashboard",new {emaill=cm.Email});
         }
-
-       
-
+      
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
 
         public IActionResult reviewAgreement(int reqId)
         {
@@ -489,7 +396,6 @@ namespace HalloDoc.Controllers
             return View();
         }
 
-
         [HttpPost]
         public IActionResult cancelAgreement(ReviewAgreement cm)
         {
@@ -503,7 +409,6 @@ namespace HalloDoc.Controllers
             return RedirectToAction("statusError");
         }
 
-
         public IActionResult createAccount(int aspnetId, int flag)
         {
             var data=_dash.createAccount(aspnetId, flag);
@@ -512,14 +417,11 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-
         public IActionResult createAccount(patientDashboard cm) {
           _dash.account(cm.create);
 
             return RedirectToAction("patientLogin");
         }
-
-
 
     }
 }

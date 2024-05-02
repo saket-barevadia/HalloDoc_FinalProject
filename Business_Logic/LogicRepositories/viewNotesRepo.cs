@@ -52,7 +52,6 @@ namespace Business_Logic.LogicRepositories
         {
 
             var reqId = _context.Requestnotes.FirstOrDefault(x => x.Requestid == id);
-            //var transferNote=_context.Requeststatuslogs.OrderBy(x=>x.Requeststatuslogid).LastOrDefault(x=>x.Requestid == id);
             var transferNote = _context.Requeststatuslogs.OrderBy(i => i.Requeststatuslogid).LastOrDefault(i => i.Requestid == id);
 
 
@@ -75,8 +74,6 @@ namespace Business_Logic.LogicRepositories
                     transfernotes = transferNote == null ? "" : transferNote.Notes,
                     cancellationNotes = cancelData == null ? "" : cancelData.Notes,
                     flag = flag,
-
-                    //cancellationNotes = _context.Requeststatuslogs.FirstOrDefault(X=>X.Requestid== id).Notes,
                 };
 
                 return viewNotes;
@@ -103,7 +100,6 @@ namespace Business_Logic.LogicRepositories
                     cancellationNotes = cancelData == null ? "" : cancelData.Notes,
                     flag = flag,
                     userId = user,
-                    //cancellationNotes = _context.Requeststatuslogs.FirstOrDefault(X => X.Requestid == id).Notes,
                 };
 
                 return viewNotes;

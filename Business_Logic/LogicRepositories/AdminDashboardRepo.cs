@@ -1,33 +1,20 @@
 ﻿using Data_Layer.CustomModels;
 using Business_Logic.Interface;
 using Data_Layer.DataContext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
-using System.Reflection.Metadata;
 using System.Collections;
 using Data_Layer.DataModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using System.Net.Mail;
 using System.Net;
-using static System.Net.WebRequestMethods;
 using OfficeOpenXml;
 using static Data_Layer.CustomModels.ProviderMenucm;
-using System.Drawing;
-using Microsoft.AspNetCore.Components.Forms;
-using static Data_Layer.CustomModels.patientRecordscm;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Business_Logic.LogicRepositories
 {
     public class AdminDashboardRepo : IAdminDashboard
     {
         private readonly ApplicationDbContext _db;
-
         public AdminDashboardRepo(ApplicationDbContext db)
         {
             _db = db;
@@ -35,13 +22,10 @@ namespace Business_Logic.LogicRepositories
 
         public List<AdminDashboardcm> data(int reqTypeId, int regionID)
         {
-
-
             var query = from r in _db.Requests
                         join rw in _db.Requestclients
                         on r.Requestid equals rw.Requestid
                         where r.Isdeleted == null
-
                         select (new AdminDashboardcm
                         {
                             FirstnameRequestor = r.Firstname,
@@ -65,9 +49,7 @@ namespace Business_Logic.LogicRepositories
                             physician=_db.Physicians.FirstOrDefault(x=>x.Physicianid==r.Physicianid).Firstname,
                             PhysicianId=r.Physicianid,
                         }) ;
-
-           
-
+        
             if (reqTypeId > 0)
             {
                 query = query.Where(r => r.Requesttypeid == reqTypeId);
@@ -81,15 +63,7 @@ namespace Business_Logic.LogicRepositories
             var data = query.ToList();
 
             return (data);
-
-
-
-
-
-
-
         }
-
 
         // Block Patient
         public void blockCase(int requestId, string reasonNote)
@@ -108,9 +82,6 @@ namespace Business_Logic.LogicRepositories
                     _db.SaveChanges();
                 }
 
-
-
-
                 Blockrequest blockrequest = new Blockrequest()
                 {
                     Requestid = request.Requestid,
@@ -123,12 +94,8 @@ namespace Business_Logic.LogicRepositories
 
                 _db.Blockrequests.Add(blockrequest);
                 _db.SaveChanges();
-
             }
         }
-
-
-
 
         // Assign Case GET
         public Assigncase assigncases(int requestId)
@@ -148,8 +115,6 @@ namespace Business_Logic.LogicRepositories
             return null;
         }
 
-
-
         // Get Physician
         public List<Physician> getPhysicianName(int physicianId)
         {
@@ -167,9 +132,6 @@ namespace Business_Logic.LogicRepositories
             return data;
         }
 
-
-
-
         // Assign Case POST
         public void assignCasePost(int reqId, int regionId, int physicianId, string description)
         {
@@ -183,7 +145,6 @@ namespace Business_Logic.LogicRepositories
                 _db.Requests.Update(request);
                 _db.SaveChanges();
 
-
                 Requeststatuslog requeststatuslog = new Requeststatuslog()
                 {
                     Requestid = request.Requestid,
@@ -193,14 +154,9 @@ namespace Business_Logic.LogicRepositories
                 };
 
                 _db.Requeststatuslogs.Add(requeststatuslog);
-                _db.SaveChanges();
-
-                
+                _db.SaveChanges();     
             }
         }
-
-
-
 
         // GET View Uploads
         public ViewUploads viewUploads(int reqId, int flag)
@@ -209,7 +165,6 @@ namespace Business_Logic.LogicRepositories
 
             if (request != null)
             {
-
                 var query = from r in _db.Requestwisefiles
                             where r.Requestid == reqId && r.Isdeleted == null
                             select (new Documentss()
@@ -230,16 +185,10 @@ namespace Business_Logic.LogicRepositories
                     IsFinalized=_db.EncounterForms.FirstOrDefault(x=>x.Requestid==reqId)==null? null: _db.EncounterForms.FirstOrDefault(x => x.Requestid == reqId).IsFinalized,
                 };
 
-
-
                 return data;
             }
             return null;
         }
-
-
-
-
 
         // POST view uploads
         public void postUploads(ViewUploads cm)
@@ -265,9 +214,6 @@ namespace Business_Logic.LogicRepositories
 
         }
 
-
-
-
         // Delete file in view uploads
         public void deleteUploads(int Id)
         {
@@ -286,19 +232,9 @@ namespace Business_Logic.LogicRepositories
             }
         }
 
-
-
-
         // Send Mail in view uploads
         public void sendMail(int reqID)
         {
-
-
-
-
-
-
-         
             string smtpServer = "outlook.office365.com";
             int port = 587; // Port number for SMTP (e.g., 587 for Gmail)
             string senderEmail = "tatva.dotnet.saketbarevadia@outlook.com";
@@ -312,8 +248,7 @@ namespace Business_Logic.LogicRepositories
                 client.Credentials = new NetworkCredential(senderEmail, password);
 
                 using (MailMessage message = new MailMessage(senderEmail, recipientEmail, subject, body))
-                {
-                    // Attach all files in a directory
+                {       
                     string directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Documents");
                     string[] files = Directory.GetFiles(directoryPath);
                     var request = from r in _db.Requestwisefiles where r.Requestid == reqID && r.Isdeleted == null select r.Filename;
@@ -325,29 +260,16 @@ namespace Business_Logic.LogicRepositories
                             {
                                 message.Attachments.Add(new Attachment(file));
                             }
-
-                        }
-
+                       }
                     }
 
                     client.Send(message);
                 }
-            }
-
-
-          
+            }       
         }
 
-
-
-
-
-
-
         //  Orders
-
         // get Profession
-
         public Orders getProfessions(int id)
         {
             var professions = from r in _db.Healthprofessionaltypes
@@ -366,17 +288,10 @@ namespace Business_Logic.LogicRepositories
                 professions = ans,
             };
 
-
-
-
-
             return (orders);
         }
 
-
-
         // Get Vendor
-
         public List<Profession> getVendor(int id)
         {
             var data = from r in _db.Healthprofessionals
@@ -392,10 +307,7 @@ namespace Business_Logic.LogicRepositories
             return (vendor);
         }
 
-
-
         // Get vendor details
-
         public Orders getVendorDetails(int id)
         {
 
@@ -404,7 +316,6 @@ namespace Business_Logic.LogicRepositories
 
             if (match != null)
             {
-
                 Orders details = new Orders()
                 {
                     Email = match.Email,
@@ -413,20 +324,14 @@ namespace Business_Logic.LogicRepositories
                 };
 
                 return (details);
-
             }
 
             return null;
-
         }
 
-
-
         // Post order details
-
         public bool postOrderDetails(Orders cm, int id)
-        {
-            
+        {          
                 var vendorId = _db.Healthprofessionals.FirstOrDefault(x => x.Vendorid == id);
 
             if (vendorId != null)
@@ -437,7 +342,6 @@ namespace Business_Logic.LogicRepositories
 
                 _db.Healthprofessionals.Update(vendorId);
                 _db.SaveChanges();
-
 
                 Orderdetail orderdetail = new Orderdetail()
                 {
@@ -451,24 +355,16 @@ namespace Business_Logic.LogicRepositories
                     Createddate = DateTime.Now,
                 };
 
-
-
                 _db.Orderdetails.Add(orderdetail);
                 _db.SaveChanges();
 
                 return true;
-
             }
             else
             {
                 return false;
             }
-
-
         }
-
-
-
 
         // Transfer request
         public List<TransferRequest> transferRequests(int requestId)
@@ -484,7 +380,6 @@ namespace Business_Logic.LogicRepositories
                                 Regionid = r.Regionid,
                             });
 
-
                 var data = query.ToList();
 
                 return data;
@@ -493,11 +388,7 @@ namespace Business_Logic.LogicRepositories
             return null;
         }
 
-
-
-
         // Transfer request post
-
         public void transferReqPost(int reqId, int regionId, int physicianId, string description, string email)
         {
             var request = _db.Requests.FirstOrDefault(x => x.Requestid == reqId);
@@ -512,7 +403,6 @@ namespace Business_Logic.LogicRepositories
 
                 _db.Requests.Update(request);
                 _db.SaveChanges();
-
 
                 Requeststatuslog requeststatuslog = new Requeststatuslog()
                 {
@@ -529,14 +419,9 @@ namespace Business_Logic.LogicRepositories
             }
         }
 
-
-
-
-        // Clear case POST
-
+       // Clear case POST
         public bool clearCasePost(int id)
-        {
-       
+        { 
                 var request = _db.Requests.FirstOrDefault(x => x.Requestid == id);
 
                 if (request != null)
@@ -551,7 +436,6 @@ namespace Business_Logic.LogicRepositories
                         Requestid = id,
                         Status = request.Status,
                         Createddate = DateTime.Now,
-
                     };
 
                     _db.Requeststatuslogs.Add(requeststatuslog);
@@ -559,15 +443,8 @@ namespace Business_Logic.LogicRepositories
                     return true;
                 }
 
-
-                return false;
-
-            
+                return false;    
         }
-
-
-
-
 
         // Send Agreement 
         public SendAgreement SendAgreement(int id)
@@ -589,8 +466,6 @@ namespace Business_Logic.LogicRepositories
 
             return null;
         }
-
-
 
         // Send Agreement POST
         public void sendEmail(SendAgreement cm)
@@ -615,9 +490,6 @@ namespace Business_Logic.LogicRepositories
             }
         }
 
-
-
-
         // Close Case
         public CloseCase CloseCase(int reqid)
         {
@@ -625,7 +497,6 @@ namespace Business_Logic.LogicRepositories
 
             if (request != null)
             {
-
                 var files = from r in _db.Requestwisefiles
                             where r.Requestid == reqid
                             select (new Documentss()
@@ -651,20 +522,13 @@ namespace Business_Logic.LogicRepositories
                     Intyear = request.Intyear,
                     Date = new DateTime((int)request.Intyear, Convert.ToInt16(request.Strmonth), (int)request.Intdate).ToString("yyyy-MM-dd"),
                     documents = filenames,
-
-
                 };
 
-                return patientDetails;
-
+               return patientDetails;
             }
 
             return null;
-
         }
-
-
-
 
         // Close Case POST
         public void closeCasePost(CloseCase cm)
@@ -681,10 +545,7 @@ namespace Business_Logic.LogicRepositories
             }
         }
 
-
-
-
-        // Close POST
+       // Close POST
         public void close(int reqid)
         {
             var request = _db.Requests.FirstOrDefault(x => x.Requestid == reqid);
@@ -696,9 +557,7 @@ namespace Business_Logic.LogicRepositories
                 _db.Requests.Update(request);
                 _db.SaveChanges();
             }
-
-           
-
+       
             Requeststatuslog requestStatusLog = new Requeststatuslog();
             requestStatusLog.Requestid = reqid;
             requestStatusLog.Createddate = DateTime.Now;
@@ -706,13 +565,7 @@ namespace Business_Logic.LogicRepositories
 
             _db.Requeststatuslogs.Add(requestStatusLog);
             _db.SaveChanges();
-
         }
-
-
-        
-
-
 
         // Admin My Profile
         public AdminProfilecm adminData(string email, int flag)
@@ -720,11 +573,7 @@ namespace Business_Logic.LogicRepositories
             var username = _db.Aspnetusers.FirstOrDefault(x => x.Email == email);
 
             var admin = _db.Admins.FirstOrDefault(x => x.Email == email);
-
-
-          
-
-
+      
             if (admin != null)
             {
                 var region = _db.Regions.ToList();
@@ -799,16 +648,11 @@ namespace Business_Logic.LogicRepositories
                     var data = adminData;
 
                     return adminData;
-                }
-                
-
+                }              
             }
 
             return null;
-
         }
-
-
 
         // Admin My Profile POST
         public void EditadminProfile(AdminProfilecm cm, List<int> adminRegions)
@@ -829,9 +673,7 @@ namespace Business_Logic.LogicRepositories
 
                     _db.Admins.Update(admin);
                     _db.SaveChanges();
-
-                  
-
+                 
                     aspnetuser.Email = cm.Email;
                     aspnetuser.Username = cm.Firstname;
 
@@ -863,8 +705,6 @@ namespace Business_Logic.LogicRepositories
 
         }
 
-
-
         // Admin My Profile reset password POST
         public void resetPass(AdminProfilecm cm)
         {
@@ -880,16 +720,11 @@ namespace Business_Logic.LogicRepositories
             }
         }
 
-
-
-
         // Admin My Profile edit address POST
         public void editAdminAddress(AdminProfilecm cm)
         {
             var admin = _db.Admins.FirstOrDefault(x => x.Adminid == cm.Adminid);
             
-
-
             if (admin != null)
             {
                 admin.Address1 = cm.Address1;
@@ -901,14 +736,8 @@ namespace Business_Logic.LogicRepositories
 
                 _db.Admins.Update(admin);
                 _db.SaveChanges();
-
             }
-
         }
-
-
-
-
 
         // Encounter form GET
         public Encounter encounterFormData(int reqid)
@@ -979,17 +808,10 @@ namespace Business_Logic.LogicRepositories
                     };
                     return encounter;
                 }
-
-
-
-
             }
 
             return null;
         }
-
-
-
 
         // Encounter POST
         public void encounterFormPost(Encounter cm)
@@ -1011,7 +833,6 @@ namespace Business_Logic.LogicRepositories
 
                 _db.Requestclients.Update(request);
                 _db.SaveChanges();
-
             }
 
             if (encounterr == null)
@@ -1043,13 +864,11 @@ namespace Business_Logic.LogicRepositories
                     MedicationDispensed = cm.MedicationDispensed,
                     Procedures = cm.Procedures,
                     FollowUp = cm.FollowUp,
-                    Date = cm.Date
-                    
+                    Date = cm.Date                
                 };
 
                 _db.EncounterForms.Add(form);
                 _db.SaveChanges();
-
             }
 
             if (encounterr != null)
@@ -1083,13 +902,8 @@ namespace Business_Logic.LogicRepositories
 
                 _db.EncounterForms.Update(encounterr);
                 _db.SaveChanges();
-
-
             }
         }
-
-
-
 
         // Send Link
         public void sendLink(SendAgreement cm)
@@ -1112,8 +926,7 @@ namespace Business_Logic.LogicRepositories
                     client.Send(message);
                 }
             }
-
-
+ 
             Emaillog emaillog = new Emaillog()
             {
                 Subjectname = subject,
@@ -1129,12 +942,7 @@ namespace Business_Logic.LogicRepositories
 
             _db.Emaillogs.Add(emaillog);
             _db.SaveChanges();
-
         }
-
-
-
-
 
         // Admin create request POST
         public void adminCreateReq(AdminCreateReq cm, string email)
@@ -1144,17 +952,12 @@ namespace Business_Logic.LogicRepositories
 
             var physician=_db.Physicians.FirstOrDefault(x=>x.Email == email);
 
-
             var user = _db.Users.FirstOrDefault(x => x.Email == cm.Email);
            
-
             var asp = _db.Aspnetusers.FirstOrDefault(x => x.Email == cm.Email);
-
-            
-
+        
             if (asp == null)
             {
-
                 var aspnetuser = new Aspnetuser()
                 {
                     Email = cm.Email,
@@ -1165,7 +968,6 @@ namespace Business_Logic.LogicRepositories
                 _db.Aspnetusers.Add(aspnetuser);
                 _db.SaveChanges();
 
-
                 string smtpServer = "outlook.office365.com";
                 int port = 587; // Port number for SMTP (e.g., 587 for Gmail)
                 string senderEmail = "tatva.dotnet.saketbarevadia@outlook.com";
@@ -1174,7 +976,6 @@ namespace Business_Logic.LogicRepositories
                 string subject = "Click the link given below to create your account";
                 string body = "http://localhost:5001/Home/createAccount?aspnetId="+aspnetuser.Id;
                 
-
                 using (SmtpClient client = new SmtpClient(smtpServer, port))
                 {
                     client.EnableSsl = true;
@@ -1182,15 +983,9 @@ namespace Business_Logic.LogicRepositories
 
                     using (MailMessage message = new MailMessage(senderEmail, recipientEmail, subject, body))
                     {
-
                         client.Send(message);
                     }
                 }
-
-
-
-
-
 
                 if (user == null)
                 {
@@ -1210,18 +1005,8 @@ namespace Business_Logic.LogicRepositories
                     userTb.Intdate = Convert.ToInt16(cm.Strmonth.Substring(8, 2));
                     userTb.Intyear = Convert.ToInt16(cm.Strmonth.Substring(0, 4));
                     _db.Users.Add(userTb);
-                    _db.SaveChanges();
-
-                   
+                    _db.SaveChanges();               
                 }
-
-                
-
-
-
-
-
-
 
                 var netuserroleDATA = new Aspnetuserrole()
                 {
@@ -1245,10 +1030,6 @@ namespace Business_Logic.LogicRepositories
                 _db.Requests.Add(request);
                 _db.SaveChanges();
 
-
-
-
-
                 Requestclient requestclient = new Requestclient()
                 {
                     Firstname = cm.Firstname,
@@ -1264,7 +1045,6 @@ namespace Business_Logic.LogicRepositories
                     Intdate = Convert.ToInt16(cm.Strmonth.Substring(8, 2)),
                     Intyear = Convert.ToInt16(cm.Strmonth.Substring(0, 4)),
                     Regionid= Convert.ToInt16(cm.State),
-
                 };
 
                 _db.Requestclients.Add(requestclient);
@@ -1302,16 +1082,11 @@ namespace Business_Logic.LogicRepositories
                 };
 
                 _db.Requestnotes.Add(requestnote);
-                _db.SaveChanges();
-
-                
-
+                _db.SaveChanges();               
             }
-
 
             if (asp != null)
             {
-
                 if (user == null)
                 {
                     var userTb = new User();
@@ -1343,13 +1118,8 @@ namespace Business_Logic.LogicRepositories
                 request.Confirmationnumber = admin == null ? physician.Firstname.Substring(0, 2) + DateTime.Now.ToString().Substring(0, 19).Replace(" ", "") : admin.Firstname.Substring(0, 2) + DateTime.Now.ToString().Substring(0, 19).Replace(" ", "");
                 request.Userid = _db.Users.FirstOrDefault(x => x.Email == cm.Email).Userid;
                
-
                 _db.Requests.Add(request);
                 _db.SaveChanges();
-
-
-
-
 
                 Requestclient requestclient = new Requestclient()
                 {
@@ -1365,12 +1135,10 @@ namespace Business_Logic.LogicRepositories
                     Strmonth = cm.Strmonth.Substring(5, 2),
                     Intdate = Convert.ToInt16(cm.Strmonth.Substring(8, 2)),
                     Intyear = Convert.ToInt16(cm.Strmonth.Substring(0, 4)),
-
                 };
 
                 _db.Requestclients.Add(requestclient);
                 _db.SaveChanges();
-
 
                 Requestnote requestnote = new Requestnote()
                 {
@@ -1384,9 +1152,7 @@ namespace Business_Logic.LogicRepositories
                 _db.Requestnotes.Add(requestnote);
                 _db.SaveChanges();
             }
-
         }
-
 
         // Get Regions
         public List<Regioncm> getRegions()
@@ -1398,18 +1164,10 @@ namespace Business_Logic.LogicRepositories
                             Regionid=r.Regionid
                         });
 
-        
-
-
             var regions=query.ToList();
 
-            return regions;
-
-            
-
+            return regions;         
         }
-
-
 
         public byte[] GenerateExcelFile(List<AdminDashboardcm> adminData)
         {
@@ -1417,7 +1175,6 @@ namespace Business_Logic.LogicRepositories
             {
                 var worksheet = excelPackage.Workbook.Worksheets.Add("Requests");
 
-                // Add headers
                 worksheet.Cells[1, 1].Value = "Request ID";
                 worksheet.Cells[1, 2].Value = "Name";
                 worksheet.Cells[1, 3].Value = "DOB";
@@ -1429,7 +1186,6 @@ namespace Business_Logic.LogicRepositories
                 worksheet.Cells[1, 9].Value = "Notes";
                 worksheet.Cells[1, 10].Value = "Email";
 
-                // Populate data
                 for (int i = 0; i < adminData.Count; i++)
                 {
                     var rowData = adminData[i];
@@ -1445,14 +1201,9 @@ namespace Business_Logic.LogicRepositories
                     worksheet.Cells[i + 2, 10].Value = rowData.Email;
                 }
 
-                // Convert package to bytes for download
                 return excelPackage.GetAsByteArray();
             }
         }
-
-
-
-
 
         //scheduling
 
@@ -1473,18 +1224,11 @@ namespace Business_Logic.LogicRepositories
 
         public SchedulingCm GetRegions(int phyId)
         {
-            var regions =from r in _db.Regions select r;
-
-            
+            var regions =from r in _db.Regions select r;      
 
             if (phyId > 0)
             {
                 var phyreg = _db.Physicianregions.Where(i => i.Physicianid == phyId).Select(j => j.Region).ToList();
-
-               
-
-                
-
 
                 var regio = new SchedulingCm()
                 {
@@ -1496,7 +1240,6 @@ namespace Business_Logic.LogicRepositories
 
             var regionsss = regions.ToList();
 
-
             var regionss = new SchedulingCm()
             {
                 regions = regionsss,
@@ -1504,12 +1247,9 @@ namespace Business_Logic.LogicRepositories
             return regionss;
         }
 
-
-
         //create shift POST
         public bool createShift(ScheduleModel scheduleModel, string email)
         {
-
             var Aspid = _db.Aspnetusers.FirstOrDefault(x => x.Email == email).Id;
 
             if (_db.Shifts.Where(x => x.Physicianid == scheduleModel.Physicianid).Count() > 1)
@@ -1522,7 +1262,6 @@ namespace Business_Logic.LogicRepositories
                     var details = _db.Shiftdetails.Where(x => x.Shiftid == obj.Shiftid).ToList();
                     shiftDetailData.AddRange(details);
                 }
-
 
                 foreach (var obj in shiftDetailData)
                 {
@@ -1568,10 +1307,8 @@ namespace Business_Logic.LogicRepositories
             _db.Shiftdetailregions.Add(sr);
             _db.SaveChanges();
 
-
             if (scheduleModel.Isrepeat != false)
             {
-
                 List<int> day = scheduleModel.checkWeekday.Split(',').Select(int.Parse).ToList();
 
                 foreach (int d in day)
@@ -1584,7 +1321,6 @@ namespace Business_Logic.LogicRepositories
                     {
                         if (nextOccurrence.DayOfWeek == desiredDayOfWeek && (nextOccurrence.Day != scheduleModel.Startdate.Day))
                         {
-
                             Shiftdetail sdd = new Shiftdetail();
                             sdd.Shiftid = shift.Shiftid;
                             sdd.Shiftdate = nextOccurrence;
@@ -1610,7 +1346,6 @@ namespace Business_Logic.LogicRepositories
             }
 
             return true;
-
         }
 
         public List<Physician> GetRegionvalue(int selectedregion)
@@ -1628,9 +1363,6 @@ namespace Business_Logic.LogicRepositories
 
             return data;
         }
-
-
-
 
         public List<ShiftDetailsmodal> ShiftDetailsmodal(DateTime date, DateTime sunday, DateTime saturday, string type)
         {
@@ -1653,7 +1385,6 @@ namespace Business_Logic.LogicRepositories
                     break;
             }
 
-
             var list = shiftdetails.Select(s => new ShiftDetailsmodal
             {
                 Shiftid = s.Shiftid,
@@ -1672,7 +1403,6 @@ namespace Business_Logic.LogicRepositories
 
             return list;
         }
-
 
         public ShiftDetailsmodal GetShift(int shiftdetailsid)
         {
@@ -1697,7 +1427,6 @@ namespace Business_Logic.LogicRepositories
 
             return shift;
         }
-
 
         public void SetReturnShift(int status, int shiftdetailid, int Aspid)
         {
@@ -1754,14 +1483,12 @@ namespace Business_Logic.LogicRepositories
                 regions=regions,
             };
 
-
             return list;
         }
 
 
         public bool SetEditShift(ShiftDetailsmodal shiftDetailsmodal, int Aspid)
         {
-
             var shiftdetails = _db.Shiftdetails.FirstOrDefault(s => s.Shiftdetailid == shiftDetailsmodal.Shiftdetailid);
 
             if (shiftdetails != null)
@@ -1855,26 +1582,18 @@ namespace Business_Logic.LogicRepositories
             return onCallModal;
         }
 
-
-
-
-
-
         //Records
         public patientRecordscm patientRecords(patientRecordscm cm)
         {
             var records = from r in _db.Users select (new patientRecordscm.Records()
-            {
-                
+            {               
                 Userid= r.Userid,
                 Firstname=r.Firstname,
                 Lastname=r.Lastname,
                 Address=r.Street+","+r.City+","+r.State,
                 Email=r.Email,
-                Phonenumber=r.Mobile,
-                
+                Phonenumber=r.Mobile,            
             });
-
 
             if (cm != null)
             {
@@ -1896,7 +1615,6 @@ namespace Business_Logic.LogicRepositories
                 }
             }
 
-
             var pateintRecords = new patientRecordscm()
             {
                 records=records.ToList(),
@@ -1904,7 +1622,6 @@ namespace Business_Logic.LogicRepositories
 
             return pateintRecords;
         }
-
 
         public patientRecordscm getPatientReqData(patientRecordscm cm)
         {
@@ -1928,9 +1645,7 @@ namespace Business_Logic.LogicRepositories
                             RequestTypeid =r.Requesttypeid,
                             Address=rw.Address,
                             CancelledNote=_db.Requeststatuslogs.FirstOrDefault(x=>x.Requestid==r.Requestid && x.Status==3).Notes,
-                        });
-
-            
+                        });         
 
              if (cm != null)
             {
@@ -1970,7 +1685,6 @@ namespace Business_Logic.LogicRepositories
             return patientReqData;
         }
 
-
         public void deletePermanently(int requestId)
         {
             var request=_db.Requests.FirstOrDefault(x=>x.Requestid==requestId);
@@ -1982,7 +1696,6 @@ namespace Business_Logic.LogicRepositories
                 _db.SaveChanges();
             }
         }
-
 
         public patientRecordscm GetPatientData(int userId)
         {
@@ -2010,8 +1723,6 @@ namespace Business_Logic.LogicRepositories
 
             return patientData;
         }
-
-
 
         public patientRecordscm getBlockHistory(patientRecordscm cm)
         {
@@ -2049,7 +1760,6 @@ namespace Business_Logic.LogicRepositories
                 }
             }
 
-
             var blockReqData = new patientRecordscm()
             {
                 blockHistories = blockHistory.ToList(),
@@ -2058,15 +1768,11 @@ namespace Business_Logic.LogicRepositories
             return blockReqData;
         }
 
-
         public void unblockPatient(int reqId)
-        {
-       
-                var blockReq = _db.Blockrequests.FirstOrDefault(x => x.Requestid == reqId);
+        {  
+            var blockReq = _db.Blockrequests.FirstOrDefault(x => x.Requestid == reqId);
 
-                var request=_db.Requests.FirstOrDefault(x=>x.Requestid==reqId);
-
-
+            var request=_db.Requests.FirstOrDefault(x=>x.Requestid==reqId);
 
             if (blockReq != null)
             {
@@ -2078,8 +1784,6 @@ namespace Business_Logic.LogicRepositories
                 _db.SaveChanges();
             }
         }
-
-
 
         public patientRecordscm emailLogs(patientRecordscm cm)
         {
@@ -2099,7 +1803,6 @@ namespace Business_Logic.LogicRepositories
                                 RoleName=_db.Aspnetroles.FirstOrDefault(x=>x.Id==r.Roleid).Name,
                                 Roleid=r.Roleid,
                             }) ;
-
 
             if (cm != null)
             {
@@ -2127,7 +1830,6 @@ namespace Business_Logic.LogicRepositories
                 }
             }
 
-
             var emailLogsData = new patientRecordscm()
             {
                 emails = emailLogs.ToList(),
@@ -2135,10 +1837,7 @@ namespace Business_Logic.LogicRepositories
             };
 
             return emailLogsData;
-
-
         }
-
 
         public patientRecordscm smsLogs(patientRecordscm cm)
         {
@@ -2158,10 +1857,8 @@ namespace Business_Logic.LogicRepositories
                                 Roleid = r.Roleid,
                             });
 
-
             if (cm != null)
             {
-
                 if (cm.patientName != null)
                 {
                     smsLogs = smsLogs.Where(x => x.Recipient.Contains(cm.patientName)).Select(r => r);
@@ -2185,7 +1882,6 @@ namespace Business_Logic.LogicRepositories
                 }
             }
 
-
             var smsLogsData = new patientRecordscm()
             {
                 emails = smsLogs.ToList(),
@@ -2194,9 +1890,6 @@ namespace Business_Logic.LogicRepositories
 
             return smsLogsData;
         }
-
-
-
 
         public List<string> GetListOfRoleMenu(int roleId)
         {
@@ -2216,8 +1909,6 @@ namespace Business_Logic.LogicRepositories
             }
         }
 
-
-
         public bool checkreq(int requestid)
         {
             var req = _db.Requests.FirstOrDefault(c => c.Requestid == requestid);
@@ -2231,9 +1922,6 @@ namespace Business_Logic.LogicRepositories
                 return false;
             }
         }
-
-
-
 
     }
 }

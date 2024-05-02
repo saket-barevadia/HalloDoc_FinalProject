@@ -332,27 +332,6 @@
 </div>
 
 
-
-
-@* <script>
-    function viewCaseClick(a) {
-
-        console.log(a)
-        let action = "/Admin" + "/" + "viewCase"
-        $.ajax({
-            url: action,
-            type: 'GET',
-            data: { id: a },
-            success: function (result) {
-                $('#contentPending').html(result);
-            },
-            error: function () {
-                alert('Error loading partial view');
-            }
-        });
-    }
-</script> *@
-
 <script>
     function exportBtnNew() {
         // Get the HTML content of the table

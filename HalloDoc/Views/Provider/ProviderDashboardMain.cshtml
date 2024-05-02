@@ -34,7 +34,7 @@
             </div>
             <div class="mx-2">
 
-                <button onclick="location.href='@Url.Action("logoutSession","Provider")'" type="button"
+                <button onclick="location.href='@Url.Action("LogoutSession","Provider")'" type="button"
                         class="btn btn-outline-info text-info border-info py-2 ">
 
                     <span class="d-none d-sm-inline-block ">Logout</span>
@@ -62,7 +62,8 @@
         <div class="px-3">
             <ul class="nav nav-underline" id="myTab" role="tablist">
                
-                 
+                   @if (ViewBag.Menu.Contains("MyDashboard"))
+                {
                     <li class="nav-item " role="presentation">
                         <button  class="nav-link text-muted px-3 active" id="home-tab" data-bs-toggle="tab"
                         data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
@@ -70,37 +71,41 @@
                             Dashboard
                         </button>
                     </li>
+                }
 
-                
-                @*  <li class="nav-item" role="presentation">
+                 @if (ViewBag.Menu.Contains("Invoicing"))
+                {
+                    <li class="nav-item" role="presentation">
 
                         <button  class="nav-link text-muted px-3" id="ProviderLocation-tab" data-bs-toggle="tab"
-                                data-bs-target="#ProviderLocation-tab-pane" type="button" role="tab"
-                                aria-controls="ProviderLocation-tab-pane" aria-selected="false">
+                        data-bs-target="#ProviderLocation-tab-pane" type="button" role="tab"
+                        aria-controls="ProviderLocation-tab-pane" aria-selected="false" onclick="getInvoicing()">
                             Invoicing
                         </button>
-                    </li> *@
+                    </li>
+                }
 
-           
+                      @if (ViewBag.Menu.Contains("Scheduling"))
+                {
+                    <li class="nav-item" role="presentation">
+                        <button  data-bs-toggle="tab" class="nav-link text-muted px-3" role="tab"
+                        aria-controls="Myprofile-tab-pane" aria-selected="true" type="button" id="Myprofile-tab" onclick="getScheduling()">
+                            My Schedule
+                        </button>
+                    </li>
+                }
 
-                <li class="nav-item" role="presentation">
-                    <button  data-bs-toggle="tab" class="nav-link text-muted px-3" role="tab"
-                    aria-controls="Myprofile-tab-pane" aria-selected="true" type="button" id="Myprofile-tab" onclick="getScheduling()">
-                        My Schedule
-                    </button>
-                </li>
-
-                 
 
                
-
+                  @if (ViewBag.Menu.Contains("Profile"))
+                {
                     <li class="nav-item" role="presentation">
                         <button  data-bs-toggle="tab" class="nav-link text-muted px-3" role="tab"
                         aria-controls="Myprofile-tab-pane" aria-selected="true" type="button" id="Myprofile-tab" onclick="getMyProfile(@Accessor.HttpContext.Session.GetInt32("physicianId"))">
                             My Profile
                         </button>
                     </li>
-
+                }
                 
 
             </ul>
@@ -162,11 +167,26 @@
         });
     }
 
+    function getInvoicing(){
+        $.ajax({
+            method: "Get",
+            url: "/Provider/InvoicingShared",
+            traditional: true,
+            contentType: "application/json",
+            success: function (result) {
+                $('#tabContents').html(result);
+            },
+            error: function () {
+                alert("error");
+            },
+        });
+    }
+
 
     function getMyProfile(PhyId){
         $.ajax({
             method: "Get",
-            url: "/Provider/editProviderr",
+            url: "/Provider/EditProviderr",
             traditional: true,
             contentType: "application/json",
             data: { PhyId :PhyId},
@@ -176,6 +196,28 @@
             error: function () {
                 alert("error");
             },
+        });
+    }
+
+
+    function FinalizeNew() {
+        var PhyscianID = $('#PhyscianID').val();
+        var timesheetdropdown = $('#timesheetdropdown').val();
+
+        $.ajax({
+            method: "GET",
+            url: "/Provider/BiWeeklyTimesheet",
+            data: {
+                selectedValue: timesheetdropdown,
+                PhysicianId: PhyscianID
+            },
+            success: function (response) {
+                $('#tabContents').html(response);
+            },
+            error: function () {
+                console.log("Function Fail")
+            }
+
         });
     }
 

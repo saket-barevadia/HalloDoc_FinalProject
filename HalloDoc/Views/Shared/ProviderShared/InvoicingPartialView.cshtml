@@ -1,0 +1,90 @@
+﻿@{
+    ViewData["Title"] = "InvoicingPartialView";
+}
+@model Data_Layer.CustomModels.Invoicingcm;
+
+
+@if (Model.timesheets.Count != 0)
+{
+    <div class="table-responsive">
+    <table class="table timeSheetTableData">
+        <thead>
+        <tr style="background-color: rgba(160, 160, 160, 0.137);">
+            <th width="15%" class="ViewUploadtd">Shift Date</th>
+            <th width="5%" class="ViewUploadtd">Shift</th>
+            <th width="10%" class="ViewUploadtd">NightShift Weekend</th>
+            <th width="10%" class="ViewUploadtd">HouseCall</th>
+            <th width="20%" class="ViewUploadtd">HouseCall Nights Weekend</th>
+            <th width="10%" class="ViewUploadtd">PhoneConsults</th>
+            <th width="20%" class="ViewUploadtd">PhoneConsults Nights Weekend</th>
+            <th width="10%" class="ViewUploadtd">Batch Testing</th>
+        </tr>
+        </thead>
+        <tbody class="table">
+        @foreach (var item in Model.timesheets)
+        {
+            <tr>
+                <td class="ViewUploadtd text-black">@item.Date</td>
+                <td class="ViewUploadtd text-black">@item.NumberofShift</td>
+                <td class="ViewUploadtd text-black">@item.NightShiftWeekend</td>
+                <td class="ViewUploadtd text-black">@item.NumberOfHouseCall</td>
+                <td class="ViewUploadtd text-black">@item.HousecallNightsWeekend</td>
+                <td class="ViewUploadtd text-black">@item.NumberOfPhoneConsults</td>
+                <td class="ViewUploadtd text-black">@item.phoneConsultNightsWeekend</td>
+                <td class="ViewUploadtd text-black">@item.BatchTesting</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    </div>
+}
+else
+{
+    <div class="d-flex justify-content-center mb-1 pt-3">
+        <h6 style="color:gray !important">No Records Found</h6>
+    </div>
+}
+<input type="hidden" asp-for="IsFinalized" id="isFinalized" />
+
+<script>
+    $(document).ready(function () {
+        var FinalizeBtn = $('#FinalizeBtn');
+        var isFinalized = $('#isFinalized').val();
+        if (isFinalized == "True") {
+            FinalizeBtn.hide();
+        } else {
+            FinalizeBtn.show();
+        }
+    });
+
+
+    // Search
+
+    $(document).ready(function () {
+
+        $('.timeSheetTableData').DataTable({
+            "initComplete": function (settings, json) {
+
+                $('#my-search-input').val(settings.oPreviousSearch.sSearch);
+
+                $('#my-search-input').on('keyup', function () {
+                    var searchValue = $(this).val();
+                    settings.oPreviousSearch.sSearch = searchValue;
+                    settings.oApi._fnReDraw(settings);
+                });
+            },
+            "lengthMenu": [[5, 10, -1], [5, 10, "All"]],
+            "pageLength": 5,
+
+            language: {
+                oPaginate: {
+                    sNext: '<i class="fa-solid fa-forward text-info"></i>',
+                    sPrevious: '<i class="fa-solid fa-backward text-info"></i>'
+
+                }
+            }
+        });
+        // $('.dataTables_length').hide();
+        $('.dataTables_filter').hide();
+    });
+</script>

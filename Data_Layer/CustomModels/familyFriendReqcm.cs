@@ -34,8 +34,6 @@ namespace Data_Layer.CustomModels
         [Required(ErrorMessage = "Please Enter Relation")]
         public string? Relationname { get; set; }
 
-
-        //[Required(ErrorMessage = "Please Enter Symptoms")]
         public String? Symptons { get; set; }
 
         [Required(ErrorMessage = "Please Enter Patient's FirstName")]
@@ -77,7 +75,6 @@ namespace Data_Layer.CustomModels
         [Required(ErrorMessage = "Please Enter Patient's Room")]
         public string Room { get; set; }
 
-        //[Required(ErrorMessage = "Please Upload Patient's Documents")]
         public IFormFile? Upload { get; set; }
 
         [Required(ErrorMessage = "Please Select Your State")]

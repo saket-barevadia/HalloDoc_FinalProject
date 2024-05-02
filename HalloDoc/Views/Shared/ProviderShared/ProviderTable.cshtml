@@ -760,7 +760,7 @@
         if ($('#sendLinkForm').valid()) {
             $.ajax({
                 method: "POST",
-                url: "/Provider/sendLinkPost",
+                url: "/Provider/SendLinkPost",
                 data: $('#sendLinkForm').serialize(),
                 success: function () {
 
@@ -860,7 +860,7 @@
     function SendAgreement(reqId) {
         $.ajax({
             method: "Get",
-            url: "/Provider/sendAgreement",
+            url: "/Provider/SendAgreement",
             traditional: true,
             contentType: "application/json",
             data: { Requestid: reqId },
@@ -900,7 +900,7 @@
     function viewUploads(reqId) {
         $.ajax({
             method: "Get",
-            url: "/Provider/viewUploads",
+            url: "/Provider/ViewUploads",
             traditional: true,
             contentType: "application/json",
             data: { reqId: reqId },
@@ -918,7 +918,7 @@
     function orders(reqId) {
         $.ajax({
             method: "Get",
-            url: "/Provider/orders",
+            url: "/Provider/Orders",
             traditional: true,
             contentType: "application/json",
             data: { reqId: reqId },
@@ -988,7 +988,7 @@
     function Encounter(reqId, callId) {
             $.ajax({
                 method: "Get",
-                url: "/Provider/encounter",
+            url: "/Provider/Encounterr",
                 traditional: true,
                 contentType: "application/json",
                 data: { reqId: reqId },
@@ -1027,7 +1027,7 @@
     function concludeCare(reqId) {
         $.ajax({
             method: "Get",
-            url: "/Provider/concludecCare",
+            url: "/Provider/ConcludecCare",
             traditional: true,
             contentType: "application/json",
             data: { reqId: reqId },

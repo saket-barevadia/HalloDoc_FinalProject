@@ -109,7 +109,6 @@ namespace Business_Logic.LogicRepositories
 
                 _request.Requesttypeid = 1;
                 _request.Userid = _context.Users.FirstOrDefault(x=>x.Email==cm.Emailclient).Userid;
-                //_request.Status = 2;
                 _request.Firstname = user.Firstname;
                 _request.Lastname = user.Lastname;
                 _request.Phonenumber = user.Mobile;
@@ -157,9 +156,6 @@ namespace Business_Logic.LogicRepositories
                     {
                         file.CopyTo(fileStream);
                     }
-
-                    // Request? req = _db.Requests.FirstOrDefault(i => i.Email == obj.Email);
-                    // int ReqId = req.Requestid;
 
                     var data3 = new Requestwisefile()
                     {
@@ -228,9 +224,6 @@ namespace Business_Logic.LogicRepositories
                     {
                         file.CopyTo(fileStream);
                     }
-
-                    // Request? req = _db.Requests.FirstOrDefault(i => i.Email == obj.Email);
-                    // int ReqId = req.Requestid;
 
                     var data3 = new Requestwisefile()
                     {

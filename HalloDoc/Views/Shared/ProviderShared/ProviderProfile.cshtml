@@ -578,7 +578,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.min.css
 
     function resetPassword(id, Phyid) {
         $.ajax({
-            url: "/Provider/resetPass",
+            url: "/Provider/ResetPass",
             type: "POST",
             data: $("#ResetPasswordForm").serialize(),
             success: function () {
@@ -601,7 +601,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.min.css
         if ($('#ResetPasswordForm').valid()) {
             $.ajax({
                 method: "POST",
-                url: "/Provider/editProvider",
+                url: "/Provider/EditProvider",
                 data: $("#ResetPasswordForm").serialize(),
                 success: function () {
 
@@ -673,7 +673,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.min.css
         if ($('#Prvider').valid()) {
             $.ajax({
                 method: "POST",
-                url: "/Provider/providerInfo",
+                url: "/Provider/ProviderInfo",
                 processData: false,
                 contentType: false,
                 data: formdata,
@@ -696,7 +696,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.min.css
         if ($('#Onboarding').valid()) {
             $.ajax({
                 method: "POST",
-                url: "/Provider/boarding",
+                url: "/Provider/Boarding",
                 processData: false,
                 contentType: false,
                 data: formdata,
@@ -719,7 +719,7 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.min.css
      
             $.ajax({
                 method: "POST",
-                url: "/Provider/deleteAccount",
+                url: "/Provider/DeleteAccount",
                 data: $("#removePhysicianForm").serialize(),
                 success: function () {
 
@@ -733,22 +733,6 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.min.css
             });
         
     }
-
-
-    // const phoneInputField = document.querySelector("#phone");
-    // const phoneInput = window.intlTelInput(phoneInputField, {
-    //     utilsScript:
-    //         "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-    // });
-
-    // const phoneField = document.querySelector("#phone2");
-    // const phoneeInput = window.intlTelInput(phoneField, {
-    //     utilsScript:
-    //         "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-    // });
-
-
-
 
     function requestAdmin() {
         $.ajax({
@@ -771,8 +755,6 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.min.css
 
 </script>
 
-@* <script src="~/js/countriesinput.js"></script>
- *@
 
 
 

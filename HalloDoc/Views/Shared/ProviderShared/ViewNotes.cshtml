@@ -165,7 +165,7 @@
          if ($('#viewNotesForm').valid()) {
             $.ajax({
                 method: "POST",
-                url: "/Provider/viewNotes",
+                url: "/Provider/ViewNotesPost",
                 data: $("#viewNotesForm").serialize(),
                 success: function () {
                    

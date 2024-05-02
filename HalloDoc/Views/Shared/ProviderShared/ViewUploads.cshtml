@@ -196,7 +196,7 @@
         if ($('#sendMailForm').valid()) {
             $.ajax({
                 method: "POST",
-                url: "/Provider/sendEmail",
+                url: "/Provider/SendEmail",
                 
                 data: $("#sendMailForm").serialize(),
                 success: function () {
@@ -218,7 +218,7 @@
        
             $.ajax({
             method: "POST",
-            url: "/Provider/delete",
+            url: "/Provider/Delete",
             data: { id: id, reqId: reqId },
                 success: function () {
 

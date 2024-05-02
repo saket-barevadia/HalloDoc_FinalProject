@@ -53,7 +53,6 @@ namespace Business_Logic.LogicRepositories
                         Date = new DateTime((int)check.Intyear, Convert.ToInt16(check.Strmonth), (int)check.Intdate).ToString("yyyy-MM-dd"),
                         Requesttypeid = _context.Requests.FirstOrDefault(x => x.Requestid == check.Requestid).Requesttypeid,
                         Status = _context.Requests.FirstOrDefault(x => x.Requestid == check.Requestid).Status,
-                        //Confirmationnumber= _context.Requests.FirstOrDefault(x => x.Requestid == check.Requestid).Confirmationnumber,
                         Confirmationnumber = check.Firstname.Substring(0, 2) + DateTime.Now.ToString().Substring(0, 19).Replace(" ", ""),
                         flag = flag,
                         userId = check2,
@@ -80,8 +79,6 @@ namespace Business_Logic.LogicRepositories
                 return null;
             }
         }
-
-
 
         // View Case POST
         public void viewCaseUpdate(viewCaseCm cm)

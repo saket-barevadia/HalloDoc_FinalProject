@@ -18,7 +18,6 @@ namespace Data_Layer.CustomModels
         [Required(ErrorMessage = "Please Select Your Region")]
         public string? regionId { get; set; }
 
-        //[Required(ErrorMessage = "Please Enter Symptoms")]
         public String? Symptons { get; set; }
 
         [Required(ErrorMessage ="Please Enter Your FirstName")]
@@ -62,7 +61,6 @@ namespace Data_Layer.CustomModels
         [Required(ErrorMessage = "Please Enter Your Room")]
         public string Room { get; set; }
 
-        //[Required(ErrorMessage = "Please Upload Your Documents")]
         public IFormFile? Upload { get; set; }
 
         [Required(ErrorMessage = "Password is required")]

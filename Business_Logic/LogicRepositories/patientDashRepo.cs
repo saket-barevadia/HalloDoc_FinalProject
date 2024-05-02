@@ -51,7 +51,6 @@ namespace Business_Logic.LogicRepositories
                 {
                     request.Status = 4;
 
-                    //_context.Requests.Update(request);  
                     _context.SaveChanges();
 
                     Requeststatuslog requestStatuslog = new Requeststatuslog();
@@ -158,17 +157,6 @@ namespace Business_Logic.LogicRepositories
                 aspnetuser.Email = cm.Email;
                 aspnetuser.Passwordhash = cm.Passwordhash;
                 aspnetuser.Modifieddate=DateTime.Now;
-                
-
-
-
-                //Aspnetuser aspnetuser1 = new Aspnetuser()
-                //{
-                //    Email = cm.Email,
-                //    Passwordhash = cm.Passwordhash,
-                //    Modifieddate=DateTime.Now,
-                //    Createddate=aspnetuser.Createddate
-                //};
 
                 _context.Aspnetusers.Update(aspnetuser);
                 _context.SaveChanges();

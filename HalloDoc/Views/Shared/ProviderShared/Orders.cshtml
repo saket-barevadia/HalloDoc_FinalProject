@@ -128,7 +128,7 @@
         var id = document.querySelector("#profession").value;
 
         $.ajax({
-            url: "/Provider/getBusiness",
+            url: "/Provider/GetBusiness",
             type: "GET",
             data: {
                 id: id
@@ -155,7 +155,7 @@
         console.log(vendorID)
 
         $.ajax({
-            url: "/Provider/getVendorData",
+            url: "/Provider/GetVendorData",
             type: "GET",
             data: {
                 vendorID: vendorID
@@ -175,7 +175,7 @@
         if ($('#ordersForm').valid()) {
             $.ajax({
                 method: "POST",
-                url: "/Provider/Orders",
+                url: "/Provider/OrdersPost",
                 data: $("#ordersForm").serialize(),
                 success: function () {
 

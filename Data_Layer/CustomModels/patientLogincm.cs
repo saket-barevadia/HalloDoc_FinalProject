@@ -15,6 +15,7 @@ namespace Data_Layer.CustomModels
 
         public string Password { get; set; }
         public int? id { get; set; }
+        public int? AdminId { get; set; }
         public int? Physicianid { get; set; }
         public int roleId { get; set; }
 

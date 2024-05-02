@@ -220,15 +220,14 @@
         if ($('#createShiftForm').valid()) {
             $.ajax({
                 method: "POST",
-                url: "/Provider/createShiftPost",
+                url: "/Provider/CreateShiftPost",
                 data: formdata,
 
                 success: function (res) {
                     if (res.code == 401) {
                         setTimeout(function () { location.reload(); }, 2000);
                         Swal.fire("Oops!", "Session Expired !!!", "error");
-                    } else {
-                        //$('#schedulingModals').html(res);
+                    } else {      
                         if (res) {
                             $('#createShiftModal').modal('hide');
                             toastr.success("New Shift Created Successfully");

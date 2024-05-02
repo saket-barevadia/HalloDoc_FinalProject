@@ -171,7 +171,6 @@
                         <input asp-for="Address" type="text" class="form-control" id="floatingInputGroup2" placeholder="Username"
                                required disabled>
                         <label for="floatingInputGroup2"><span class="input">Business Name/Address</span></label>
-                        @*  <button type="button" class="btn btn-outline-info"><i class="fa-solid fa-map-pin"></i></button> *@
                         <a type="button" class="dclass btn btn-outline-info border-info p-3 text-info"
                            href="https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString(@Model.Address).ToString()}"
                            ;" target="_blank" onclick="map_init()">

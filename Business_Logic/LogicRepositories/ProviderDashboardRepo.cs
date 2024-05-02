@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using System.Net.Mail;
 using System.Net;
 using static Data_Layer.CustomModels.ProviderDashboardcm;
+using System.Linq.Expressions;
 
 namespace Business_Logic.LogicRepositories
 {
@@ -27,13 +28,12 @@ namespace Business_Logic.LogicRepositories
             _context= context;
         }
 
-        public ProviderDashboardcm GetPatientDetails(int status, int reqTypeId, int Phyid, int flag)
+        public ProviderDashboardcm GetPatientDetails(int status, int reqTypeId, int phyid, int flag)
         {
             var query = from r in _context.Requests
                         join rw in _context.Requestclients
                         on r.Requestid equals rw.Requestid
-                        where r.Isdeleted == null && r.Physicianid==Phyid
-
+                        where r.Isdeleted == null && r.Physicianid==phyid
                         select (new PatientData
                         {
                             FirstnameRequestor = r.Firstname,
@@ -72,17 +72,10 @@ namespace Business_Logic.LogicRepositories
                 }
             }
 
-           
-
             if (reqTypeId > 0)
             {
                 query = query.Where(r => r.Requesttypeid == reqTypeId);
-            }
-
-            
-
-          
-
+            }        
 
             var patientData =query.ToList();
 
@@ -91,19 +84,12 @@ namespace Business_Logic.LogicRepositories
              RequestStatus= status,
             };
 
-
             return patientDetails;
-
-
         }
 
-
-
-        public void PostTransferRequest(ProviderDashboardcm cm, int PhyId)
+        public void PostTransferRequest(ProviderDashboardcm cm, int phyId)
         {
-
             var transferdata = _context.Requests.FirstOrDefault(i => i.Requestid == cm.Requestid);
-
 
             var transferstatuslog = new Requeststatuslog
             {
@@ -111,7 +97,7 @@ namespace Business_Logic.LogicRepositories
                 Notes = cm.AdminTransferRequestModalBoxx.AssignAdditionalNotes,
                 Status = 1,
                 Transtoadmin = new BitArray(1, true),
-                Physicianid=PhyId,
+                Physicianid=phyId,
                 Createddate = DateTime.Now,
             };
 
@@ -122,11 +108,9 @@ namespace Business_Logic.LogicRepositories
             _context.SaveChanges();
         }
 
-
-
-        public void AcceptRequest(int Requestid, int physicianid)
+        public void AcceptRequest(int requestid, int physicianid)
         {
-            var request = _context.Requests.FirstOrDefault(i => i.Requestid == Requestid);
+            var request = _context.Requests.FirstOrDefault(i => i.Requestid == requestid);
 
             if (request != null)
             {
@@ -149,12 +133,11 @@ namespace Business_Logic.LogicRepositories
             }
         }
 
-
-        public void PostEncounterCare(Encounter encounterFormData, int Requestid)
+        public void PostEncounterCare(Encounter encounterFormData, int requestid)
         {
-            if (Requestid != null && encounterFormData.Option != null)
+            if (requestid != null && encounterFormData.Option != null)
             {
-                var request = _context.Requests.FirstOrDefault(i => i.Requestid == Requestid);
+                var request = _context.Requests.FirstOrDefault(i => i.Requestid == requestid);
 
                 if (encounterFormData.Option == 1)
                 {
@@ -162,10 +145,9 @@ namespace Business_Logic.LogicRepositories
                     request.Status = 5;
                     _context.SaveChanges();
 
-
                     var statuslog = new Requeststatuslog
                     {
-                        Requestid = Requestid,
+                        Requestid = requestid,
                         Status = 5,
                         Createddate = DateTime.Now,
                     };
@@ -179,10 +161,9 @@ namespace Business_Logic.LogicRepositories
                     request.Status = 6;
                     _context.SaveChanges();
 
-
                     var statuslog = new Requeststatuslog
                     {
-                        Requestid = Requestid,
+                        Requestid = requestid,
                         Status = 6,
                         Createddate = DateTime.Now,
                         Notes="Request is Concluded"
@@ -191,12 +172,10 @@ namespace Business_Logic.LogicRepositories
                     _context.Add(statuslog);
                     _context.SaveChanges();
                 }
-
             }
         }
 
-
-        public void concludeReq(int requestId)
+        public void ConcludeReq(int requestId)
         {
             var request=_context.Requests.FirstOrDefault(x=>x.Requestid== requestId);
 
@@ -216,28 +195,20 @@ namespace Business_Logic.LogicRepositories
                 _context.Add(statuslog);
                 _context.SaveChanges();
             }
-
-
         }
 
-
-        public void finalizeForm(int requestId)
-        {
-           
+        public void FinalizeForm(int requestId)
+        { 
             var encounterForm=_context.EncounterForms.FirstOrDefault(x=>x.Requestid== requestId);
 
             if (encounterForm != null)
             {
                 encounterForm.IsFinalized = new BitArray(1, true);
-
-                _context.SaveChanges();
-            }
-            
+               _context.SaveChanges();
+            }         
         }
 
-
-
-        public void addNote(ViewUploads cm)
+        public void AddNote(ViewUploads cm)
         {
             var request=_context.Requests.FirstOrDefault(x=>x.Requestid== cm.Requestid);    
 
@@ -248,8 +219,7 @@ namespace Business_Logic.LogicRepositories
 
                 _context.SaveChanges();
 
-
-                var statuslog = new Requeststatuslog
+               var statuslog = new Requeststatuslog
                 {
                     Requestid = cm.Requestid,
                     Status = 8,
@@ -262,9 +232,7 @@ namespace Business_Logic.LogicRepositories
             }
         }
 
-
-
-        public void reqToAdmin(AdminDashboardcm cm, string email)
+        public void ReqToAdmin(AdminDashboardcm cm, string email)
         {
             var emaill = _context.Admins.ToList();
 
@@ -284,7 +252,6 @@ namespace Business_Logic.LogicRepositories
                     string subject = "Request to edit profile";
                     string body = cm.Notes;
 
-
                     using (SmtpClient client = new SmtpClient(smtpServer, port))
                     {
                         client.EnableSsl = true;
@@ -301,11 +268,75 @@ namespace Business_Logic.LogicRepositories
                 {
                     Console.WriteLine(e);
                 }
-
-
-            }
-
-            
+            }          
         }
+
+
+        public List<DateViewModel> GetDates()
+        {
+            List<DateViewModel> dates = new List<DateViewModel>();
+            int startMonth = 0;
+            int startYear = 0;
+            int startDate = 1;
+            DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+            int nextDate = 1;
+            if (today.Day > 15)
+            {
+                nextDate = 2;
+            }
+            if (today.Month - 6 < 0)
+            {
+                startMonth = 12 - (6 - today.Month) + 1;
+                startYear = today.Year - 1;
+            }
+            else if (today.Month - 6 == 0)
+            {
+                startMonth = 1;
+                startYear = today.Year;
+            }
+            else
+            {
+                startMonth = today.Month - 6;
+                startYear = today.Year;
+            }
+            int count = 12;
+            if (nextDate == 1)
+            {
+                count = 11;
+            }
+            for (int i = 1; i <= count; i++)
+            {
+
+                if (i % 2 == 0)
+                {
+                    startDate = 16;
+                }
+                else
+                {
+                    startDate = 1;
+
+                }
+                if (startMonth > 12)
+                {
+                    startMonth = 1;
+                    startYear = today.Year;
+                }
+                DateViewModel date = new DateViewModel();
+                date.StartDate = new DateOnly(startYear, startMonth, startDate);
+                if (startDate != 1)
+                    date.EndDate = date.StartDate.AddMonths(1).AddDays(-16);
+                else
+                    date.EndDate = new DateOnly(startYear, startMonth, 15);
+                dates.Add(date);
+                if (startDate == 16)
+                    startMonth += 1;
+            }
+            dates.Reverse();
+            return dates;
+        }
+
+
+        
+
     }
 }

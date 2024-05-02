@@ -3,38 +3,30 @@ using Business_Logic.Interface;
 using Data_Layer.DataContext;
 using Data_Layer.DataModels;
 using Data_Layer.CustomModels;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.Security.Cryptography.X509Certificates;
 using static HelloDocMvc.Repository.Repositories.AuthManager;
 using System.Text;
-using static Data_Layer.CustomModels.ProviderMenucm;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Components.Forms;
 using Rotativa.AspNetCore;
-using Microsoft.EntityFrameworkCore;
 
 namespace HalloDoc.Controllers
 {
-
-
     public class ProviderController : Controller
     {
-
         private readonly IProviderDashboard _providerDashboard;
         private readonly IAdminDashboard _dashboard;
         private readonly IviewCase _viewCase;
         private readonly IviewNotes _viewNotes;
         private readonly IProviderMenu _providerMenu;
+        private readonly IGeneralService _generalService;
         private readonly ApplicationDbContext _context;
 
-
-        public ProviderController(IProviderDashboard providerDashboard,IAdminDashboard dashboard,IviewCase viewCase, IviewNotes viewNotes, IProviderMenu providerMenu,ApplicationDbContext context) { 
+        public ProviderController(IProviderDashboard providerDashboard,IAdminDashboard dashboard,IviewCase viewCase, IviewNotes viewNotes, IProviderMenu providerMenu,ApplicationDbContext context, IGeneralService generalService) { 
           _providerDashboard = providerDashboard;
             _dashboard = dashboard;
             _viewCase = viewCase;
             _viewNotes = viewNotes;
             _providerMenu = providerMenu;
             _context = context;
+            _generalService = generalService;
         }
 
 
@@ -42,7 +34,9 @@ namespace HalloDoc.Controllers
         public IActionResult ProviderDashboardMain()
         {
             @ViewBag.Admin = 3;
-           
+            var roleMain = HttpContext.Session.GetInt32("roleId");
+            List<string> roleMenu = _dashboard.GetListOfRoleMenu((int)roleMain);
+            ViewBag.Menu = roleMenu;
             var Phyid = HttpContext.Session.GetInt32("physicianId");
             var patientDetails = _providerDashboard.GetPatientDetails(0,0, Convert.ToInt32(Phyid),0);
             return View(patientDetails);
@@ -54,7 +48,6 @@ namespace HalloDoc.Controllers
             var patientDetails = _providerDashboard.GetPatientDetails(0, 0, Convert.ToInt32(Phyid), 0);
             return PartialView("ProviderShared/ProviderDashboardShared",patientDetails);
         }
-
 
         public IActionResult ProviderTable(int status,int reqTypeId,int flag)
         
@@ -69,11 +62,9 @@ namespace HalloDoc.Controllers
             {
                 var patientDetails = _providerDashboard.GetPatientDetails(status, reqTypeId, Convert.ToInt32(Phyid),0);
                 return PartialView("ProviderShared/ProviderTable", patientDetails);
-            }
-           
+            }         
             
         }
-
 
         public IActionResult TransferRequest(int requestId)
         {
@@ -85,7 +76,6 @@ namespace HalloDoc.Controllers
             return PartialView("ProviderShared/TransferRequest",providerDashboardcm);
         }
 
-
         [HttpPost]
         public IActionResult TransferReqPost(ProviderDashboardcm cm)
         {
@@ -93,8 +83,6 @@ namespace HalloDoc.Controllers
             _providerDashboard.PostTransferRequest(cm, Convert.ToInt32(Phyid));
             return Ok();
         }
-
-
 
         public IActionResult CreateRequest()
         {
@@ -106,7 +94,6 @@ namespace HalloDoc.Controllers
             return PartialView("ProviderShared/CreateRequest",regions);
         }
 
-
         [HttpPost]
         public IActionResult createRequest(AdminCreateReq cm)
         {
@@ -115,22 +102,17 @@ namespace HalloDoc.Controllers
             return RedirectToAction("ProviderDashboardMain");
         }
 
-
-
         public IActionResult SendLink()
         {
             return PartialView("ProviderShared/SendLink");
         }
 
-
         [HttpPost]
-        public IActionResult sendLinkPost(SendAgreement cm)
+        public IActionResult SendLinkPost(SendAgreement cm)
         {
             _dashboard.sendLink(cm);
             return Ok();
-
         }
-
 
         public IActionResult ViewCase(int id)
         {
@@ -145,10 +127,8 @@ namespace HalloDoc.Controllers
             {
                 return PartialView("ProviderShared/ViewCase", data);
             }
-
             
         }
-
 
         public IActionResult ViewNotes(int id)
         {
@@ -163,9 +143,8 @@ namespace HalloDoc.Controllers
             return PartialView("ProviderShared/ViewNotes");
         }
 
-
         [HttpPost]
-        public IActionResult viewNotes(Requestnote cm)
+        public IActionResult ViewNotesPost(Requestnote cm)
         {
             _viewNotes.viewNote(cm,cm.Requestid);
 
@@ -173,12 +152,10 @@ namespace HalloDoc.Controllers
 
         }
 
-
         public IActionResult Accept(int id)
         {
             return PartialView("ProviderShared/Accept");
         }
-
 
         [HttpPost]
         public IActionResult AcceptRequest(int Requestid)
@@ -190,17 +167,13 @@ namespace HalloDoc.Controllers
                 return Ok();
             }
             return Json(new { Error = "Returned in else" });
-
         }
 
-
-
-        public IActionResult sendAgreement(int Requestid)
+        public IActionResult SendAgreement(int Requestid)
         {
             var data = _dashboard.SendAgreement(Requestid);
             return PartialView("ProviderShared/SendAgreement",data);
         }
-
 
         [HttpPost]
         public IActionResult SendAgreementPost(SendAgreement cm)
@@ -208,10 +181,10 @@ namespace HalloDoc.Controllers
             _dashboard.sendEmail(cm);         
             return Ok();
         }
-        public IActionResult viewUploads(int reqId)
+
+        public IActionResult ViewUploads(int reqId)
         {
             @ViewBag.Admin = 3;
-            
             var data = _dashboard.viewUploads(reqId, 2);
             if (data == null)
             {
@@ -220,9 +193,7 @@ namespace HalloDoc.Controllers
             else
             {
                 return PartialView("ProviderShared/ViewUploads", data);
-            }
-
-           
+            }       
         }
 
         [HttpPost]
@@ -233,46 +204,44 @@ namespace HalloDoc.Controllers
             return Ok();
         }
 
-
         [HttpPost]
-        public IActionResult sendEmail(ViewUploads cm)
+        public IActionResult SendEmail(ViewUploads cm)
         {
             _dashboard.sendMail(cm.Requestid);
             return Ok();
         }
 
-
         [HttpPost]
-        public IActionResult delete(int id, int reqId)
+        public IActionResult Delete(int id, int reqId)
         {
             _dashboard.deleteUploads(id);
             return Ok();
         }
 
 
-        public IActionResult orders(int reqId)
+        public IActionResult Orders(int reqId)
         {
             @ViewBag.Admin = 3;
             var data = _dashboard.getProfessions(reqId);
             return PartialView("ProviderShared/Orders",data);
         }
 
-        public IActionResult getBusiness(int id)
+        public IActionResult GetBusiness(int id)
         {
             var business = _dashboard.getVendor(id);
 
             return Json(business);
         }
 
-        public IActionResult getVendorData(int vendorID)
+        public IActionResult GetVendorData(int vendorID)
         {
             HttpContext.Session.SetInt32("vendorId", vendorID);
             var vendorDetails = _dashboard.getVendorDetails(vendorID);
             return Json(vendorDetails);
         }
 
-          [HttpPost]
-        public IActionResult Orders(Orders cm)
+        [HttpPost]
+       public IActionResult OrdersPost(Orders cm)
         {
             var id = Convert.ToInt32(HttpContext.Session.GetInt32("vendorId"));
 
@@ -280,17 +249,15 @@ namespace HalloDoc.Controllers
             return Ok();
         }
 
-
-        public IActionResult editProviderr(int PhyId)
+        public IActionResult EditProviderr(int PhyId)
         {
             @ViewBag.Admin = 3;        
             var physicianData = _providerMenu.providerProfile(Convert.ToInt32(PhyId), 0);
             return PartialView("ProviderShared/ProviderProfile",physicianData);
         }
 
-
         [HttpPost]
-        public IActionResult editProvider(ProviderMenucm.ProviderProfile cm)
+        public IActionResult EditProvider(ProviderMenucm.ProviderProfile cm)
         {
             _providerMenu.editProvider(cm);
             return Ok();
@@ -311,38 +278,34 @@ namespace HalloDoc.Controllers
         }
           
         [HttpPost]
-        public IActionResult providerInfo(ProviderMenucm.ProviderProfile cm)
+        public IActionResult ProviderInfo(ProviderMenucm.ProviderProfile cm)
         {
             _providerMenu.editproviderInfo(cm);
             return Ok();
         } 
         
         [HttpPost]
-        public IActionResult boarding(ProviderMenucm.ProviderProfile cm)
+        public IActionResult Boarding(ProviderMenucm.ProviderProfile cm)
         {
             _providerMenu.EditOnBoardingData(cm);
             return Ok();
         } 
         
         [HttpPost]
-        public IActionResult deleteAccount(ProviderMenucm.ProviderProfile cm)
+        public IActionResult DeleteAccount(ProviderMenucm.ProviderProfile cm)
         {
             _providerMenu.removePhysician(cm);
             return Ok();
         }
 
-
         [HttpPost]
-
-        public void resetPass(ProviderMenucm.ProviderProfile cm)
+        public void ResetPass(ProviderMenucm.ProviderProfile cm)
         {
             _providerMenu.resetPassword(cm);
         }
 
-
         public IActionResult Housecall(int requestid)
         {
-
             AdminDashboardcm adminDashboardcm = new AdminDashboardcm() { 
              encounter=null,
              Requestid=requestid,
@@ -350,7 +313,6 @@ namespace HalloDoc.Controllers
 
             return PartialView("ProviderShared/EncounterActive", adminDashboardcm);
         }
-
 
         public IActionResult EncounterCare(int requestid)
         {
@@ -362,7 +324,6 @@ namespace HalloDoc.Controllers
             return PartialView("ProviderShared/EncounterActive", adminDashboardCm);
         }
 
-
         [HttpPost]
         public IActionResult PostEncounterCare(AdminDashboardcm cm)
         {
@@ -373,15 +334,13 @@ namespace HalloDoc.Controllers
             }
 
             return Json(new { Error = "Returned in else" });
-
         }
-        public IActionResult encounter(int reqId)
+        public IActionResult Encounterr(int reqId)
         {
             @ViewBag.Admin = 3;         
             var encounterData = _dashboard.encounterFormData(reqId);
             return PartialView("ProviderShared/Encounter",encounterData);
         }
-
 
         [HttpPost]
         public IActionResult Encounter(Encounter cm)
@@ -391,30 +350,24 @@ namespace HalloDoc.Controllers
             return Ok();
         }
 
-
         [HttpPost]
-
         public IActionResult PostHouseCall(int requestId)
         {
-            _providerDashboard.concludeReq(requestId);
+            _providerDashboard.ConcludeReq(requestId);
 
             return Ok();
         }
 
-
         [HttpPost]
-
         public IActionResult Finalize(int requestId)
         {
-            _providerDashboard.finalizeForm(requestId);
+            _providerDashboard.FinalizeForm(requestId);
 
             return Ok();
         }
 
         public IActionResult GeneratePDF(int requestid)
         {
-            //AdminDashboardModel model = new AdminDashboardModel();
-            //model.encounterModel = _adminDashboardService.GetEncounterData(requestid);
             AdminDashboardcm model = new AdminDashboardcm();
             model.encounter = _dashboard.encounterFormData(requestid);
 
@@ -426,15 +379,11 @@ namespace HalloDoc.Controllers
 
             DateTime currentDateTime = DateTime.Now;
             string fileName = $"encounter_{currentDateTime.ToString("ddMMyyyy_HHmmss")}.pdf";
-            //TempData["success"] = "ENCOUTER FORM Pdf is generated!";
             return new ViewAsPdf("ProviderShared/EncounterDownload", model)
             {
                 FileName = fileName
             };
-
         }
-
-
 
         public IActionResult FinalizeEncounter()
         {
@@ -447,34 +396,28 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-
         public IActionResult PostReqToAdmin(AdminDashboardcm cm)
         {
             string email = HttpContext.Session.GetString("email");
-            _providerDashboard.reqToAdmin(cm, email);
+            _providerDashboard.ReqToAdmin(cm, email);
             return Ok();
         }
 
-
-        public IActionResult concludecCare(int reqId)
+        public IActionResult ConcludecCare(int reqId)
         {
             @ViewBag.Admin = 3;
             var data = _dashboard.viewUploads(reqId, 3);
             return PartialView("ProviderShared/ConcludeCare",data);
         }
 
-
         [HttpPost]
         public IActionResult PostNote(ViewUploads cm)
         {
-            _providerDashboard.addNote(cm);
-            //TempData["success"] = "Note Added Successfully";
+            _providerDashboard.AddNote(cm);
             return RedirectToAction("ProviderDashboardMain");
         }
-
-    
+ 
         //scheduling
-
         public IActionResult SchedulingShared()
         {
             @ViewBag.Admin = 3;
@@ -491,7 +434,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        public IActionResult createShiftPost(SchedulingCm cm)
+        public IActionResult CreateShiftPost(SchedulingCm cm)
         {
             string email = HttpContext.Session.GetString("email");
             if (_dashboard.createShift(cm.ScheduleModel, email))
@@ -504,14 +447,12 @@ namespace HalloDoc.Controllers
             }
         }
 
-
         [HttpPost]
-        public IActionResult loadshift(string datestring, string sundaystring, string saturdaystring, string shifttype, int regionid)
+        public IActionResult Loadshift(string datestring, string sundaystring, string saturdaystring, string shifttype, int regionid)
         {
             DateTime date = DateTime.Parse(datestring);
             DateTime sunday = DateTime.Parse(sundaystring);
             DateTime saturday = DateTime.Parse(saturdaystring);
-
 
             switch (shifttype)
             {
@@ -533,7 +474,6 @@ namespace HalloDoc.Controllers
                     return PartialView("ProviderShared/MonthWise", monthShift);
 
                 case "week":
-
                     WeekShiftModal weekShift = new WeekShiftModal();
 
                     weekShift.Physicians = _dashboard.GetPhysicians(regionid);
@@ -553,7 +493,6 @@ namespace HalloDoc.Controllers
                     return PartialView("WeekWiseShift", weekShift);
 
                 case "day":
-
                     DayShiftModal dayShift = new DayShiftModal();
                     dayShift.Physicians = _dashboard.GetPhysicians(regionid);
                     dayShift.shiftDetailsmodals = _dashboard.ShiftDetailsmodal(date, sunday, saturday, "day");
@@ -563,10 +502,7 @@ namespace HalloDoc.Controllers
                 default:
                     return PartialView();
             }
-
         }
-
-
 
         public IActionResult OpenScheduledModal(ViewShiftModal viewShiftModal)
         {
@@ -589,18 +525,16 @@ namespace HalloDoc.Controllers
                     return PartialView();
             }
         }
+
         public IActionResult OpenScheduledModalWeek(string sundaystring, string saturdaystring, string datestring, DateTime shiftdate, int physicianid)
         {
             DateTime sunday = DateTime.Parse(sundaystring);
             DateTime saturday = DateTime.Parse(saturdaystring);
-
             DateTime date1 = DateTime.Parse(datestring);
             ShiftDetailsmodal ScheduleModel = new ShiftDetailsmodal();
             var list = ScheduleModel.ViewAllList = _dashboard.ShiftDetailsmodal(date1, sunday, saturday, "week").Where(i => i.Shiftdate.Day == shiftdate.Day && i.Physicianid == physicianid).ToList();
             ViewBag.TotalShift = list.Count();
             return PartialView("MoreShift", ScheduleModel);
-
-
         }
 
         public ActionResult GetRegion(int selectedregion)
@@ -608,7 +542,6 @@ namespace HalloDoc.Controllers
             var data = _dashboard.GetRegionvalue(selectedregion);
             return Json(data);
         }
-
 
         public IActionResult ReturnShift(int status, int shiftdetailid)
         {
@@ -629,9 +562,9 @@ namespace HalloDoc.Controllers
                 return Ok(true);
             }
             return Ok(false);
-        }
+        }   
 
-        public IActionResult deleteShift(int shiftdetailid)
+        public IActionResult DeleteShift(int shiftdetailid)
         {
             string email = HttpContext.Session.GetString("email");
 
@@ -640,16 +573,102 @@ namespace HalloDoc.Controllers
             return Ok();
         }
 
+        public IActionResult InvoicingShared()
+        {
+            var Phyid = HttpContext.Session.GetInt32("physicianId");
 
+            Invoicingcm invoicingcm = new Invoicingcm() {
+                dates = _providerDashboard.GetDates(),
+                PhysicianId=Convert.ToInt32(Phyid),
+            };
+         
+            return PartialView("ProviderShared/InvoicingShared",invoicingcm);
+        }
 
+        public IActionResult GetInvoicingDataonChangeOfDate(string selectedValue, int PhysicianId)
+        {
+           
 
+            var AdminID = HttpContext.Session.GetInt32("AdminId");
+            string[] dateRange = selectedValue.Split('*');
+            DateOnly startDate = DateOnly.Parse(dateRange[0]);
+            DateOnly endDate = DateOnly.Parse(dateRange[1]);
+            Invoicingcm model = _generalService.GetInvoicingDataonChangeOfDate(startDate, endDate, PhysicianId,Convert.ToInt32(AdminID));
+            return PartialView("ProviderShared/InvoicingPartialView", model);
+        }
 
+        public IActionResult GetUploadedDataonChangeOfDate(string selectedValue, int PhysicianId, int pageNumber, int pagesize)
+        {
+            string[] dateRange = selectedValue.Split('*');
+            DateOnly startDate = DateOnly.Parse(dateRange[0]);
+            DateOnly endDate = DateOnly.Parse(dateRange[1]);
+            Invoicingcm model = _generalService.GetUploadedDataonChangeOfDate(startDate, endDate, PhysicianId, pageNumber, pagesize);
+            return PartialView("ProviderShared/TimeSheetReiembursementPartialView", model);
+        }
 
-        public IActionResult logoutSession()
+        public IActionResult BiWeeklyTimesheet(string selectedValue, int PhysicianId)
+        {
+            int? AdminID = HttpContext.Session.GetInt32("AdminId");
+            
+            string[] dateRange = selectedValue.Split('*');
+            DateOnly startDate = DateOnly.Parse(dateRange[0]);
+            DateOnly endDate = DateOnly.Parse(dateRange[1]);
+            Invoicingcm model = _generalService.getDataOfTimesheet(startDate, endDate, PhysicianId, AdminID);
+            return PartialView("ProviderShared/BiWeeklyTimesheet", model);
+        }
+
+        [HttpPost]
+        public IActionResult HandleSubmitTimeSheet(Invoicingcm model, string command)
+        {
+            //if (command == "Aproove")
+            //{
+            //    return AprooveTimeSheet(model);
+            //}
+            //else
+            //{
+                return SubmitTimeSheet(model);
+            //}
+        }
+
+        [HttpPost]
+        public IActionResult SubmitTimeSheet(Invoicingcm model)
+        {
+            int? AdminID = HttpContext.Session.GetInt32("AdminId");
+            _generalService.SubmitTimeSheet(model, model.PhysicianId);
+            //TempData["successrequest"] = "TimeSheet Saved Succesfully";
+            //if (AdminID == null)
+            //{
+            //    return RedirectToAction("Invoicing", "Provider");
+            //}
+            //else
+            //{
+            //    return RedirectToAction("Invoicing", "Admin");
+            //}
+            return Ok();
+        }
+
+        public IActionResult DeleteBill(int id, DateOnly startDate, DateOnly endDate)
+        {
+            _generalService.DeleteBill(id);           
+            return Ok();
+        }
+
+        [HttpPost]
+        public IActionResult FinalizeTimeSheet(int id)
+        {
+            _generalService.FinalizeTimeSheet(id);
+
+            return Ok();
+        }
+
+        public IActionResult LogoutSession()
         {
             HttpContext.Session.Clear();
             Response.Cookies.Delete("jwt");
             return RedirectToAction("patientLogin", "Home");
         }
+
+
+
     }
 }
