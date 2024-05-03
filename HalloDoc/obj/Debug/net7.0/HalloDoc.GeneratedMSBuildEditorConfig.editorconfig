@@ -28,6 +28,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cYWRtaW5NeVByb2ZpbGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/pca21/Desktop/HalloDocMain/HalloDoc (2)-1/HalloDoc/HalloDoc/Views/Admin/BiWeeklyTimesheet.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQmlXZWVrbHlUaW1lc2hlZXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/pca21/Desktop/HalloDocMain/HalloDoc (2)-1/HalloDoc/HalloDoc/Views/Admin/blockHistory.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cYmxvY2tIaXN0b3J5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -76,6 +80,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5caW52YWxpZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/pca21/Desktop/HalloDocMain/HalloDoc (2)-1/HalloDoc/HalloDoc/Views/Admin/Invoicing.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW52b2ljaW5nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/pca21/Desktop/HalloDocMain/HalloDoc (2)-1/HalloDoc/HalloDoc/Views/Admin/MdsOnCall.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTWRzT25DYWxsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -90,6 +98,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/pca21/Desktop/HalloDocMain/HalloDoc (2)-1/HalloDoc/HalloDoc/Views/Admin/patientRecord.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5ccGF0aWVudFJlY29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pca21/Desktop/HalloDocMain/HalloDoc (2)-1/HalloDoc/HalloDoc/Views/Admin/Payrate.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUGF5cmF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/pca21/Desktop/HalloDocMain/HalloDoc (2)-1/HalloDoc/HalloDoc/Views/Admin/providerLocation.cshtml]
@@ -226,6 +238,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/pca21/Desktop/HalloDocMain/HalloDoc (2)-1/HalloDoc/HalloDoc/Views/Shared/adminDashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXGFkbWluRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pca21/Desktop/HalloDocMain/HalloDoc (2)-1/HalloDoc/HalloDoc/Views/Shared/AprooveInvoicingPartialView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEFwcm9vdmVJbnZvaWNpbmdQYXJ0aWFsVmlldy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/pca21/Desktop/HalloDocMain/HalloDoc (2)-1/HalloDoc/HalloDoc/Views/Shared/assignCase.cshtml]

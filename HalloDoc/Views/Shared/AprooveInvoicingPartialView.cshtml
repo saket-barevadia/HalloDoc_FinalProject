@@ -1,0 +1,39 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model Data_Layer.CustomModels.Invoicingcm;
+
+@if (Model.TimeSheetId == 0)
+{
+    <div class="d-flex justify-content-center mb-1 pt-3">
+        <h6 style="color:gray !important">No Records Found</h6>
+    </div>
+}
+else if (Model.TimeSheetId != 0 && Model.IsFinalized == false)
+{
+    <div class="d-flex justify-content-center mb-1 pt-3">
+        <h6 style="color:gray !important">Provider has No finalize the Timesheet</h6>
+    </div>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr style="background-color: rgba(160, 160, 160, 0.137);">
+            <th width="25" class="ViewUploadtd">Start Date</th>
+            <th width="25%" class="ViewUploadtd">End Date</th>
+            <th width="20%" class="ViewUploadtd">Status</th>
+            <th width="30%" class="ViewUploadtd">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="ViewUploadtd text-black">@Model.startDate</td>
+            <td class="ViewUploadtd text-black">@Model.endDate</td>
+            <td class="ViewUploadtd text-black">@Model.Status</td>
+            <td class="ViewUploadtd text-black"><button class="btn btn-info text-white" type="button" onclick="FinalizeNew()">Approve</button></td>
+        </tr>
+        </tbody>
+    </table>
+}
+

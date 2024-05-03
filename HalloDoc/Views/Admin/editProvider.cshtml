@@ -180,6 +180,19 @@ https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.min.css
 
                     </div>
                     <div class="d-grid gap-2 d-flex justify-content-end  justify-content-md-end mt-3 mb-3">
+                        @if (Model.Flag == 1)
+                        {
+                            <button type="button" onclick="location.href='@Url.Action("Payrate","Admin",new{callid=1,physicianId=@Model.Physicianid})'" id="" class="btn btn-outline-info">
+                                Enter Payrate
+                            </button>
+                        }
+                         @if (Model.Flag == 2)
+                        {
+                            <button type="button" onclick="location.href='@Url.Action("Payrate","Admin",new{callid=2,physicianId=@Model.Physicianid})'" id="" class="btn btn-outline-info">
+                                Enter Payrate
+                            </button>
+                        }
+
                         <button type="button" id="editBtn2" class="btn btn-info text-white EditBtn"
                                 onclick="enableFields(2)">
                             Edit

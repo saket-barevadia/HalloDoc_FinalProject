@@ -22,10 +22,12 @@ namespace Business_Logic.LogicRepositories
     {
 
         private readonly ApplicationDbContext _context;
+       
 
         public ProviderDashboardRepo(ApplicationDbContext context)
         {
             _context= context;
+
         }
 
         public ProviderDashboardcm GetPatientDetails(int status, int reqTypeId, int phyid, int flag)
@@ -335,8 +337,7 @@ namespace Business_Logic.LogicRepositories
             return dates;
         }
 
-
-        
+       
 
     }
 }

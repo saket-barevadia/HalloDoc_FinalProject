@@ -20,7 +20,7 @@ namespace Data_Layer.CustomModels
 
         public List<Timesheet> timesheets { get; set; } = new List<Timesheet>();
 
-        public List<PhysicianMain>? Physicians { get; set; }
+        public List<PhysicianViewModel>? Physicians { get; set; }
 
         public int PhysicianId { get; set; }
 
@@ -41,6 +41,7 @@ namespace Data_Layer.CustomModels
         public string? Status { get; set; }
 
         public string? AdminNotes { get; set; }
+        public string? command { get; set; }
 
         public int? BonusAmount { get; set; }
 

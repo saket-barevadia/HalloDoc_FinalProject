@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "xog5FJH3d9c1Cnv2OoGhYrb98NBz4PSrf4kDsbgFXzo=",
+  "Hash": "nD/GK8zAgGwszBmSdQxgaR+GiKxXwXJ1cQzsMHo9rwQ=",
   "Source": "HalloDoc",
   "BasePath": "_content/HalloDoc",
   "Mode": "Default",
@@ -2276,6 +2276,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Documents\\ProviderBills\\23-01-01-2024-Fig25. Contact your Provider.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\pca21\\Desktop\\HalloDocMain\\HalloDoc (2)-1\\HalloDoc\\HalloDoc\\wwwroot\\Documents\\ProviderBills\\23-01-04-2024-7768657_3763028.jpg",
+      "SourceId": "HalloDoc",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pca21\\Desktop\\HalloDocMain\\HalloDoc (2)-1\\HalloDoc\\HalloDoc\\wwwroot\\",
+      "BasePath": "_content/HalloDoc",
+      "RelativePath": "Documents/ProviderBills/23-01-04-2024-7768657_3763028.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Documents\\ProviderBills\\23-01-04-2024-7768657_3763028.jpg"
     },
     {
       "Identity": "C:\\Users\\pca21\\Desktop\\HalloDocMain\\HalloDoc (2)-1\\HalloDoc\\HalloDoc\\wwwroot\\Documents\\ProviderBills\\23-02-05-2024-LesfImage.png",

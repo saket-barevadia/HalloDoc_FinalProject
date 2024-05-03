@@ -139,6 +139,14 @@
                                         </button>
                                     </li>
                                 }
+                                 @if (ViewBag.Menu.Contains("Invoicing"))
+                                {
+                                    <li>
+                                        <button class="dropdown-item hoverr" onclick="location.href='@Url.Action("Invoicing","Admin")'">
+                                            Invoicing
+                                        </button>
+                                    </li>
+                                }
 
                             </ul>
                         </div>

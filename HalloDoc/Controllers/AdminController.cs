@@ -19,8 +19,10 @@ namespace HalloDoc.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IcancelCase _cancelCase;
         private readonly IProviderMenu _providerMenu;
+        private readonly IGeneralService _generalService;
+        private readonly IProviderDashboard _providerDashboard;
 
-        public AdminController(ILogger<AdminController> logger,IAdminDashboard dashboard, IviewCase viewCase, IviewNotes viewNotes, ApplicationDbContext context, IcancelCase cancelCase, IProviderMenu providerMenu)
+        public AdminController(ILogger<AdminController> logger,IAdminDashboard dashboard, IviewCase viewCase, IviewNotes viewNotes, ApplicationDbContext context, IcancelCase cancelCase, IProviderMenu providerMenu, IGeneralService generalService, IProviderDashboard providerDashboard)
         {
             _dashboard = dashboard;
             _viewCase = viewCase;
@@ -29,6 +31,8 @@ namespace HalloDoc.Controllers
             _cancelCase = cancelCase;
             _providerMenu = providerMenu;
             _logger = logger;
+            _generalService = generalService;
+            _providerDashboard = providerDashboard;
         }
 
         [CustomAuthorize("Admin", "Dashboard")]
@@ -1321,6 +1325,118 @@ namespace HalloDoc.Controllers
         {        
             var smsLogs = _dashboard.smsLogs(cm);
             return View(smsLogs);
+        }
+
+        public IActionResult Invoicing()
+        {
+            @ViewBag.Admin = 2;
+            var roleMain = HttpContext.Session.GetInt32("roleId");
+            List<string> roleMenu = _dashboard.GetListOfRoleMenu((int)roleMain);
+            ViewBag.Menu = roleMenu;
+            var Phyid = HttpContext.Session.GetInt32("physicianId");
+
+            Invoicingcm invoicingcm = new Invoicingcm()
+            {
+                dates = _providerDashboard.GetDates(),
+                PhysicianId = Convert.ToInt32(Phyid),
+                Physicians = _generalService.GetPhysiciansForInvoicing(),
+        };
+            return View(invoicingcm);
+        }
+
+        public IActionResult CheckInvoicingAproove(string selectedValue, int PhysicianId)
+        {
+            string result = _generalService.CheckInvoicingAproove(selectedValue, PhysicianId);
+            return Json(result);
+        }
+        public IActionResult GetApprovedViewData(string selectedValue, int PhysicianId)
+        {
+            Invoicingcm model = _generalService.GetApprovedViewData(selectedValue, PhysicianId);
+            return PartialView("AprooveInvoicingPartialView", model);
+        }
+
+        public IActionResult BiWeeklyTimesheet(string selectedValue, int PhysicianId)
+        {
+            @ViewBag.Admin = 2;
+            var roleMain = HttpContext.Session.GetInt32("roleId");
+            List<string> roleMenu = _dashboard.GetListOfRoleMenu((int)roleMain);
+            ViewBag.Menu = roleMenu;
+            int? AdminID = HttpContext.Session.GetInt32("AdminId");
+            string[] dateRange = selectedValue.Split('*');
+            DateOnly startDate = DateOnly.Parse(dateRange[0]);
+            DateOnly endDate = DateOnly.Parse(dateRange[1]);
+            Invoicingcm model = _generalService.getDataOfTimesheet(startDate, endDate, PhysicianId, AdminID);
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult HandleSubmitTimeSheet(Invoicingcm model, string command)
+        {
+            if (command == "Aproove")
+            {
+                return AprooveTimeSheet(model);
+            }
+            else
+            {
+                return SubmitTimeSheet(model);
+            }
+        }
+        
+        [HttpPost]
+        public IActionResult SubmitTimeSheet(Invoicingcm model)
+        {
+            int? AdminID = HttpContext.Session.GetInt32("AdminId");
+            _generalService.SubmitTimeSheet(model, model.PhysicianId);
+            TempData["success"] = "TimeSheet Saved Succesfully";
+            if (AdminID == null)
+            {
+                return RedirectToAction("Invoicing", "Provider");
+            }
+            else
+            {
+                return RedirectToAction("Invoicing", "Admin");
+            }
+        }
+
+        public IActionResult AprooveTimeSheet(Invoicingcm model)
+        {
+            int? AdminID = HttpContext.Session.GetInt32("AdminId");
+            _generalService.AprooveTimeSheet(model, AdminID);
+            TempData["success"] = "TimeSheet Aprooved Succesfully";
+            return RedirectToAction("Invoicing", "Admin");
+        }
+
+        public IActionResult Payrate(int callid, int physicianId)
+        {
+            @ViewBag.Admin = 2;
+            var roleMain = HttpContext.Session.GetInt32("roleId");
+            List<string> roleMenu = _dashboard.GetListOfRoleMenu((int)roleMain);
+            ViewBag.Menu = roleMenu;
+            AdminDashboardcm adminDashCM = new AdminDashboardcm
+            {
+                GetPayRate = _dashboard.GetPayRate(physicianId, callid),
+            };
+            return View(adminDashCM);
+        }
+
+
+        [HttpPost]
+        public IActionResult SetPayRates(GetPayRate getPayRate)
+        {
+          
+            bool isSend = _dashboard.SetPayRate(getPayRate);
+
+            if(isSend==true)
+            {
+                TempData["success"] = "Payrate Data Updated";
+                return RedirectToAction("Payrate", "Admin", new { callid =getPayRate.callid, physicianId = getPayRate.PhysicianId});
+            }
+            else
+            {
+                TempData["error"] = "Change Atleast One Field";
+                return RedirectToAction("Payrate", "Admin", new { callid = getPayRate.callid, physicianId = getPayRate.PhysicianId });
+            }
+           
         }
 
     }

@@ -1,0 +1,180 @@
+﻿@model Data_Layer.CustomModels.Invoicingcm;
+
+<div class="container">
+    <div class=" mt-2 d-flex justify-content-between align-items-center mt-3">
+        <h4>Timesheets</h4>
+        <a asp-action="dashboard" asp-controller="Admin">
+            <button type="button" class="btn btn-outline-info">
+                <i class="fa-solid fa-less-than size"></i>
+                <span class="size">Back</span>
+            </button>
+        </a>
+    </div>
+    <div class="shadow border rounded my-3 p-2">
+        <div class="d-flex justify-content-between mb-3">
+            <div class="d-flex" style="gap:20px">
+                <div class="form-floating">
+                    <select class="form-control" id="PhyscianID" aria-label="Floating label select example" style="height:58px !important; width:100%" onchange="CheckInvoicingAproove()">
+                        @foreach (var item in Model.Physicians!)
+                        {
+                            <option value="@item.PhysicianId">@item.PhysicianName</option>
+                        }
+                    </select>
+                    <label for="floatingSelect">Physician</label>
+                </div>
+                <div class="form-floating">
+                    <select class="form-control" id="timesheetdropdown" aria-label="Floating label select example" style="height:58px !important; width:100%" onchange="CheckInvoicingAproove()">
+                        @foreach (var item in Model.dates!)
+                        {
+                            <option value="@item.StartDate*@item.EndDate">@item.StartDate - @item.EndDate</option>
+                        }
+                    </select>
+                    <label for="floatingSelect">TimesheetPeriod</label>
+                </div>
+            </div>
+        </div>
+
+        <div id="partialView">
+        </div>
+
+    </div>
+
+    <div id="partialViewForUploadedFiles">
+    </div>
+
+    <input type="hidden" value="@Model.PhysicianId" id="PhyscianID" />
+
+</div>
+
+<script>
+
+
+    function FinalizeNew() {
+        var PhyscianID = $('#PhyscianID').val();
+        var timesheetdropdown = $('#timesheetdropdown').val();
+        window.location = '@Url.Action("BiWeeklyTimesheet", "Admin")?' + 'selectedValue=' + timesheetdropdown + '&PhysicianId=' + PhyscianID;
+    }
+
+
+    $(document).ready(function () {
+        GetInvoicingDataonChangeOfDate();
+        GetUploadedDataonChangeOfDate(1);
+    });
+
+    function GetInvoicingDataonChangeOfDate() {
+        var timesheetdropdown = $('#timesheetdropdown').val();
+        var PhyscianID = $('#PhyscianID').val();
+
+        $.ajax({
+            method: "GET",
+            url: "/Provider/GetInvoicingDataonChangeOfDate",
+            data: {
+                selectedValue: timesheetdropdown,
+                PhysicianId: PhyscianID
+            },
+            success: function (response) {
+                $('#partialView').html(response);
+                GetUploadedDataonChangeOfDate(1);
+            },
+            error: function () {
+                console.log("Function Fail")
+            }
+
+        })
+    }
+
+
+    function GetUploadedDataonChangeOfDate(PageNumber) {
+        var timesheetdropdown = $('#timesheetdropdown').val();
+        var PhyscianID = $('#PhyscianID').val();
+        $.ajax({
+            method: "GET",
+            url: "/Provider/GetUploadedDataonChangeOfDate",
+            data: {
+                selectedValue: timesheetdropdown,
+                PhysicianId: PhyscianID,
+                pageNumber: PageNumber,
+                pagesize: 2
+            },
+            success: function (response) {
+                $('#partialViewForUploadedFiles').html(response)
+
+            },
+            error: function () {
+                console.log("Function Fail")
+            }
+
+        })
+    }
+
+
+
+    function CheckInvoicingAproove() {
+        var timesheetdropdown = $('#timesheetdropdown').val();
+        var PhyscianID = $('#PhyscianID').val();
+        var item = $('#partialViewForUploadedFiles'); // Corrected to select the element
+
+        $.ajax({
+            method: "GET",
+            url: "/Admin/CheckInvoicingAproove",
+            data: {
+                selectedValue: timesheetdropdown,
+                PhysicianId: PhyscianID
+            },
+            success: function (response) {
+                console.log(response);
+                if (response == "Finalized-Aprooved") {
+                    GetInvoicingDataonChangeOfDate();
+                    GetUploadedDataonChangeOfDate(1);
+                    item.show();
+                } else {
+                    GetApprovedViewData();
+                    item.hide();
+                }
+            },
+            error: function () {
+                console.log("Function Fail");
+            }
+        });
+    }
+
+
+    function GetApprovedViewData() {
+        var timesheetdropdown = $('#timesheetdropdown').val();
+        var PhyscianID = $('#PhyscianID').val();
+
+        $.ajax({
+            method: "GET",
+            url: "/Admin/GetApprovedViewData",
+            data: {
+                selectedValue: timesheetdropdown,
+                PhysicianId: PhyscianID
+            },
+            success: function (response) {
+                $('#partialView').html(response);
+            },
+            error: function () {
+                console.log("Function Fail")
+            }
+
+        })
+    }
+
+
+    var dash = document.getElementById("home-tab");
+    var providerLoc = document.getElementById("ProviderLocation-tab");
+    var profile = document.getElementById("Myprofile-tab");
+    var provider = document.getElementById("Providers-tab");
+    var partner = document.getElementById("Partners-tab");
+    var access = document.getElementById("Access-tab");
+    var records = document.getElementById("Records-tab");
+
+    dash.classList.remove("active");
+    providerLoc.classList.remove("active");
+    profile.classList.remove("active");
+    provider.classList.add("active");
+    partner.classList.remove("active");
+    access.classList.remove("active");
+    records.classList.remove("active");
+
+</script> 

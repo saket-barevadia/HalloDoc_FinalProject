@@ -121,12 +121,12 @@ namespace Business_Logic.Interface
         public patientRecordscm emailLogs(patientRecordscm cm);
         public patientRecordscm smsLogs(patientRecordscm cm);
 
-
-
-
-
         public List<string> GetListOfRoleMenu(int roleId);
         public bool checkreq(int requestid);
+
+
+        public GetPayRate GetPayRate(int physicianId, int callid);
+        public bool SetPayRate(GetPayRate getPayRate);
 
 
 

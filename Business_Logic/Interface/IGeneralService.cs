@@ -22,5 +22,14 @@ namespace Business_Logic.Interface
         public void FinalizeTimeSheet(int id);
 
         public void DeleteBill(int id);
+
+        //Invoicing Admin
+        public List<PhysicianViewModel> GetPhysiciansForInvoicing();
+
+        public string CheckInvoicingAproove(string selectedValue, int PhysicianId);
+
+        public Invoicingcm GetApprovedViewData(string selectedValue, int PhysicianId);
+
+        public void AprooveTimeSheet(Invoicingcm model, int? AdminID);
     }
 }
