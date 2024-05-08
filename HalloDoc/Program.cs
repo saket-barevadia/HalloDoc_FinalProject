@@ -43,7 +43,7 @@ builder.Services.AddScoped<IGeneralService,GeneralService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddSession();//For Session
 
-
+builder.Services.AddSignalR();
 
 
 var app = builder.Build();
@@ -79,6 +79,11 @@ app.UseRotativa();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<ChatHub>("/chat");
+});
 
 app.MapControllerRoute(
     name: "default",

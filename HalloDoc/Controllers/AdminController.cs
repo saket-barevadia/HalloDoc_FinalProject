@@ -1439,5 +1439,10 @@ namespace HalloDoc.Controllers
            
         }
 
+        public IActionResult Chat(int providerId, int adminId)
+        {
+            return PartialView();
+        }
+
     }
 }

@@ -1,0 +1,113 @@
+﻿
+<style>
+    .chatList {
+        list-style: none !important;
+        width: fit-content !important;
+        border: 1px solid #b4f3f3 !important;
+        padding: 8px !important;
+        border-radius: 12px !important;
+        background-color: #d7fdfd !important;
+        font-size: 17px !important;
+        color: #373333 !important;
+        margin-bottom: 5px;
+        float: right;
+    }
+
+    .chatListAdmin {
+        list-style: none !important;
+        width: fit-content !important;
+        border: 1px solid #b4f3f3 !important;
+        padding: 8px !important;
+        border-radius: 12px !important;
+        background-color: #d7fdfd !important;
+        font-size: 17px !important;
+        color: #373333 !important;
+        margin-bottom: 5px;
+    }
+
+    .mainDiv {
+        width: 100%;
+        display: flex;
+    }
+
+    .mainDiv2 {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+    }
+</style>
+
+
+<div class="offcanvas offcanvas-end " tabindex="-1" id="offcanvasNavbarLight" aria-labelledby="offcanvasNavbarLightLabel" aria-modal="true" role="dialog">
+    <div class="offcanvas-header bg-info text-white">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLightLabel">Offcanvas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column justify-content-end">
+        <div class="">
+            <div id="messagesList"></div>
+        </div>
+        <div class="d-flex w-100">
+            <div class="form-floating me-1 w-100">
+                <input type="text" id="messageInput" class="form-control" placeholder="Username"
+                       required>
+                <label for="floatingInputGroup1"><span class="input">Type a message</span></label>
+
+            </div>
+
+            <button type="button" id="sendButton" value="Send Message" class="btn btn-info text-white"><i class="fa-regular fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+
+<script>
+    var connection = new signalR.HubConnectionBuilder().withUrl("/chat").build();
+
+
+    document.getElementById("sendButton").disabled = true;
+
+    connection.on("ReceiveMessage", function (user, message) {
+
+        if (user == "admin") {
+            var mainDiv = document.createElement("div");
+
+            var li = document.createElement("span");
+            li.className = "chatListAdmin";
+            document.getElementById("messagesList").appendChild(mainDiv);
+            mainDiv.appendChild(li);
+            mainDiv.className = "mainDiv";
+        }
+        else {
+            var mainDiv = document.createElement("div");
+
+            var li = document.createElement("span");
+            li.className = "chatList";
+            document.getElementById("messagesList").appendChild(mainDiv);
+            mainDiv.appendChild(li);
+            mainDiv.className = "mainDiv2";
+        }
+
+
+        li.textContent = `${message}`;
+
+    });
+
+    connection.start().then(function () {
+        document.getElementById("sendButton").disabled = false;
+    }).catch(function (err) {
+        return console.error(err.toString());
+    });
+
+    document.getElementById("sendButton").addEventListener("click", function (event) {
+        //var user = document.getElementById("userInput").value;
+        var message = document.getElementById("messageInput").value;
+
+        connection.invoke("SendMessage", "provider", message).catch(function (err) {
+            return console.error(err.toString());
+        });
+        event.preventDefault();
+    });
+
+</script>

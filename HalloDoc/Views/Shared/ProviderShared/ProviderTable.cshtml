@@ -99,7 +99,8 @@
                        
                         <th scope="col">Name</th>              
                         <th scope="col">Phone</th>
-                        <th scope="col">Address</th>   
+                        <th scope="col">Address</th>
+                        <th scope="col">Chat With</th>
                         @if(Model.RequestStatus==4 || Model.RequestStatus == 5)
                         {
                             <th scope="col">Status</th>
@@ -152,7 +153,14 @@
                                 <td>
                                   @item.Address
                                 </td>
-
+                                <td>
+                                <button type="button" class="btn btn-outline-light d-flex ms-1 ms-sm-2 p-sm-2 p-1 align-items-center" onclick="chatWithAdmin()" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarLight" aria-controls="offcanvasNavbarLight" aria-label="Toggle navigation" style="background-color:transparent;color:white;margin-top:5px">
+                                    <i class="fa-regular fa-user"></i>
+                                    <span class="px-2 ">
+                                        Admin
+                                    </span>
+                                </button>
+                                </td>
                           
 
                             @if (@Model.RequestStatus == 4 )
@@ -564,10 +572,14 @@
 
 
 
+@* <script src="https://cdn.jsdelivr.net/npm/@@microsoft/signalr@7.0.14/dist/browser/signalr.min.js"></script> *@
+
+
+
 <script>
 
 
-    
+      
    
 
 
@@ -672,8 +684,6 @@
             this.blur();
         }
     });
-
-
 
 
     function ProviderTransferRequest(reqId) {
@@ -1041,6 +1051,20 @@
         });
     }
 
+
+    function chatWithAdmin(){
+        $.ajax({
+            method: "Get",
+            url: "/Provider/ChatWithAdmin",         
+            success: function (result) {
+                $('#offCanvass').html(result);
+                $('#offcanvasNavbarLight').offcanvas("show");
+            },
+            error: function () {
+                alert("error");
+            },
+        });
+    }
 
 </script>
                                              

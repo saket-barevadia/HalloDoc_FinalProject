@@ -264,3 +264,9 @@ C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\HalloDoc\bin\Debug\n
 C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\HalloDoc\bin\Debug\net7.0\tr-TR\Hangfire.Core.resources.dll
 C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\HalloDoc\bin\Debug\net7.0\zh-TW\Hangfire.Core.resources.dll
 C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\HalloDoc\bin\Debug\net7.0\zh\Hangfire.Core.resources.dll
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\HalloDoc\bin\Debug\net7.0\System.Net.WebSockets.WebSocketProtocol.dll
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\HalloDoc\bin\Debug\net7.0\Microsoft.AspNetCore.Connections.Abstractions.dll
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\HalloDoc\bin\Debug\net7.0\Microsoft.AspNetCore.SignalR.Common.dll
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\HalloDoc\bin\Debug\net7.0\Microsoft.Extensions.Features.dll
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\HalloDoc\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
+C:\Users\pca21\Desktop\HalloDocMain\HalloDoc (2)-1\HalloDoc\HalloDoc\bin\Debug\net7.0\libman.json

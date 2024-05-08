@@ -95,8 +95,8 @@ namespace Business_Logic.LogicRepositories
             model.IsFinalized = weeklyTimeSheet == null ? false : true;
             model.isAdminSide = AdminID == 0 ? false : true;
             return model;
-
         }
+
         public void SubmitTimeSheet(Invoicingcm model, int? PhysicianId)
          {
             WeeklyTimeSheet existingWeekltTimesheet = _weeklyTimeSheetRepo.GetFirstOrDefault(u => u.ProviderId == PhysicianId && u.StartDate == model.startDate && u.EndDate == model.endDate);

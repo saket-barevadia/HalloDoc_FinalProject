@@ -7,6 +7,7 @@
 
 <script src="~/js/darkmode.js" defer></script>
 
+
 <style>
     .hoverr:hover {
         background-color: #d7faff !important;
@@ -267,8 +268,8 @@
 
 
  <script>
-    
 
+    
     // Assign Case
 
     function assignCase(id) {
@@ -279,7 +280,6 @@
             success: function (result) {
                 $('#content').html(result);
                 $('#newRequestModalAssign').modal('show');
-                console.log(id);
             },
             error: function () {
                 alert('Error loading partial view');
@@ -361,12 +361,29 @@
         })
     }
 
+    function chatWithProvider(providerId, adminId) {
+        $.ajax({
+            url: "/Admin/Chat",
+            type: "GET",
+            data: { providerId: providerId, adminId: adminId },
+            success: function (result) {
+                $('#content').html(result);
+                $('#offcanvasNavbarLight').offcanvas("show");
+
+            },
+            error: function () {
+                alert('Error loading partial view');
+            }
+        });
+    }
+
   </script> 
 
 
 @* <script src="~/js/AdminDashboard.js"></script> *@
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+
 
 
 

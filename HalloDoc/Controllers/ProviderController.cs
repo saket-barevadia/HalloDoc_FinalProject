@@ -668,7 +668,10 @@ namespace HalloDoc.Controllers
             return RedirectToAction("patientLogin", "Home");
         }
 
-
+        public IActionResult ChatWithAdmin()
+        {
+            return PartialView("ProviderShared/ChatShared");
+        }
 
     }
 }
