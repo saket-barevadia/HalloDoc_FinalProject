@@ -129,7 +129,7 @@ namespace Business_Logic.Interface
         public bool SetPayRate(GetPayRate getPayRate);
 
 
-
-
+        public Chatcm GetChats(int providerId, int adminId, int requestId, int flag, int roleId);
+        public void SaveChats(Chatcm cm); 
     }
 }

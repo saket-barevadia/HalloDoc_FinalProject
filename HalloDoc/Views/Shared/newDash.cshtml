@@ -142,7 +142,7 @@
                                 <td>
                                     @if (obj.PhysicianId != null)
                                     {
-                                        <button type="button" class="btn btn-outline-light d-flex ms-1 ms-sm-2 p-sm-2 p-1 align-items-center" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarLight" aria-controls="offcanvasNavbarLight" aria-label="Toggle navigation" style="background-color:transparent;color:white;margin-top:5px" onclick="chatWithProvider(@obj.PhysicianId,@Accessor.HttpContext.Session.GetInt32("AdminId"))">
+                                        <button type="button" class="btn btn-outline-light d-flex ms-1 ms-sm-2 p-sm-2 p-1 align-items-center" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarLight" aria-controls="offcanvasNavbarLight" aria-label="Toggle navigation" style="background-color:transparent;color:white;margin-top:5px" onclick="chatWithProvider(@obj.PhysicianId,@Accessor.HttpContext.Session.GetInt32("AdminId"),0,1,1)">
                                             <i class="fa-regular fa-user"></i>
                                             <span class="px-2 ">
                                                 Provider
@@ -153,6 +153,12 @@
                                     {
                                       
                                     }
+                                    <button type="button" class="btn btn-outline-light d-flex ms-1 ms-sm-2 p-sm-2 p-1 align-items-center" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarLight" aria-controls="offcanvasNavbarLight" aria-label="Toggle navigation" style="background-color:transparent;color:white;margin-top:5px" onclick="chatWithProvider(0,@Accessor.HttpContext.Session.GetInt32("AdminId"),@obj.Requestid,2,1)">
+                                        <i class="fa-regular fa-user"></i>
+                                        <span class="px-2 ">
+                                            Patient
+                                        </span>
+                                    </button>
                                 </td>
 
                                 

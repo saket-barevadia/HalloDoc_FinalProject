@@ -1439,10 +1439,17 @@ namespace HalloDoc.Controllers
            
         }
 
-        public IActionResult Chat(int providerId, int adminId)
+        public IActionResult Chat(int providerId, int adminId, int requestId, int flag, int roleId)
         {
-            return PartialView();
+            var chats=_dashboard.GetChats(providerId, adminId, requestId, flag, roleId);
+            return PartialView(chats);
         }
+
+        //[HttpPost]
+        //public void PostChats(Chatcm cm)
+        //{
+        //  _dashboard.SaveChats(cm);
+        //}
 
     }
 }

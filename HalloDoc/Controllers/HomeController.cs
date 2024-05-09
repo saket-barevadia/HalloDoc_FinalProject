@@ -30,6 +30,7 @@ namespace HalloDoc.Controllers
         private readonly IpatientDashboard _dash;
         private readonly IAdminDashboard _dashboard;
 
+
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -422,6 +423,19 @@ namespace HalloDoc.Controllers
 
             return RedirectToAction("patientLogin");
         }
+
+        public IActionResult ChatPatient(int providerId, int adminId, int requestId, int flag, int roleId)
+        {
+            var chats = _dashboard.GetChats(providerId, adminId, requestId, flag, roleId);
+            return PartialView(chats);
+        }
+
+
+        //[HttpPost]
+        //public void PostChats(Chatcm cm)
+        //{
+        //    _dashboard.SaveChats(cm);
+        //}
 
     }
 }

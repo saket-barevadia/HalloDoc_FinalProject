@@ -18,8 +18,9 @@ namespace HalloDoc.Controllers
         private readonly IProviderMenu _providerMenu;
         private readonly IGeneralService _generalService;
         private readonly ApplicationDbContext _context;
+        private readonly IAdminDashboard _adminDash;
 
-        public ProviderController(IProviderDashboard providerDashboard,IAdminDashboard dashboard,IviewCase viewCase, IviewNotes viewNotes, IProviderMenu providerMenu,ApplicationDbContext context, IGeneralService generalService) { 
+        public ProviderController(IProviderDashboard providerDashboard,IAdminDashboard dashboard,IviewCase viewCase, IviewNotes viewNotes, IProviderMenu providerMenu,ApplicationDbContext context, IGeneralService generalService, IAdminDashboard adminDashboard) { 
           _providerDashboard = providerDashboard;
             _dashboard = dashboard;
             _viewCase = viewCase;
@@ -27,6 +28,7 @@ namespace HalloDoc.Controllers
             _providerMenu = providerMenu;
             _context = context;
             _generalService = generalService;
+            _adminDash=adminDashboard;
         }
 
 
@@ -668,10 +670,17 @@ namespace HalloDoc.Controllers
             return RedirectToAction("patientLogin", "Home");
         }
 
-        public IActionResult ChatWithAdmin()
+        public IActionResult ChatWithAdmin(int providerId, int adminId, int requestId, int flag, int roleId)
         {
-            return PartialView("ProviderShared/ChatShared");
+           var chats=_adminDash.GetChats(providerId, adminId, requestId, flag, roleId);
+            return PartialView("ProviderShared/ChatShared",chats);
         }
+
+        //[HttpPost]
+        //public void PostChats(Chatcm cm)
+        //{
+        //    _adminDash.SaveChats(cm);
+        //}
 
     }
 }

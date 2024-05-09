@@ -222,7 +222,8 @@
 
                 <tr>
                     <th width="20%">Created Date</th>
-                    <th width="60%">Current Status</th>
+                    <th width="20%">Current Status</th>
+                    <th width="40%">Chat With</th>
                     <th width="20%">Document</th>
                 </tr>
             </thead>
@@ -264,6 +265,21 @@
                         {
                             <td>Clear</td>
                         }
+
+                        <td>
+                            @if(obj.Status!=1){
+                            <button type="button" class="btn btn-outline-info" onclick="chatWithProvider(23,0,@obj.Requestid,3,3)">
+                               Provider
+                                </button>
+                            }
+                            else
+                            {
+                                
+                            }
+                            <button type="button" class="btn btn-outline-info" onclick="chatWithProvider(0,1,@obj.Requestid,2,3)">
+                                Admin
+                            </button>
+                        </td>
 
                         <td>
                             @{
@@ -365,6 +381,9 @@
     </div>
 </div>
 
+<div id="content">
+
+</div>
 
 
 
@@ -373,4 +392,19 @@
         var myModal1 = new bootstrap.Modal(document.getElementById('myModal1'), {})
         myModal1.show()
         } *@
+        function chatWithProvider(providerId, adminId, requestId, flag, roleId) {
+            $.ajax({
+                url: "/Home/ChatPatient",
+                type: "GET",
+                data: { providerId: providerId, adminId: adminId, requestId: requestId, flag: flag, roleId: roleId },
+                success: function (result) {
+                    $('#content').html(result);
+                    $('#offcanvasNavbarLight').offcanvas("show");
+
+                },
+                error: function () {
+                    alert('Error loading partial view');
+                }
+            });
+        }
 </script>

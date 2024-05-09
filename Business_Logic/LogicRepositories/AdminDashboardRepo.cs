@@ -2003,6 +2003,151 @@ namespace Business_Logic.LogicRepositories
             return false;
         }
 
+        public Chatcm GetChats(int providerId, int adminId, int requestId, int flag, int roleId)
+        {
+
+            if (flag == 1)
+            {
+                var chats = from r in _db.Chats
+                            where r.RequestId == null && r.PhyscainId == providerId && r.AdminId == adminId && (r.SentBy==1 || r.SentBy==2)
+                            select (new Chatcm()
+                            {
+                                RequestId = null,
+                                ChatId = r.ChatId,
+                                ProviderId = r.PhyscainId,
+                                Message = r.Message,
+                                AdminId = r.AdminId,
+                                ChatDate = Convert.ToDateTime(r.SentDate),
+                                SentBy = r.SentBy
+                            });
+                var chat = new Chatcm()
+                {
+                    RequestId = null,
+                    ProviderId = providerId,
+                    AdminId = adminId,
+                    Flag=flag,              
+                    RecieverName=roleId==1?_db.Physicians.FirstOrDefault(x=>x.Physicianid==providerId).Firstname : _db.Admins.FirstOrDefault(x=>x.Adminid==adminId).Firstname,
+                    chats = chats.ToList(),
+                };
+
+                
+
+                return chat;
+
+            }
+            if(flag == 2)
+            {
+                var chats = from r in _db.Chats
+                            where r.RequestId == requestId && r.PhyscainId == null && r.AdminId == adminId && (r.SentBy == 1 || r.SentBy == 3)
+                            select (new Chatcm()
+                            {
+                                RequestId = r.RequestId,
+                                ChatId = r.ChatId,
+                                ProviderId = null,
+                                Message = r.Message,
+                                AdminId = r.AdminId,
+                                ChatDate = Convert.ToDateTime(r.SentDate),
+                                SentBy = r.SentBy
+                            });
+
+                var chat = new Chatcm()
+                {
+                    RequestId = requestId,
+                    ProviderId = null,
+                    AdminId = adminId,
+                    Flag = flag,
+                    RecieverName = roleId == 1 ? _db.Requestclients.FirstOrDefault(x => x.Requestid == requestId).Firstname : _db.Admins.FirstOrDefault(x => x.Adminid == adminId).Firstname,
+                    chats = chats.ToList(),
+                };
+
+                return chat;
+            }
+            if(flag == 3)
+            {
+                var chats = from r in _db.Chats
+                            where r.RequestId == requestId && r.PhyscainId == providerId && r.AdminId == null && (r.SentBy == 2 || r.SentBy == 3)
+                            select (new Chatcm()
+                            {
+                                RequestId = r.RequestId,
+                                ChatId = r.ChatId,
+                                ProviderId = r.PhyscainId,
+                                Message = r.Message,
+                                AdminId = null,
+                                ChatDate = Convert.ToDateTime(r.SentDate),
+                                SentBy = r.SentBy
+                            });
+
+                var chat = new Chatcm()
+                {
+                    RequestId = requestId,
+                    ProviderId = providerId,
+                    AdminId = null,
+                    Flag = flag,
+                    RecieverName = roleId == 3 ? _db.Physicians.FirstOrDefault(x => x.Physicianid == providerId).Firstname : _db.Requestclients.FirstOrDefault(x => x.Requestid == requestId).Firstname,
+                    chats = chats.ToList(),
+                };
+
+                return chat;
+            }
+            return null;     
+        }
+
+        public void SaveChats(Chatcm cm)
+        {
+            if (cm != null)
+            {
+                if (cm.Flag == 1)
+                {
+                    Chat chat = new Chat()
+                    {
+                        RequestId = null,
+                        AdminId = cm.AdminId,
+                        PhyscainId = cm.ProviderId,
+                        Message = cm.Message,
+                        SentDate = DateTime.Now,
+                        SentBy = cm.SentBy
+
+                    };
+
+                    _db.Add(chat);
+                    _db.SaveChanges();
+                }
+                if (cm.Flag == 2)
+                {
+                    Chat chat = new Chat()
+                    {
+                        RequestId = cm.RequestId,
+                        AdminId = cm.AdminId,
+                        PhyscainId = null,
+                        Message = cm.Message,
+                        SentDate = DateTime.Now,
+                        SentBy = cm.SentBy
+
+                    };
+
+                    _db.Add(chat);
+                    _db.SaveChanges();
+                }
+                if (cm.Flag == 3)
+                {
+                    Chat chat = new Chat()
+                    {
+                        RequestId = cm.RequestId,
+                        AdminId = null,
+                        PhyscainId = cm.ProviderId,
+                        Message = cm.Message,
+                        SentDate = DateTime.Now,
+                        SentBy = cm.SentBy
+
+                    };
+
+                    _db.Add(chat);
+                    _db.SaveChanges();
+                }
+               
+               
+            }
+        }
 
     }
 }

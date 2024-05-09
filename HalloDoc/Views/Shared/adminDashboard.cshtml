@@ -361,11 +361,11 @@
         })
     }
 
-    function chatWithProvider(providerId, adminId) {
+    function chatWithProvider(providerId, adminId, requestId, flag, roleId) {
         $.ajax({
             url: "/Admin/Chat",
             type: "GET",
-            data: { providerId: providerId, adminId: adminId },
+            data: { providerId: providerId, adminId: adminId, requestId: requestId, flag: flag, roleId: roleId },
             success: function (result) {
                 $('#content').html(result);
                 $('#offcanvasNavbarLight').offcanvas("show");

@@ -14,7 +14,7 @@
         float: right;
     }
 
-    .chatListAdmin {
+    .chatListProvider {
         list-style: none !important;
         width: fit-content !important;
         border: 1px solid #b4f3f3 !important;
@@ -49,35 +49,37 @@
 </style>
 
 
-<div class="offcanvas offcanvas-end " tabindex="-1" id="offcanvasNavbarLight" aria-labelledby="offcanvasNavbarLightLabel" aria-modal="true" role="dialog">
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbarLight" aria-labelledby="offcanvasNavbarLightLabel" aria-modal="true" role="dialog">
     <div class="offcanvas-header bg-info text-white">
         <h5 class="offcanvas-title" id="offcanvasNavbarLightLabel">@Model.RecieverName</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body d-flex flex-column justify-content-between overflow-scroll position-relative" id="offcanvasScroller">
+    <div class="offcanvas-body d-flex flex-column justify-content-between overflow-scroll position-relative h-100" id="offcanvasScroller">
+
         <div class="">
-            <div id="messagesList" style="margin-bottom:62px;">
+            <div id="messagesList" class="" style="margin-bottom:62px;">
                 @foreach (var item in Model.chats)
                 {
-                   
                     if (item.SentBy == 1)
                     {
                         <div class="mainDiv">
-                            <span class="chatListAdmin">@item.Message</span>
+                            <span class="chatListProvider">@item.Message</span>
                             <span class="date">@item.ChatDate.ToString("h:mm:ss tt")</span>
                         </div>
                     }
+
                     if (item.SentBy == 2)
                     {
-                        <div class="mainDiv2">
-                            <span class="chatList">@item.Message</span>
+                        <div class="mainDiv">
+                            <span class="chatListProvider">@item.Message</span>
                             <span class="date">@item.ChatDate.ToString("h:mm:ss tt")</span>
                         </div>
                     }
                     if (item.SentBy == 3)
                     {
-                        <div class="mainDiv">
-                            <span class="chatListAdmin">@item.Message</span>
+                        <div class="mainDiv2">
+                            <span class="chatList">@item.Message</span>
                             <span class="date">@item.ChatDate.ToString("h:mm:ss tt")</span>
                         </div>
                     }
@@ -86,41 +88,64 @@
             </div>
         </div>
         <form method="post" id="chatForm" class="position-fixed bottom-0" style="width: -webkit-fill-available;">
-        <div class="d-flex w-100">
+            <div class="d-flex w-100">
+
                 <input asp-for="RequestId" type="text" id="reqId" hidden />
                 <input asp-for="AdminId" type="text" id="adminId" hidden />
                 <input asp-for="ProviderId" type="text" id="providerId" hidden />
-                <input asp-for="SentBy" type="text" id="sentBy" value="2" hidden />
+                <input asp-for="SentBy" type="text" id="sentBy" value="3" hidden />
                 <input asp-for="Flag" id="flag" type="text" hidden />
-            <div class="form-floating me-1 w-100">
-                <input asp-for="Message" type="text" id="messageInput" class="form-control" placeholder="Username"
-                       required>
-                <label for="floatingInputGroup1"><span class="input">Type a message</span></label>
+                <div class="form-floating me-1 w-100">
+                    <input asp-for="Message" type="text" id="messageInput" class="form-control" placeholder="Username"
+                           required>
+                    <label for="floatingInputGroup1"><span class="input">Type a message</span></label>
+
+                </div>
+
+                <button type="button" id="sendButton" value="Send Message" class="btn btn-info text-white"><i class="fa-regular fa-paper-plane"></i></button>
 
             </div>
-
-            <button type="button" id="sendButton" value="Send Message" class="btn btn-info text-white"><i class="fa-regular fa-paper-plane"></i></button>
-        </div>
         </form>
     </div>
 </div>
 
 <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
 
+
 <script>
+
+
+
     var connection = new signalR.HubConnectionBuilder().withUrl("/chat").build();
 
 
-    // document.getElementById("sendButton").disabled = true;
+   // document.getElementById("sendButton").disabled = true;
 
     connection.on("ReceiveMessage", function (user, message) {
+
+
+        // if (user == "provider") {
+        //     var mainDiv = document.createElement("div");
+
+        //     var li = document.createElement("span");
+        //     var span = document.createElement("span");
+
+        //     li.className = "chatListProvider";
+        //     document.getElementById("messagesList").appendChild(mainDiv);
+        //     mainDiv.appendChild(li);
+        //     mainDiv.className = "mainDiv";
+        //     span.textContent = new Date().toLocaleTimeString();
+        //     span.className = "date";
+        //     mainDiv.appendChild(span);
+        // }
 
         // if (user == "admin") {
         //     var mainDiv = document.createElement("div");
 
         //     var li = document.createElement("span");
         //     var span = document.createElement("span");
-        //     li.className = "chatListAdmin";
+
+        //     li.className = "chatListProvider";
         //     document.getElementById("messagesList").appendChild(mainDiv);
         //     mainDiv.appendChild(li);
         //     mainDiv.className = "mainDiv";
@@ -131,21 +156,8 @@
         // if (user == "patient") {
         //     var mainDiv = document.createElement("div");
 
-        //     var li = document.createElement("span");
         //     var span = document.createElement("span");
-        //     li.className = "chatListAdmin";
-        //     document.getElementById("messagesList").appendChild(mainDiv);
-        //     mainDiv.appendChild(li);
-        //     mainDiv.className = "mainDiv";
-        //     span.textContent = new Date().toLocaleTimeString();
-        //     span.className = "date";
-        //     mainDiv.appendChild(span);
-        // }
-        // if (user == "provider") {
-        //     var mainDiv = document.createElement("div");
-
         //     var li = document.createElement("span");
-        //     var span = document.createElement("span");
         //     li.className = "chatList";
         //     document.getElementById("messagesList").appendChild(mainDiv);
         //     mainDiv.appendChild(li);
@@ -158,12 +170,14 @@
 
         // li.textContent = `${message}`;
 
+
         var requestId = $('#reqId').val();
         var adminId = $('#adminId').val();
         var providerId = $('#providerId').val();
         var flag = $('#flag').val();
 
-        chatWithAdmin(providerId, adminId, requestId, flag, 2)
+        chatWithProvider(providerId, adminId, requestId, flag, 3)
+
 
     });
 
@@ -175,7 +189,6 @@
 
     document.getElementById("sendButton").addEventListener("click", function (event) {
         //var user = document.getElementById("userInput").value;
-
         var RequestID = $('#reqId').val();
         var adminId = $('#adminId').val();
         var ProviderId = $('#providerId').val();
@@ -184,21 +197,20 @@
 
         var message = document.getElementById("messageInput").value;
 
-        connection.invoke("SendMessage", "provider", message, RequestID, adminId, ProviderId, sentBy, flag).catch(function (err) {
-           // return console.error(err.toString());
+        connection.invoke("SendMessage", "patient", message, RequestID, adminId, ProviderId, sentBy, flag).catch(function (err) {
+            //return console.error(err.toString());
         });
-
         event.preventDefault();
-       
+        
 
         // $.ajax({
         //     method: "POST",
-        //     url: "/Provider/PostChats",
+        //     url: "/Home/PostChats",
         //     data: $('#chatForm').serialize(),
         //     success: function () {
         //         var message = document.getElementById("messageInput").value;
 
-        //         connection.invoke("SendMessage", "provider", message).catch(function (err) {
+        //         connection.invoke("SendMessage", "patient", message).catch(function (err) {
         //             return console.error(err.toString());
         //         });
         //     }
@@ -206,4 +218,5 @@
     });
 
     document.getElementById("offcanvasScroller").scrollTop = document.getElementById("offcanvasScroller").scrollHeight;
+
 </script>

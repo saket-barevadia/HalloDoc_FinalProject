@@ -1,4 +1,6 @@
-﻿@model Data_Layer.CustomModels.ProviderDashboardcm;
+﻿@inject IHttpContextAccessor Accessor;
+@using Microsoft.AspNetCore.Http;
+@model Data_Layer.CustomModels.ProviderDashboardcm;
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css" />
 
@@ -154,10 +156,16 @@
                                   @item.Address
                                 </td>
                                 <td>
-                                <button type="button" class="btn btn-outline-light d-flex ms-1 ms-sm-2 p-sm-2 p-1 align-items-center" onclick="chatWithAdmin()" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarLight" aria-controls="offcanvasNavbarLight" aria-label="Toggle navigation" style="background-color:transparent;color:white;margin-top:5px">
+                                <button type="button" class="btn btn-outline-light d-flex ms-1 ms-sm-2 p-sm-2 p-1 align-items-center" onclick="chatWithAdmin(@Accessor.HttpContext.Session.GetInt32("physicianId"),1,0,1,2)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarLight" aria-controls="offcanvasNavbarLight" aria-label="Toggle navigation" style="background-color:transparent;color:white;margin-top:5px">
                                     <i class="fa-regular fa-user"></i>
                                     <span class="px-2 ">
                                         Admin
+                                    </span>
+                                </button>
+                                <button type="button" class="btn btn-outline-light d-flex ms-1 ms-sm-2 p-sm-2 p-1 align-items-center" onclick="chatWithAdmin(@Accessor.HttpContext.Session.GetInt32("physicianId"),0,@item.Requestid,3,2)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarLight" aria-controls="offcanvasNavbarLight" aria-label="Toggle navigation" style="background-color:transparent;color:white;margin-top:5px">
+                                    <i class="fa-regular fa-user"></i>
+                                    <span class="px-2 ">
+                                        Patient
                                     </span>
                                 </button>
                                 </td>
@@ -1052,10 +1060,11 @@
     }
 
 
-    function chatWithAdmin(){
+    function chatWithAdmin(providerId, adminId, requestId, flag, roleId) {
         $.ajax({
             method: "Get",
-            url: "/Provider/ChatWithAdmin",         
+            url: "/Provider/ChatWithAdmin",
+            data: { providerId: providerId, adminId: adminId, requestId: requestId, flag: flag, roleId: roleId },
             success: function (result) {
                 $('#offCanvass').html(result);
                 $('#offcanvasNavbarLight').offcanvas("show");
