@@ -156,12 +156,31 @@
                                   @item.Address
                                 </td>
                                 <td>
-                                <button type="button" class="btn btn-outline-light d-flex ms-1 ms-sm-2 p-sm-2 p-1 align-items-center" onclick="chatWithAdmin(@Accessor.HttpContext.Session.GetInt32("physicianId"),1,0,1,2)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarLight" aria-controls="offcanvasNavbarLight" aria-label="Toggle navigation" style="background-color:transparent;color:white;margin-top:5px">
-                                    <i class="fa-regular fa-user"></i>
-                                    <span class="px-2 ">
-                                        Admin
-                                    </span>
-                                </button>
+                               
+
+                                <div class="dropdown" style="background:transparent">
+                                    <button class="btn text-white border border-white py-1 "
+                                            id="chat_with_dropdown2" type="button" data-bs-toggle="dropdown"
+                                            aria-expanded="false">
+                                        <span>
+                                            Admins
+                                        </span>
+                                    </button>
+                                    <ul class="dropdown-menu table_dropdowns">
+                                        @foreach(var obj in Model.admins)
+                                        {
+                                            <li>
+                                                <button type="button" class="dropdown-item hover" onclick="chatWithAdmin(@Accessor.HttpContext.Session.GetInt32("physicianId"),@obj.Adminid,@item.Requestid,1,2)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarLight" aria-controls="offcanvasNavbarLight" aria-label="Toggle navigation">
+                                                    <i class="fa-solid fa-user-tie"></i>
+                                                    <span class="px-2">
+                                                        @obj.Firstname
+                                                    </span>
+                                                </button>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+
                                 <button type="button" class="btn btn-outline-light d-flex ms-1 ms-sm-2 p-sm-2 p-1 align-items-center" onclick="chatWithAdmin(@Accessor.HttpContext.Session.GetInt32("physicianId"),0,@item.Requestid,3,2)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarLight" aria-controls="offcanvasNavbarLight" aria-label="Toggle navigation" style="background-color:transparent;color:white;margin-top:5px">
                                     <i class="fa-regular fa-user"></i>
                                     <span class="px-2 ">

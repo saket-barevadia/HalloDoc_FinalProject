@@ -2009,10 +2009,10 @@ namespace Business_Logic.LogicRepositories
             if (flag == 1)
             {
                 var chats = from r in _db.Chats
-                            where r.RequestId == null && r.PhyscainId == providerId && r.AdminId == adminId && (r.SentBy==1 || r.SentBy==2)
+                            where r.RequestId == requestId && r.PhyscainId == providerId && r.AdminId == adminId && (r.SentBy==1 || r.SentBy==2)
                             select (new Chatcm()
                             {
-                                RequestId = null,
+                                RequestId = r.RequestId,
                                 ChatId = r.ChatId,
                                 ProviderId = r.PhyscainId,
                                 Message = r.Message,
@@ -2022,7 +2022,7 @@ namespace Business_Logic.LogicRepositories
                             });
                 var chat = new Chatcm()
                 {
-                    RequestId = null,
+                    RequestId = requestId,
                     ProviderId = providerId,
                     AdminId = adminId,
                     Flag=flag,              

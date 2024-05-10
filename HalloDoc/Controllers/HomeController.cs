@@ -10,6 +10,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using static HelloDocMvc.Repository.Repositories.AuthManager;
+using static Data_Layer.CustomModels.ProviderDashboardcm;
 
 namespace HalloDoc.Controllers
 {
@@ -248,17 +249,31 @@ namespace HalloDoc.Controllers
             @ViewBag.Admin = 1;
             var uid = _context.Users.Where(r => r.Email == emaill).Select(x => x.Userid).First();
             var request = _context.Requests.Where(r => r.Userid == uid).AsNoTracking();
-            var RequestList = request.Select(r => new patientDashboard()
+            var admins = from r in _context.Admins
+                         select (new Admincmm()
+                         {
+                             Adminid = r.Adminid,
+                             Firstname = r.Firstname,
+                         });
+
+            var RequestList = request.Select(r => new PatientDataa()
             {
                 Createddate = r.Createddate,
                 Status = r.Status,
-                doc_Count = r.Requestwisefiles.Where(r=>r.Isdeleted==null).Select(f => f.Requestid).Count(),
+                doc_Count = r.Requestwisefiles.Where(r => r.Isdeleted == null).Select(f => f.Requestid).Count(),
                 Requestid = r.Requestid,
                 Email = emaill,
-
+                
             }).ToList();
 
-            return View(RequestList);
+
+            var RequestListt = new patientDashboard()
+            {
+                PatientDataa = RequestList.ToList(),
+                admins = admins.ToList(),
+            };
+
+            return View(RequestListt);
         }
 
         public IActionResult AccessDenied()

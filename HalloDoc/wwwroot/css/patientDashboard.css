@@ -27,6 +27,11 @@
     float:left;
 }
 
+.hover:hover {
+    background-color: #ebe2e2;
+    color: black;
+}
+
 .lower a:active{
     border-bottom:2px solid cyan;
 }

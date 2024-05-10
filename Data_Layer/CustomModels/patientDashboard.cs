@@ -5,12 +5,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Data_Layer.CustomModels.ProviderDashboardcm;
 
 namespace Data_Layer.CustomModels
 {
     public class patientDashboard
     {
 
+        public List<PatientDataa> PatientDataa { get; set; }
+
+        public int? AdminId { get; set; }
+        public List<Admincmm> admins { get; set; }
         public ReviewAgreement review { get; set; }
 
         public createAccount create {  get; set; }
@@ -31,6 +36,30 @@ namespace Data_Layer.CustomModels
 
       
     }
+
+    public class PatientDataa
+    {
+        public DateTime Createddate { get; set; }
+
+        public short Status { get; set; }
+
+        public int doc_Count { get; set; }
+
+        public int Requestid { get; set; }
+
+        public string Email { get; set; } = null!;
+
+
+        public string? Filename { get; set; }
+    }
+
+    public class Admincmm
+    {
+        public int Adminid { get; set; }
+
+        public string Firstname { get; set; }
+    }
+
     public class ReviewAgreement
     {
         public int Requestid { get; set; }

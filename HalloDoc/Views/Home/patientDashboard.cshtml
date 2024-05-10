@@ -1,7 +1,9 @@
 ﻿@inject IHttpContextAccessor Accessor;
 @using Microsoft.AspNetCore.Http;
 
-@model IEnumerable<Data_Layer.CustomModels.patientDashboard>;
+@* @model IEnumerable<Data_Layer.CustomModels.patientDashboard>; *@
+
+@model Data_Layer.CustomModels.patientDashboard;
 
 @{
     ViewData["Title"] = "Patient Dashboard";
@@ -229,7 +231,7 @@
             </thead>
             <tbody>
 
-                @foreach (var obj in Model)
+                @foreach (var obj in Model.PatientDataa)
                 {
                     @* var current = currentStatus[obj.Status]; *@
                     <tr>
@@ -266,9 +268,9 @@
                             <td>Clear</td>
                         }
 
-                        <td>
+                        <td class="d-flex">
                             @if(obj.Status!=1){
-                            <button type="button" class="btn btn-outline-info" onclick="chatWithProvider(23,0,@obj.Requestid,3,3)">
+                            <button type="button" class="btn btn-outline-info me-2" onclick="chatWithProvider(23,0,@obj.Requestid,3,3)">
                                Provider
                                 </button>
                             }
@@ -276,9 +278,33 @@
                             {
                                 
                             }
-                            <button type="button" class="btn btn-outline-info" onclick="chatWithProvider(0,1,@obj.Requestid,2,3)">
+
+                            <div class="dropdown">
+                                <button class="btn btn-outline-info"
+                                        id="chat_with_dropdown2" type="button" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                    <span>
+                                        Admins
+                                    </span>
+                                </button>
+                                <ul class="dropdown-menu table_dropdowns">
+                                    @foreach (var item in Model.admins)
+                                    {
+                                        <li>
+                                            <button type="button" class="dropdown-item hover" onclick="chatWithProvider(0,@item.Adminid,@obj.Requestid,2,3)" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbarLight" aria-controls="offcanvasNavbarLight" aria-label="Toggle navigation">
+                                                <i class="fa-solid fa-user-tie"></i>
+                                                <span class="px-2">
+                                                    @item.Firstname
+                                                </span>
+                                            </button>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+
+                            @* <button type="button" class="btn btn-outline-info" >
                                 Admin
-                            </button>
+                            </button> *@
                         </td>
 
                         <td>
@@ -301,7 +327,7 @@
             @{
                 int count = 0;
             }
-            @foreach (var obj in Model)
+            @foreach (var obj in Model.PatientDataa)
             {
                 var current = "None";
 

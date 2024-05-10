@@ -16,15 +16,21 @@ namespace Data_Layer.CustomModels
 
         public List<PatientData> patientDatas { get; set; }
 
+      
+
         public AdminTransferRequestModalBox? AdminTransferRequestModalBoxx { get; set; }
 
         public int RequestStatus { get; set; }
 
         public int? Requestid { get; set; }
 
+        public int? AdminId { get; set; }
+        public List<Admincm> admins { get; set; }
 
         public class PatientData
         {
+           
+
             public int? Regionid { get; set; }
           
 
@@ -76,6 +82,13 @@ namespace Data_Layer.CustomModels
             public string Name { get; set; } = null!;
 
             public int Casetagid { get; set; }
+        }
+
+        public class Admincm
+        {
+            public int Adminid { get; set; }
+
+            public string Firstname { get; set; }
         }
 
 

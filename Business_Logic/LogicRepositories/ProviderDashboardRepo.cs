@@ -32,6 +32,14 @@ namespace Business_Logic.LogicRepositories
 
         public ProviderDashboardcm GetPatientDetails(int status, int reqTypeId, int phyid, int flag)
         {
+
+            var admins = from r in _context.Admins
+                         select (new Admincm()
+                         {
+                             Adminid = r.Adminid,
+                             Firstname=r.Firstname,
+                         });
+
             var query = from r in _context.Requests
                         join rw in _context.Requestclients
                         on r.Requestid equals rw.Requestid
@@ -59,6 +67,7 @@ namespace Business_Logic.LogicRepositories
                             physician = _context.Physicians.FirstOrDefault(x => x.Physicianid == r.Physicianid).Firstname,
                             Calltype=r.Calltype,
                             IsFinalized=_context.EncounterForms.FirstOrDefault(x=>x.Requestid==r.Requestid).IsFinalized,
+                           
                         });
 
             if (flag!=0)
@@ -77,13 +86,18 @@ namespace Business_Logic.LogicRepositories
             if (reqTypeId > 0)
             {
                 query = query.Where(r => r.Requesttypeid == reqTypeId);
-            }        
+            }
+
+            
+
+           
 
             var patientData =query.ToList();
 
             ProviderDashboardcm patientDetails = new ProviderDashboardcm() { 
              patientDatas=patientData,
              RequestStatus= status,
+             admins = admins.ToList(),
             };
 
             return patientDetails;
